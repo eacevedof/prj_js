@@ -1,4 +1,4 @@
-# Tu código puede ser mejor y puedo demostrarlo matemáticamente
+# [Youtube - Tu código puede ser mejor y puedo demostrarlo matemáticamente](https://www.youtube.com/watch?v=WLPVrzrzyLY)
 
 Charla para Meetup.js Argentina sobre Programación Funcional
 
