@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "start": "webpack-dev-server --progress --content-base ./ --inline --hot --colors --open --config ./webpack/webpack.config.js"
+  },
+  "dependencies": {
+    "eslint": "^4.8.0",
+    "global": "^4.3.2",
+    "lodash": "^4.17.4",
+    "ramda": "^0.25.0"
+  },
+  "devDependencies": {
+    "node-hot-loader": "^1.2.0",
+    "reload-html-webpack-plugin": "^0.1.2",
+    "webpack": "^3.7.1",
+    "webpack-dev-server": "^2.9.3"
+  }
+}

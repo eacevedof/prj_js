@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Cod (Alaskan)",
+        "imageUrl": "img/fish/Cod (Alaskan)1.jpg",
+        "id": "Cod-Alaskan"
+    },
+    {
+        "name": "Sole (Pacific)",
+        "imageUrl": "img/fish/Sole (Pacific)1.jpg",
+        "id": "Sole-Pacific"
+    }
+]
