@@ -1,0 +1,249 @@
+@import 'fonts';
+
+$js-yellow: #f7df1e;
+$js-gray: #2e2e2e;
+$background-color: #222;
+$logo-size: 200px;
+
+@import 'glitch';
+@import 'flicker';
+
+.slides {
+    .lambda {
+        font-family: 'halflife';
+        text-transform: none;
+    }
+
+    .js-yellow {
+        color: $js-yellow;
+    }
+
+    .flicker {
+        @include flicker;
+    }
+
+    .glitch {
+        @include glitch;
+    }
+
+    .js-logo {
+        width: $logo-size;
+        height: $logo-size;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -0.5 * $logo-size;
+
+        &.faux-logo {
+            > div {
+                position: absolute;
+                bottom: 1px;
+                right: 1px;
+                width: 0.75 * $logo-size;
+                height: 0.60 * $logo-size;
+                background-color: $js-yellow;
+                color: $js-gray;
+                font-size: 0.60 * $logo-size;
+                font-weight: 800;
+                line-height: 1em;
+                box-sizing: border-box;
+                padding-left: 0.15 * $logo-size;
+            }
+        }
+    }
+
+    #fn-js {
+        .fragment {
+            transition: none;
+        }
+    }
+
+    pre {
+        width: 100%;
+
+        > code {
+            &[data-large] {
+                max-height: initial;
+            }
+
+            &[data-wrap] {
+                white-space: pre-wrap;
+            }
+
+            &.hljs.bash {
+                background-color: #0f0f0f;
+            }
+
+            &.hljs.js {
+                .output {
+                    &::before {
+                        content: '>> ';
+                        color: #765b45;
+                    }
+
+                    &.console-log {
+                        &::before {
+                            content: '>> [log] '
+                        }
+                    }
+                }
+
+                .highlight {
+                    background-color: #6c6c6c;
+                }
+            }
+
+            & .fragment.highlight-current {
+                opacity: 1;
+                visibility: visible;
+
+                &.current-fragment {
+                    background-color: #6c6c6c;
+                }
+            }
+
+            & .fragment.always-visible {
+                opacity: 1;
+                visibility: visible;
+
+                &.first {
+                    > .second {
+                        .first, .second {
+                            transition: all .2s ease;
+                        }
+                    }
+
+                    &.visible {
+                        > .second:not(.visible) {
+                            .second {
+                                opacity: 0;
+                                visibility: hidden;
+                            }
+                        }
+
+                        > .second.visible {
+                            .first {
+                                opacity: 0;
+                                visibility: hidden;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    section[data-title] {
+        > h2 {
+        }
+    }
+
+    section[data-code-title] {
+        > pre {
+            font-size: 2em;
+        }
+    }
+
+    section[data-code-subtitle] {
+        > pre {
+            font-size: 1.5em;
+        }
+    }
+
+    section[data-image-title] {
+        > img {
+            height: 10vh;
+        }
+    }
+
+    .formula {
+        height: 4vh;
+        margin-right: 1vw;
+        background-color: white;
+
+        &.center {
+            display: block;
+            margin: 0 auto;
+        }
+    }
+}
+
+.sources {
+    $source-padding: 30px;
+
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    font-size: 24px;
+
+    &.active {
+        display: block;
+    }
+
+    .source {
+        display: none;
+        position: absolute;
+        bottom: $source-padding;
+        left: $source-padding;
+
+        &.active {
+            display: block;
+        }
+
+        a {
+            color: black;
+
+            &:link, &:visited, &:hover, &:active {
+                color: inherit;
+            }
+        }
+
+        &.light {
+            a {
+                color: white;
+            }
+        }
+    }
+}
+
+.blank {
+    $blank-padding: 30px;
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    font-size: 24px;
+    pointer-events: none;
+
+    .text {
+        display: none;
+        padding-top: $blank-padding;
+        text-align: center;
+        color: #555;
+
+        &.active {
+            display: block;
+        }
+    }
+}
+
+#player {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -100000;
+}

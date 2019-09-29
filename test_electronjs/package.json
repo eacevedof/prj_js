@@ -1,0 +1,31 @@
+{
+  "name": "prj_electron",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "./",
+  "main": "src/electron-starter.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-dev": "set ELECTRON_START_URL=http://localhost:3000 && electron ."
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "react-redux": "^5.0.7",
+    "react-scripts": "^1.1.1"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "electron": "^1.7.9",
+    "react": "^16.2.0",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.2.0",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  }
+}
