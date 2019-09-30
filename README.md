@@ -25,4 +25,4 @@
   - [Youtube - Express | Node.js Framework, Curso Práctico Rápido Desde Cero by FAZT](https://www.youtube.com/watch?v=8eg4w8v076w)
 - [promises](https://github.com/eacevedof/prj_js/tree/master/test_promises#prj_jspromises)
   - Nada importante
-
+- [Programación Funcional Node.js - Javier Vélez Reyes UNED](https://www.youtube.com/watch?v=f4qQN6Mli-M)
