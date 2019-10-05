@@ -5,4 +5,6 @@
   - [A. 001.js - Especificación declarativa](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/001.js)
     - Legilibilidad del código
   - []
+  - **nota:** No se puede incluir dos **IIFE** en un mismo archivo
+  - 
     

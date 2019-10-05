@@ -1,27 +1,45 @@
 /*
-//https://youtu.be/f4qQN6Mli-M?t=175
+002.js
+//Abstracción Funcional
+//https://youtu.be/f4qQN6Mli-M?t=324
 */
 
-const basket = [
-  {product:"oranges", type:"food",amount:2,price:15},
-  {product:"bleach",  type:"home",amount:2,price:15},
-  {product:"pears",   type:"food",amount:3,price:45},
-  {product:"apples",  type:"food",amount:3,price:25},
-  {product:"gloves",  type:"home",amount:1,price:10}
-]
+//Imperativa:
+function i(){
 
-get_total =  strtype  =>
-    basket
-        .filter(objprod => objprod.type === strtype)
-        .reduce(
-          (ac,objprod) => ac + objprod.amount + objprod.price
-          ,0)
+  let Car = function(){}
+  Car.prototype.test = ()=>console.log("Car.test")
+  let Truck = function(){}
+  Truck.prototype.test = ()=>console.log("Truck.test")
+  let vehicles = [new Car(), new Truck()]
 
-const food = "food"
-const home = "home"
+  
+  let garage = function(vehicles){
+    for (v in vehicles)
+      vehicles[v].test()
+  }
 
-const totfood = get_total(food)
-console.log("totfood",totfood)
+  //pasa el test al listado de vehiculos
+  garage(vehicles)
+}
 
-const tothome = get_total(home)
-console.log("tothome",tothome)
+//Funcional:
+(function(){
+  console.log("functional")
+  let phases = [
+    function body(v){console.log("body")},
+    function paint(v){console.log("paint")}
+  ]
+
+  let test = function (phases){
+    return function(vehicle){
+      return phases.reduce(function(ac,fn){
+        console.log("vehicle",vehicle,"ac",ac)
+        return fn(ac)
+      },vehicle)
+    }
+  }
+
+
+})()
+
