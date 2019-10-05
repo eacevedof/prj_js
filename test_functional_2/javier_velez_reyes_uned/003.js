@@ -37,7 +37,6 @@ const total = basket
                 .reduce((iac,prod) => iac + prod.price,0)
 console.log("total:",total) //total: 60 
 
-
 //===========================
 //SOLUCIÓN PRESENTACIÓN
 //===========================
@@ -49,10 +48,8 @@ const get = arany => (fnfilter, fnreduce, mxbase) => arany
 //fn_filter
 const get_adults = u => u.age>18
 //fn_reducer
-const get_names = (arac, u) => {
-  arac.push(u.name)
-  return arac
-}
+const get_names = (arac, u) => [...arac,u.name]
+
 
 const names2 = get(users)(get_adults,get_names,[])
 console.log("names 2:",names2) //names 2: [ 'jvelez', 'jlopez' ]
