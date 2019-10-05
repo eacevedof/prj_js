@@ -27,7 +27,8 @@ const basket = [
  */
 const names = users
                 .filter(user => user.age>18)
-                .map(user => user.name)
+                //.map(user => user.name)
+                .reduce((arac,user) => [...arac,user.name],[])
 
 console.log("names:",names) //names: [ 'jvelez', 'jlopez' ]
 
@@ -36,13 +37,18 @@ const total = basket
                 .reduce((iac,prod) => iac + prod.price,0)
 console.log("total:",total) //total: 60 
 
+
+//===========================
 //SOLUCIÓN PRESENTACIÓN
-const get = collection => (filter,reducer,base) => collection
-                                                    .filter(filter)
-                                                    .reduce(reducer, base)
+//===========================
 
+//recibe cualquier array
+const get = arany => (fnfilter, fnreduce, mxbase) => arany
+                                                    .filter(fnfilter)
+                                                    .reduce(fnreduce, mxbase)
+//fn_filter
 const get_adults = u => u.age>18
-
+//fn_reducer
 const get_names = (arac, u) => {
   arac.push(u.name)
   return arac
@@ -51,11 +57,12 @@ const get_names = (arac, u) => {
 const names2 = get(users)(get_adults,get_names,[])
 console.log("names 2:",names2) //names 2: [ 'jvelez', 'jlopez' ]
 
+//fn_filter
 const get_food = prod => prod.type == "F"
+//fn_reducer
 const get_total = (iac, prod) => iac + prod.price
 
 const total2 = get(basket)(get_food,get_total,0)
 console.log("total2:",total2) //total2: 60
-
 
 })()
