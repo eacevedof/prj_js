@@ -42,7 +42,15 @@
     Testing car:
     cartested: { name: 'Eaf Car: body checked, painted.' }
     ```
+  - [C. 003.js - Reutilización funcional](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/003.js)
+    - La reutilización de un algoritmo funcional alcanza cotas elevadas.
+    - en POO no es posible este alcance
+    ```js
+    ```    
 
-  - **nota:** No se puede incluir dos **IIFE** en un mismo archivo
-  - 
+
+
+## Notas
+- No se puede incluir dos **IIFE** en un mismo archivo
+
     
