@@ -36,12 +36,10 @@ const total = basket
                 .reduce((iac,prod) => iac + prod.price,0)
 console.log("total:",total) //total: 60 
 
-
-const get = collection 
-              => (filter,reducer,base) 
-              => collection
-                  .filter(filter)
-                  .reduce(reducer, base)
+//SOLUCIÓN PRESENTACIÓN
+const get = collection => (filter,reducer,base) => collection
+                                                    .filter(filter)
+                                                    .reduce(reducer, base)
 
 const get_adults = u => u.age>18
 
@@ -51,6 +49,13 @@ const get_names = (arac, u) => {
 }
 
 const names2 = get(users)(get_adults,get_names,[])
-console.log("names 2:",names)
+console.log("names 2:",names2) //names 2: [ 'jvelez', 'jlopez' ]
+
+const get_food = prod => prod.type == "F"
+const get_total = (iac, prod) => iac + prod.price
+
+const total2 = get(basket)(get_food,get_total,0)
+console.log("total2:",total2) //total2: 60
+
 
 })()
