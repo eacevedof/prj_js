@@ -2,9 +2,9 @@
 
 ## Introducción
 - [II. Objetivos de la programación funcional](https://youtu.be/f4qQN6Mli-M?t=215)
-  - [A. 001.js - Especificación declarativa](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/001.js)
+  - [A. Especificación declarativa - 001.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/001.js)
     - Legilibilidad del código
-  - [B. 002.js - Abstracción funcional](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/002.js)
+  - [B. Abstracción funcional - 002.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/002.js)
     - POO: El algoritmo está distribuido entre los objetos
     - Funcional: Inyección de funciones en un algoritmo para modificar su comportamiento
     - ![abstracción funcional](https://trello-attachments.s3.amazonaws.com/5d987bf27d9f907f9d5403b5/776x559/49d30b7a63e35eafe54724b9588774cc/image.png)
@@ -42,7 +42,7 @@
     Testing car:
     cartested: { name: 'Eaf Car: body checked, painted.' }
     ```
-  - [C. 003.js - Reutilización funcional](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/003.js)
+  - [C. Reutilización funcional - 003.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/003.js)
     - La reutilización de un algoritmo funcional alcanza cotas elevadas.
     - en POO no es posible este alcance
     ```js
@@ -103,8 +103,24 @@
     const total2 = get(basket)(get_food,get_total,0)
     console.log("total2:",total2) //total2: 60    
     ```    
+  - [D. Adaptación Funcional - 004.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/003.js)
+    - [Video - AF](https://youtu.be/f4qQN6Mli-M?t=668)
+    - Las funciones son plásticas en su morfología
+    ```js
+    const fn_greater = (x, y)=> x > y
+    const fn_flip = (y,x) => fn_greater(y,x)
 
+    const cur_greater = x => y => y>x
 
+    const is_adult = (function greater(x){
+      return function(y){
+        return y > x;
+      }
+    })(18)
+
+    console.log("isadult 22",is_adult(22))  // true
+    console.log("isadult 10",is_adult(18))  // false
+    ```
 
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
