@@ -50,7 +50,6 @@ const get_adults = u => u.age>18
 //fn_reducer
 const get_names = (arac, u) => [...arac,u.name]
 
-
 const names2 = get(users)(get_adults,get_names,[])
 console.log("names 2:",names2) //names 2: [ 'jvelez', 'jlopez' ]
 
