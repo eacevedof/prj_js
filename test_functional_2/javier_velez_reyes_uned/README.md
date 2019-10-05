@@ -181,8 +181,15 @@
     ostack poped { stack: [ 'a' ], top: 'b' }
     ostack poped 2 { stack: [], top: 'a' }
     ```
-  - [B. Principio de Diseño Dirigido por Capas - 006.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/007.js)
+  - B. Principio de Diseño Dirigido por Capas
+    - [Video - PDDC](https://youtu.be/f4qQN6Mli-M?t=895)
+    - Librerias: underscore.js, fn.js, ramda, lodash, etc
+    - Estas aportan grandes esquemas funcionales para programar en js
+    - Al programar en fn, no debemos de pensar en el problema sino en la familia de problemas similares, así se conseguirá una **reutilización transversal al dominio**
+      - Libreria: funciones genrales, Idiomatico: familia de problemas y Dominio:el esquema se contextualiza dentro del dominio (3 capas)
+    - Ejemplo: **users y basket**
   
+
 
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
