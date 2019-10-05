@@ -25,21 +25,33 @@ function i(){
 
 //Funcional:
 (function(){
-  console.log("functional")
+  console.log("Testing car:")
   let phases = [
-    function body(v){console.log("body")},
-    function paint(v){console.log("paint")}
+    function body(v){
+      //console.log("v",v,v.name+" body")
+      //return v.name+" body"
+      return {name:v.name + ": body checked,"}
+    },
+    
+    function paint(v){
+      //console.log("v",v,v.name+" paint"); 
+      //return v.name+" paint"
+      return {name:v.name + " painted."}
+    }
   ]
 
   let test = function (phases){
     return function(vehicle){
+      //console.log("vehicle",vehicle)
       return phases.reduce(function(ac,fn){
-        console.log("vehicle",vehicle,"ac",ac)
+        //console.log("ac vehicle",ac)
+        //console.log("ac:",ac,"item:",fn)
         return fn(ac)
       },vehicle)
     }
-  }
+  }//test
 
-
+  const cartested = test(phases)({name:"Eaf Car"})
+  console.log("cartested:",cartested)
 })()
 
