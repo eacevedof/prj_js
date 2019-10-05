@@ -1,5 +1,7 @@
 /*
+001.js
 //https://youtu.be/f4qQN6Mli-M?t=175
+Especificación declarativa
 */
 
 const basket = [
@@ -25,3 +27,9 @@ console.log("totfood",totfood)
 
 const tothome = get_total(home)
 console.log("tothome",tothome)
+
+/*
+$ node 001.js
+totfood 93
+tothome 28
+*/
