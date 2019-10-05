@@ -188,7 +188,36 @@
     - Al programar en fn, no debemos de pensar en el problema sino en la familia de problemas similares, así se conseguirá una **reutilización transversal al dominio**
       - Libreria: funciones genrales, Idiomatico: familia de problemas y Dominio:el esquema se contextualiza dentro del dominio (3 capas)
     - Ejemplo: **users y basket**
-  
+## [Programación Funcional en Javascript](https://youtu.be/f4qQN6Mli-M?t=965)
+- I. Introducción
+- [II. Mecanismos de Programación Funcional](https://youtu.be/f4qQN6Mli-M?t=972)
+  - [A. Definición Funcional por Casos - 007.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/007.js)
+  - En funcional no existe: if, while, for
+  ```js
+  function f(params){
+    return caso_1 ? resultado_1:
+          caso_2 ? resultado_2:
+          resultado-defecto;
+  }
+
+  function comparator(x){
+    return x > 0   ? 1:
+          x === 0  ? 0:
+                    -1
+  }
+
+  is_even = n => n % 2 === 0
+
+  console.log("comparador 10:",comparator(10))
+  console.log("comparador 0 :",comparator(0))
+  console.log("comparador -5:",comparator(-5))
+
+  $ node 007.js
+  comparador 10: 1
+  comparador 0 : 0
+  comparador -5: -1  
+  ```
+
 
 
 ## Notas
