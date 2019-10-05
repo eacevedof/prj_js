@@ -217,6 +217,7 @@
   comparador 0 : 0
   comparador -5: -1  
   ```
+@todo: https://youtu.be/f4qQN6Mli-M?t=1030
 
 
 
