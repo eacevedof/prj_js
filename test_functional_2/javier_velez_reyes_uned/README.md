@@ -139,48 +139,50 @@
     ```
 - [III. Principios de Diseño Funcional](https://youtu.be/f4qQN6Mli-M?t=827)
   - [A. Transparencia Referencial - 006.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/006.js)
-  - Cualquier función debe poder substituirse en cualquier ámbito de la app por su expresión funcional sin que ello afecte al resultado obtenido.
-  - La interpretación de este principio de diseño tiene tres lecturas complementarias.
-  - Se dice que la función es idempotente si siempre devuelve el mismo resultado para los mismos parámetros de entrada. En nuestro ejemplo debería verificarse esta igualdad.
-  - debería dar lo mismo usar el código de la func que esta misma, parece obvio pero casi nunca se cumple
-  - **`pop + pop === 2 * pop`**
-  ```js
-  const get_stack = () => {return { stack: [] } }
+    - Cualquier función debe poder substituirse en cualquier ámbito de la app por su expresión funcional sin que ello afecte al resultado obtenido.
+    - La interpretación de este principio de diseño tiene tres lecturas complementarias.
+    - Se dice que la función es idempotente si siempre devuelve el mismo resultado para los mismos parámetros de entrada. En nuestro ejemplo debería verificarse esta igualdad.
+    - debería dar lo mismo usar el código de la func que esta misma, parece obvio pero casi nunca se cumple
+    - **`pop + pop === 2 * pop`**
+    ```js
+    const get_stack = () => {return { stack: [] } }
 
-  const get_pushed = (s, e) => {return { stack: s.stack.concat(e), top:e}}
+    const get_pushed = (s, e) => {return { stack: s.stack.concat(e), top:e}}
 
-  const get_poped = s => {
-    //concatena los dos arrays
-    const stack = [].concat(s.stack)
-    //quita el último elemento
-    const e = stack.pop()
-    return {
-      stack,
-      top: e
+    const get_poped = s => {
+      //concatena los dos arrays
+      const stack = [].concat(s.stack)
+      //quita el último elemento
+      const e = stack.pop()
+      return {
+        stack,
+        top: e
+      }
     }
-  }
 
-  const ostack    = get_stack()
-  console.log("ostack",ostack)
+    const ostack    = get_stack()
+    console.log("ostack",ostack)
 
-  const ostackp   = get_pushed(ostack,"a")
-  console.log("ostack push 1",ostackp)
+    const ostackp   = get_pushed(ostack,"a")
+    console.log("ostack push 1",ostackp)
 
-  const ostackp2  = get_pushed(ostackp,"b")
-  console.log("ostack push 2",ostackp2)
+    const ostackp2  = get_pushed(ostackp,"b")
+    console.log("ostack push 2",ostackp2)
 
-  const ostackpop = get_poped(ostackp2)
-  console.log("ostack poped",ostackpop)
+    const ostackpop = get_poped(ostackp2)
+    console.log("ostack poped",ostackpop)
 
-  const ostackpop2 = get_poped(ostackpop)
-  console.log("ostack poped 2",ostackpop2)
+    const ostackpop2 = get_poped(ostackpop)
+    console.log("ostack poped 2",ostackpop2)
 
-  ostack { stack: [] }
-  ostack push 1 { stack: [ 'a' ], top: 'a' }
-  ostack push 2 { stack: [ 'a', 'b' ], top: 'b' }
-  ostack poped { stack: [ 'a' ], top: 'b' }
-  ostack poped 2 { stack: [], top: 'a' }
-  ```
+    ostack { stack: [] }
+    ostack push 1 { stack: [ 'a' ], top: 'a' }
+    ostack push 2 { stack: [ 'a', 'b' ], top: 'b' }
+    ostack poped { stack: [ 'a' ], top: 'b' }
+    ostack poped 2 { stack: [], top: 'a' }
+    ```
+  - [B. Principio de Diseño Dirigido por Capas - 006.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/007.js)
+  
 
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
