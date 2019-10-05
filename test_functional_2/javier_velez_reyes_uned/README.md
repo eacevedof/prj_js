@@ -103,7 +103,7 @@
     const total2 = get(basket)(get_food,get_total,0)
     console.log("total2:",total2) //total2: 60    
     ```    
-  - [D. Adaptación Funcional - 004.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/003.js)
+  - [D. Adaptación Funcional - 004.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/004.js)
     - [Video - AF](https://youtu.be/f4qQN6Mli-M?t=668)
     - Las funciones son plásticas en su morfología
     ```js
@@ -121,7 +121,22 @@
     console.log("isadult 22",is_adult(22))  // true
     console.log("isadult 10",is_adult(18))  // false
     ```
+  - [E. Dinamicidad Funcional - 005.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/005.js)    
+    - [Video - DF](https://youtu.be/f4qQN6Mli-M?t=769)
+    - Funciones que devuelven funciones
+    - Funciones generadoras de comportamiento
+    ```js
+    const fn_greater = x => y => y > x;
 
+    const fn_isold = fn_greater(65)
+    fn_isold("jlopez")
+
+    const fn_isadult = fn_greater(18)
+    fn_isadult("jlopez")
+
+    const fn_isyoung = fn_greater(25)
+    fn_isyoung("jlopez")
+    ```
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
 
