@@ -217,7 +217,16 @@
   comparador 0 : 0
   comparador -5: -1  
   ```
-@todo: https://youtu.be/f4qQN6Mli-M?t=1030
+  - [B. Definición por Recursión - video](https://youtu.be/f4qQN6Mli-M?t=1025)
+  - [B. Definición por Recursión - js]()
+    - Recursión Directa
+      - Va **reduciendo el problema**
+    - Recursión Indirecta
+      - Convergencia hacia los casos base, van incluyendo un operador de negación que se resuelven al llegar al caso base
+      - `even(4) => !!!!true` => `true`
+  ```js
+  
+  ```
 
 
 
