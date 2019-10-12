@@ -2,14 +2,12 @@
 //B. Definición por Recursión 
 //https://youtu.be/f4qQN6Mli-M?t=1025
 
-(
-  //Recursion directa
-  function factorial(n){
-    console.log("factorial.n",n)
-    return n === 0 ? 1 :
-           n * factorial(n-1) 
-  }
-)(4);
+//recursion directa
+const factorial = n => n === 0 ? 1 : n * factorial(n-1) 
+
+const r = factorial(4)
+console.log("factorial 4",r)
+  
 
 //Recursion Indirecta
 function even(n){
