@@ -26,3 +26,6 @@
 - [promises](https://github.com/eacevedof/prj_js/tree/master/test_promises#prj_jspromises)
   - Nada importante
 - [Programación Funcional Node.js - Javier Vélez Reyes UNED](https://www.youtube.com/watch?v=f4qQN6Mli-M)
+
+## To-do
+- [Acercamiento a la programación funcional en Javascript - Israel Gutiérrez en T3chFest 2017](https://www.youtube.com/watch?v=yIJ6buD8caU)
