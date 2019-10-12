@@ -254,10 +254,25 @@
   is_odd 18: false
   */
   ```
-  - Problema de las Torres de Hanoi
-  
+  - [Problema de las Torres de Hanoi](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/009.js)
+  - ![](https://trello-attachments.s3.amazonaws.com/5d987bf27d9f907f9d5403b5/328x304/02eebec73584b2554c1179f90dac820d/image.png)
+  ```js
+  //009.js
+  const hanoi = (iItems, arA, arAux, arC) =>{
+                  if(iItems===1)
+                    //quita el elemento de arA y lo pone en arC
+                    mover(arA, arC)
+                  else{
+                    hanoi(iItems-1, arA, arC, arAux)
+                    //quita el elemento de origin y lo pone en dest
+                    mover(arA, arC)
+                    hanoi(iItems-1, arAux, arA, arC)                  
+                  }
+                }
 
-
+  //array.pop extrae el último elemento y lo quita del array
+  const mover = (arA, arC) => arC.push(arA.pop()) 
+  ```
 
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
