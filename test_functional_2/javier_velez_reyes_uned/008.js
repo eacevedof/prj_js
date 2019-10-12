@@ -5,22 +5,24 @@
 //recursion directa
 const factorial = n => n === 0 ? 1 : n * factorial(n-1) 
 
-const r = factorial(4)
-console.log("factorial 4",r)
-  
+//recursion indirecta
+const is_even = n => n === 0 ? true  : !is_even(n-1)
+const is_odd  = n => n === 0 ? false : !is_odd(n-1)
 
-//Recursion Indirecta
-function even(n){
-  console.log("even.n",n)
-  return n === 0 ? true :
-            !odd(n-1)
-}
+//directa
+let r = factorial(4)
+console.log("factorial 4:",r)
 
-function odd(n){
-  console.log("odd.n",n)
-  return n === 0 ? false :
-            !even(n-1)
-}
+//Indirecta
+r = is_even(18)
+console.log("is_even 18:",r)
 
-even(8)
+r = is_odd(18)
+console.log("is_odd 18:",r)
 
+/*
+$ node 008.js
+factorial 4: 24
+is_even 18: true
+is_odd 18: false
+*/
