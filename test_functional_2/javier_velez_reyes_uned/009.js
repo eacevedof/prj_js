@@ -17,10 +17,17 @@ function mover(origen,destino){
   destino.push(origen.pop())
 }
 
-const A = [4,3,2,1]
+//const A = [4,3,2,1]
+const A = ["m","a","x","b"]
 const B = []
 const C = []
 
 console.log("before:  A:",A,"B:",B,"C:",C)
 hanoi(4,A,B,C)
 console.log("after:  A:",A,"B:",B,"C:",C)
+
+/*
+$ node 009.js
+before:  A: [ 'm', 'a', 'x', 'b' ] B: [] C: []
+after:  A: [] B: [] C: [ 'm', 'a', 'x', 'b' ]
+*/
