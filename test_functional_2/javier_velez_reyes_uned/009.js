@@ -1,33 +1,33 @@
 //009.js
-//B. Definición por Recursión 
+//arAux. Definición por Recursión 
 //Torres de Hanoi
 //https://youtu.be/f4qQN6Mli-M?t=1116
 
-function hanoi(n,origen,aux,destino){
-  if (n===1)
-    mover(origen,destino)
+function hanoi(iItems,arOrigin,arAux,arDest){
+  if (iItems===1)
+    mover(arOrigin,arDest)
   else{
-    hanoi(n-1, origen, destino, aux)
-    mover(origen, destino)
-    hanoi(n-1, aux, origen, destino)
+    hanoi(iItems-1, arOrigin, arDest, arAux)
+    mover(arOrigin, arDest)
+    hanoi(iItems-1, arAux, arOrigin, arDest)
   }
 }
 
-function mover(origen,destino){
-  destino.push(origen.pop())
+function mover(arOrigin,arDest){
+  arDest.push(arOrigin.pop())
 }
 
-//const A = [4,3,2,1]
-const A = ["m","a","x","b"]
-const B = []
-const C = []
+//const arFrom = [4,3,2,1]
+const arFrom = ["m","a","x","b"]
+const arAux = []
+const arFinal = []
 
-console.log("before:  A:",A,"B:",B,"C:",C)
-hanoi(4,A,B,C)
-console.log("after:  A:",A,"B:",B,"C:",C)
+console.log("before:  arFrom:",arFrom,"arAux:",arAux,"arFinal:",arFinal)
+hanoi(4,arFrom,arAux,arFinal)
+console.log("after:  arFrom:",arFrom,"arAux:",arAux,"arFinal:",arFinal)
 
 /*
 $ node 009.js
-before:  A: [ 'm', 'a', 'x', 'b' ] B: [] C: []
-after:  A: [] B: [] C: [ 'm', 'a', 'x', 'b' ]
+before:  arFrom: [ 'm', 'a', 'x', 'b' ] arAux: [] arFinal: []
+after:  arFrom: [] arAux: [] arFinal: [ 'm', 'a', 'x', 'b' ]
 */
