@@ -1,21 +1,24 @@
 //009.js
-//arAux. Definición por Recursión 
+//B. Definición por Recursión 
 //Torres de Hanoi
+//mover discos de uno en uno para dejarlos en la misma posición de A en C usando B como auxiliar
 //https://youtu.be/f4qQN6Mli-M?t=1116
 
-function hanoi(iItems,arOrigin,arAux,arDest){
-  if (iItems===1)
-    mover(arOrigin,arDest)
-  else{
-    hanoi(iItems-1, arOrigin, arDest, arAux)
-    mover(arOrigin, arDest)
-    hanoi(iItems-1, arAux, arOrigin, arDest)
-  }
-}
 
-function mover(arOrigin,arDest){
-  arDest.push(arOrigin.pop())
-}
+const hanoi = (iItems, arA, arAux, arC) =>{
+                if(iItems===1)
+                  //quita el elemento de arA y lo pone en arC
+                  mover(arA, arC)
+                else{
+                  hanoi(iItems-1, arA, arC, arAux)
+                  //quita el elemento de origin y lo pone en dest
+                  mover(arA, arC)
+                  hanoi(iItems-1, arAux, arA, arC)                  
+                }
+              }
+
+//array.pop extrae el último elemento y lo quita del array
+const mover = (arA, arC) => arC.push(arA.pop()) 
 
 //const arFrom = [4,3,2,1]
 const arFrom = ["m","a","x","b"]
