@@ -218,7 +218,7 @@
   comparador -5: -1  
   ```
   - [B. Definición por Recursión - video](https://youtu.be/f4qQN6Mli-M?t=1025)
-  - [B. Definición por Recursión - js]()
+  - [B. Definición por Recursión - js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/008.js)
     - Recursión Directa
       - Va **reduciendo el problema**
     - Recursión Indirecta
