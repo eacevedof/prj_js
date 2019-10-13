@@ -47,3 +47,38 @@ objfuncs.fn_push("agua")
 
 //no tiene alcance público => undefined
 console.debug("objfuncs after push: ",objfuncs.aritems)
+
+/*
+  - Encapsulación de Comportamiento. Pila Undo
+  - Retención de Comportamiento
+*/
+
+function fn_stackcomp(){
+  const aritems = []
+  const arhistory = []
+
+  return {
+    fn_push: function fn_push(e){
+      arhistory.push(function(){
+        aritems.pop()
+      })
+      aritems.push(e)
+    },
+
+    fn_pop: function fn_pop(){
+      const e = aritems.pop()
+      arhistory.push(function(){
+        aritems.push(e)
+      })
+      return e
+    },
+
+    fn_undo: function undo(){
+      if(arhistory.length>0)
+        arhistory.pop()()
+    }
+  }
+}//fn_stackcomp
+
+const objstackcomp = fn_stackcomp()
+console.log("objstackcomp funcs",objstackcomp)
