@@ -305,6 +305,10 @@
   [1,4,3,2].sort(fn_less)
   [1,4,3,2].filter(fn_even)
   ```
+  - [D. Clausuras & Retención de variables - video](https://youtu.be/f4qQN6Mli-M?t=1223)
+  - [D. Clausuras & Retención de variables - js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/011.js)  
+  - Usan el mecanismo de retención de variables
+  - 
 
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
