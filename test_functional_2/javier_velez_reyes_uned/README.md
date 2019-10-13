@@ -276,7 +276,8 @@
   - [C. Definición de Orden Superior - video](https://youtu.be/f4qQN6Mli-M?t=1152)
   - [C. Definición de Orden Superior - js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/010.js)
   - En js las **funciones** son ciudadanos de primer orden. Permite a una función recibir otras funciones como parámetros o devolver funciones. Esto es **orden superior**.
-  - @todo https://youtu.be/f4qQN6Mli-M?t=1152
+  - Las funciones pueden ser factorias de funciones
+  - **fn.apply()**
 
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
