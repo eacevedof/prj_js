@@ -333,8 +333,8 @@
   Logger[My Script] - 1234[...]
   Logger[My Script] - end[...]
   ```
-- [II. Técnicas de Programación Funcional](https://youtu.be/f4qQN6Mli-M?t=1395)
-  - [A. Técnicas de Abstracción]()  
+- [II. Técnicas de Programación Funcional - video](https://youtu.be/f4qQN6Mli-M?t=1395)
+  - A. Técnicas de Abstracción (no hay js) 
   - Proceso de transformación en el que la definición de una función se reexpresa en términos más generales para dar cobertura a un abanico más amplio de escenarios de aplicación. Podemos distinguir tres dimensiones de abstracción.
   - `add(x,y)` abstracción de anchura `addAll(x,y,z,...)`
   - `addAll` abstracción en alcance (addFrom) `add(p)(x,y,z, ...)` suma todos los parámetros de función a partir de aquel que ocupa la pos **p**
@@ -342,7 +342,7 @@
     - `reduceFrom(p,fnc)(x,y,...)` combina mediante la función **fnc** todos los parámetros a partir de uno dado en la pos **p**
   - La sobrecarga funcional no está soportada, para eso se usará un patrón.
   - [B. Técnicas de encapsulación - Video](https://youtu.be/f4qQN6Mli-M?t=1484)  
-  - [B. Técnicas de encapsulación - js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/012.js)  
+  - [B. Técnicas de encapsulación - 012.js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/012.js)  
   - Usando clausuras y retención de variables es posible capturar cierta información que permite adaptar el comportamiento de la función a lo largo del tiempo.  Hay dos:
     - Estado (mala práctica, **patrón module**)
     - [Comportamiento](https://youtu.be/f4qQN6Mli-M?t=1664) 
@@ -350,13 +350,49 @@
   ```js
   //Ejemplo pila con estado
   //Ejemplo pila sin estado (ver 006.js)
+  //https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/006.js
   1. creo un constructor de estado (Stack())
   2. las funciones push y pop reciben como parámetros los estados
   3. con esto garantizamos que las funciones push y pop no escribirán sobre un estado 
   ```
   - Encapsulación de Comportamiento. Pila Undo
   - Retención de Comportamiento
-  
+  ```js
+  //012.js
+  function fn_stackcomp(){
+    const aritems = []
+    //se va a guardar la fnc inversa a cada operación
+    //si he añadido e a items el historico es pop(e)
+    //si he quitado e, el historico es push(e)
+    const arhistfuncs = []
+
+    return {
+      fn_push: function fn_push(e){
+        arhistfuncs.push(function(){
+          aritems.pop()
+        })
+        aritems.push(e)
+      },
+
+      fn_pop: function fn_pop(){
+        const e = aritems.pop()
+        arhistfuncs.push(function(){
+          aritems.push(e)
+        })
+        return e
+      },
+
+      fn_undo: function fn_undo(){
+        if(arhistfuncs.length>0)
+          //esto ejecuta la penultima función, que es la penultima inversa 
+          //si la última es un push => la penultima es un pop
+          //si la última es un pop => la penultima es un push
+          arhistfuncs.pop()()
+      }
+    }
+  }//fn_stackcomp
+  ```
+  @TO-TO: https://youtu.be/f4qQN6Mli-M?t=1727
 
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
