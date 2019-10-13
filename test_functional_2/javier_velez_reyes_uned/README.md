@@ -333,6 +333,16 @@
   Logger[My Script] - 1234[...]
   Logger[My Script] - end[...]
   ```
+- [II. Técnicas de Programación Funcional](https://youtu.be/f4qQN6Mli-M?t=1395)
+  - [A. Técnicas de Abstracción](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/012.js)  
+  - Proceso de transformación en el que la definición de una función se reexpresa en términos más generales para dar cobertura a un abanico más amplio de escenarios de aplicación. Podemos distinguir tres dimensiones de abstracción.
+  - `add(x,y)` abstracción de anchura `addAll(x,y,z,...)`
+  - `addAll` abstracción en alcance (addFrom) `add(p)(x,y,z, ...)` suma todos los parámetros de función a partir de aquel que ocupa la pos **p**
+    - abstracción de comportamiento
+    - `reduceFrom(p,fnc)(x,y,...)` combina mediante la función **fnc** todos los parámetros a partir de uno dado en la pos **p**
+  - La sobrecarga funcional no está soportada, para eso se usará un patrón.
+
+
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
 
