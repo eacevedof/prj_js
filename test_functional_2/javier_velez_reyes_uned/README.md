@@ -345,13 +345,18 @@
   - [B. Técnicas de encapsulación - js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/012.js)  
   - Usando clausuras y retención de variables es posible capturar cierta información que permite adaptar el comportamiento de la función a lo largo del tiempo.  Hay dos:
     - Estado (mala práctica, **patrón module**)
-    - Comportamiento 
+    - [Comportamiento](https://youtu.be/f4qQN6Mli-M?t=1664) 
   - > **Las funciones que dependen del estado son una mala práctica!**
-
   ```js
-  //Ejemplo pila con método deshacer
-
+  //Ejemplo pila con estado
+  //Ejemplo pila sin estado (ver 006.js)
+  1. creo un constructor de estado (Stack())
+  2. las funciones push y pop reciben como parámetros los estados
+  3. con esto garantizamos que las funciones push y pop no escribirán sobre un estado 
   ```
+  - Encapsulación de Comportamiento. Pila Undo
+  - Retención de Comportamiento
+  
 
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
