@@ -278,6 +278,33 @@
   - En js las **funciones** son ciudadanos de primer orden. Permite a una función recibir otras funciones como parámetros o devolver funciones. Esto es **orden superior**.
   - Las funciones pueden ser factorias de funciones
   - **fn.apply()**
+  ```js
+  //once devuelve: Object[global].fn
+  function once (fn){
+    let called = false
+    console.log("called?:", called)
+    return function(){
+      called = true
+      //this aqui es: Object[global]
+      //no es args, es arguments. args es en php
+      console.log("return function this: ",this," arguments:",arguments,"inner func called?:", called)
+      return fn.apply(this, arguments)//es equivalente a: this.fn(arguments)
+    }
+  }
+
+  //innerfunc = Object[global].mi_func_anonima
+  const innerfunc = once(function(...args){
+    console.log("mi_func_anonima.arguments",arguments)
+  })  
+
+  const fn_gt = (x,y) => x>y
+  const fn_less = (x,y) => x<y
+  const fn_even = x => x%2===0
+
+  [1,4,3,2].sort(fn_gt)
+  [1,4,3,2].sort(fn_less)
+  [1,4,3,2].filter(fn_even)
+  ```
 
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
