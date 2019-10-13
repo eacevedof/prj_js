@@ -357,6 +357,7 @@
   ```
   - Encapsulación de Comportamiento. Pila Undo
   - Retención de Comportamiento
+  - No se guarda una foto anterior de `aritems` sino que se guarda una función que revierta la última operación que llevó a `aritems` a tener el estado actual
   ```js
   //012.js
   function fn_stackcomp(){
