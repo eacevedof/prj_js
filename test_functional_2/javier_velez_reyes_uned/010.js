@@ -4,23 +4,24 @@
 
 //obj.some_method.apply permite ejecutar una función foranea como si fuera local
 //similar_object tiene los mismos atributos que obj
-//obj.some_method.apply(similar_object) => similar_object.some_method()
+//obj.some_method.apply(similar_object,params) => similar_object.some_method(params)
 
 function once (fn){
   let called = false
+  console.log("called?:", called)
   return function(){
     called = true
-
-    console.log("return function this: ",this," arguments:",arguments)
+    console.log("return function this: ",this," arguments:",arguments,"inner func called?:", called)
     return fn.apply(this, arguments)
   }
+  
 }
 
-const closure = once(function(){
-  //console.log("funcion anónima this:",this)
+const innerfunc = once(function(){
+  console.log("anonim args",arguments)
 })
 
-closure()
+innerfunc()
 
 /*
 $ node 010.js
