@@ -10,10 +10,13 @@ function Logger(cls){
   }
 }
 
-const fnmessage = Logger("My Script")
-fnmessage("starting")
-fnmessage(1234)
-fnmessage("end")
+//fn_log es un clausura.
+//fn_log despues de ser creada mantiene su alcance sobre las 
+//variables de Logger: cls, pre y post
+const fn_log = Logger("My Script")
+fn_log("starting")
+fn_log(1234)
+fn_log("end")
 
 /*
 $ node 011.js
