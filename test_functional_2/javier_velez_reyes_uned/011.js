@@ -12,7 +12,7 @@ function Logger(cls){
 
 //fn_log es un clausura.
 //fn_log despues de ser creada mantiene su alcance sobre las 
-//variables de Logger: cls, pre y post
+//variables retenidas de Logger: cls, pre y post
 const fn_log = Logger("My Script")
 fn_log("starting")
 fn_log(1234)
