@@ -52,14 +52,16 @@ console.debug("objfuncs after push: ",objfuncs.aritems)
   - Encapsulación de Comportamiento. Pila Undo
   - Retención de Comportamiento
 */
-
 function fn_stackcomp(){
   const aritems = []
-  const arhistory = []
+  //se va a guardar la fnc inversa a cada operación
+  //si he añadido e a items el historico es pop(e)
+  //si he quitado e, el historico es push(e)
+  const arhistfuncs = []
 
   return {
     fn_push: function fn_push(e){
-      arhistory.push(function(){
+      arhistfuncs.push(function(){
         aritems.pop()
       })
       aritems.push(e)
@@ -67,18 +69,26 @@ function fn_stackcomp(){
 
     fn_pop: function fn_pop(){
       const e = aritems.pop()
-      arhistory.push(function(){
+      arhistfuncs.push(function(){
         aritems.push(e)
       })
       return e
     },
 
-    fn_undo: function undo(){
-      if(arhistory.length>0)
-        arhistory.pop()()
+    fn_undo: function fn_undo(){
+      if(arhistfuncs.length>0)
+        //esto ejecuta la penultima función, que es la penultima inversa 
+        //si la última es un push => la penultima es un pop
+        //si la última es un pop => la penultima es un push
+        arhistfuncs.pop()()
     }
   }
 }//fn_stackcomp
 
 const objstackcomp = fn_stackcomp()
 console.log("objstackcomp funcs",objstackcomp)
+/*
+objstackcomp funcs { fn_push: [Function: fn_push],
+  fn_pop: [Function: fn_pop],
+  fn_undo: [Function: undo] }
+*/
