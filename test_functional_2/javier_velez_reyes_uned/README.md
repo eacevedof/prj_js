@@ -309,8 +309,30 @@
   - [D. Clausuras & Retención de variables - js](https://github.com/eacevedof/prj_js/blob/master/test_functional_2/javier_velez_reyes_uned/011.js)  
   - Las clausuras son **Factorias de funciones**
   - Usan el mecanismo de retención de variables
-  - 
+  - Como se deben usar las variables retenidas?
+    - [Según el principio de transparencia referencial](https://youtu.be/f4qQN6Mli-M?t=1350) dice que esta función no debería escribir estos parámetros sino solamente consultarlos. (inmutabilidad)
+  ```js
+  //011.js
+  function Logger(cls){
+    const pre = "Logger"
+    const post = "..."
+    return function(message){
+      console.log("%s[%s] - %s[%s]",pre,cls,message,post)
+    }
+  }
 
+  //fn_log es un clausura.
+  //fn_log despues de ser creada mantiene su alcance sobre las 
+  //variables retenidas de Logger: cls, pre y post
+  const fn_log = Logger("My Script")
+  fn_log("starting")
+  fn_log(1234)
+  fn_log("end")  
+
+  Logger[My Script] - starting[...]
+  Logger[My Script] - 1234[...]
+  Logger[My Script] - end[...]
+  ```
 ## Notas
 - No se puede incluir dos **IIFE** en un mismo archivo
 
