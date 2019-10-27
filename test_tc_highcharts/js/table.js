@@ -1,45 +1,46 @@
 console.log("table.js")
 
 orion.tc_charts.table = function(){
+
   const objprovider = orion.tc_charts.provider
   const strcontid = "container"
   const strjqid = `#${strcontid}`
 
-  const _get_colnames = (objson) => {
-    if(objson && objson.length !== "undefined")
-      return objson.map(col => col.title)
-    return []
-  }
+  const _get_colnames = objson => objson.cols.map(col => col.title)
+
+  const _get_colmodel = objson => objson.cols.map((model, i) => {
+    return {
+      name : model.title,
+      index: i,
+      width: model.width,
+      sorttype: model.fieldtype
+    }
+  })
+  
   const _load_jqgrid = (objson)=>{
     const colnames = _get_colnames(objson)
-    console.log("load_jqgrid.colnames:",colnames)
+    const colmodel = _get_colmodel(objson)
+    console.log("colnames:",colnames,"colmodel",colmodel)
     jQuery("#tbl_jqgrid").jqGrid({
       //http://www.trirand.com/blog/jqgrid/jqgrid.html?utm_source=weibolife
       datatype: "local",
       height: 250,
-         colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
-         colModel:[
-           {name:'id',index:'id', width:60, sorttype:"int"},
-           {name:'invdate',index:'invdate', width:90, sorttype:"date"},
-           {name:'name',index:'name', width:100},
-           {name:'amount',index:'amount', width:80, align:"right",sorttype:"float"},
-           {name:'tax',index:'tax', width:80, align:"right",sorttype:"float"},		
-           {name:'total',index:'total', width:80,align:"right",sorttype:"float"},		
-           {name:'note',index:'note', width:150, sortable:false}		
-         ],
-         multiselect: true,
-         caption: "Manipulating Array Data"
+         //colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
+         colNames: colnames,
+         colModel: colmodel,
+         multiselect: false,
+         caption: "Evolution "
     });
     var mydata = [
-        {id:"1",invdate:"2007-10-01",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-        {id:"2",invdate:"2007-10-02",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-        {id:"3",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
-        {id:"4",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-        {id:"5",invdate:"2007-10-05",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-        {id:"6",invdate:"2007-09-06",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
-        {id:"7",invdate:"2007-10-04",name:"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
-        {id:"8",invdate:"2007-10-03",name:"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
-        {id:"9",invdate:"2007-09-01",name:"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
+        {id:"1",Unsubs:"2007-10-01","Engineering_MPay  [10]":"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+        {id:"2",Unsubs:"2007-10-02","Engineering_MPay  [10]":"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+        {id:"3",Unsubs:"2007-09-01","Engineering_MPay  [10]":"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+        {id:"4",Unsubs:"2007-10-04","Engineering_MPay  [10]":"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+        {id:"5",Unsubs:"2007-10-05","Engineering_MPay  [10]":"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+        {id:"6",Unsubs:"2007-09-06","Engineering_MPay  [10]":"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"},
+        {id:"7",Unsubs:"2007-10-04","Engineering_MPay  [10]":"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
+        {id:"8",Unsubs:"2007-10-03","Engineering_MPay  [10]":"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
+        {id:"9",Unsubs:"2007-09-01","Engineering_MPay  [10]":"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
         ];
     for(var i=0;i<=mydata.length;i++)
       jQuery("#tbl_jqgrid").jqGrid('addRowData',i+1,mydata[i]);    
@@ -48,20 +49,10 @@ orion.tc_charts.table = function(){
   const _async_render = async () => {
     const objson = await objprovider.get_async_table() //no va
     console.log("_async_render.objson",objson)
-    _load_jqgrid(objson.report.cols)
+    _load_jqgrid(objson.report)
   }
-  
-  const _render = () => {
-    const objson = objprovider.get_async_table() //no va
-    console.log("_render.objson",objson)
-    objson.then(r => {
-      console.log("r. ",r)
-      _load_jqgrid(r)
-    })
-    
-  }
+
   return {
     async_render: _async_render,
-    //async_render: _render
   }
 }()
