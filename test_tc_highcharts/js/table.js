@@ -46,9 +46,13 @@ orion.tc_charts.table = function(){
   }//_load_jqgrid
 
   const _async_render = async () => {
-    const objson = await objprovider.get_async_table() //no va
+    const objson = objprovider.get_async_table() //no va
     console.log("_async_render.objson",objson)
-    _load_jqgrid(objson)
+    objson.then(r => {
+      console.log("r. ",r)
+      _load_jqgrid(r)
+    })
+    
   }
 
   return {
