@@ -19,6 +19,10 @@ orion.tc_charts.table = function(){
 
   const _add_rows = (objson) => {
   
+    console.log("objson.data",objson.data,"objson.data typeof",typeof objson.data)
+    // objson.data.foreach((row, i) => {
+    //   //jQuery("#tbl_jqgrid").jqGrid('addRowData',i+1,row); 
+    // })
 
     const mydata = [
       {id:"1",legend:"2007-10-01","Engineering_MPay  [10]":"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
@@ -30,9 +34,12 @@ orion.tc_charts.table = function(){
       {id:"7",legend:"2007-10-04","Engineering_MPay  [10]":"test",note:"note",amount:"200.00",tax:"10.00",total:"210.00"},
       {id:"8",legend:"2007-10-03","Engineering_MPay  [10]":"test2",note:"note2",amount:"300.00",tax:"20.00",total:"320.00"},
       {id:"9",legend:"2007-09-01","Engineering_MPay  [10]":"test3",note:"note3",amount:"400.00",tax:"30.00",total:"430.00"}
-      ];
-  for(var i=0;i<=mydata.length;i++)
-    jQuery("#tbl_jqgrid").jqGrid('addRowData',i+1,mydata[i]);   
+    ];
+
+    for(var i=0;i<=mydata.length;i++){
+    console.log("i",i,"mydata[i]:",mydata[i])
+      jQuery("#tbl_jqgrid").jqGrid('addRowData',i+1,mydata[i]);   
+    }
   }
   
   const _load_jqgrid = (objson)=>{
