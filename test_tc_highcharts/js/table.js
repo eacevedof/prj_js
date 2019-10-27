@@ -5,6 +5,14 @@ orion.tc_charts.table = function(){
   const strcontid = "container"
   const strjqid = `#${strcontid}`
 
+  const _get_in_tag = (strval,strtag) => `<${strtag}>${strval}</${strtag}>`
+
+  const _get_str_row0 = (objcols) => {
+    const strtitle = ""
+    return strtitle
+  }
+
+
   const _get_str_columns = (objcols) => {
     return ""
   }
