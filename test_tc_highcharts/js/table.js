@@ -5,21 +5,15 @@ orion.tc_charts.table = function(){
   const strcontid = "container"
   const strjqid = `#${strcontid}`
 
-  const _get_in_tag = (strval,strtag) => `<${strtag}>${strval}</${strtag}>`
-
-  const _get_str_row0 = (objcols) => {
-    const strtitle = ""
-    return strtitle
+  const _get_colnames = (objson) => {
+    const cols = objson.map(col => col.title)
+    return cols
   }
-
-
-  const _get_str_columns = (objcols) => {
-    return ""
-  }
-
   const _load_jqgrid = ()=>{
-    alert("jqgrid")
+    const colnames = _get_colnames()
+    console.log("load_jqgrid.colnames:",colnames)
     jQuery("#tbl_jqgrid").jqGrid({
+      //http://www.trirand.com/blog/jqgrid/jqgrid.html?utm_source=weibolife
       datatype: "local",
       height: 250,
          colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
@@ -51,14 +45,9 @@ orion.tc_charts.table = function(){
   }//_load_jqgrid
 
   const _async_render = async () => {
-    const objpromis = await objprovider.get_async_table() //no va
-    //const objpromis = await orion.tc_charts.provider.get_async_table()
-    console.log("_async_render.objpromis",objpromis)
-    const strhtml = `
-    <h1>Hola Table</h1>
-    `
-    //$(strjqid).html(strhtml)
-    _load_jqgrid()
+    const objson = await objprovider.get_async_table() //no va
+    console.log("_async_render.objson",objson)
+    _load_jqgrid(objson)
   }
 
   return {
