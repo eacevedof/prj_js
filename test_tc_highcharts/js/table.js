@@ -9,16 +9,18 @@ orion.tc_charts.table = function(){
   const _get_colnames = objson => objson.cols.map(col => col.title)
 
   const _get_colmodel = objson => objson.cols.map((model, i) => {
+
     return {
-      name : i===0 ? "legend":model.title,
+      name : i===0 ? "legend": model.title==="Totales"?"totales" :model.title,
       index: i,
       width: model.width,
-      sorttype: model.fieldtype
+      sorttype: i===0 ? "date":"float",
     }
   })
 
   const _add_rows = (objson) => {
     const rows = objson.data
+    console.log("rows: ",rows)
     rows.forEach( (row, i) => jQuery(strjqid).jqGrid('addRowData',i+1,row) )
   }
   
@@ -26,12 +28,12 @@ orion.tc_charts.table = function(){
     const colnames = _get_colnames(objson)
     const colmodel = _get_colmodel(objson)
     
-    //console.log("colmodel",colmodel)
+    console.log("colnames: ",colnames,"colmodel: ",colmodel)
+
     jQuery(strjqid).jqGrid({
       //http://www.trirand.com/blog/jqgrid/jqgrid.html?utm_source=weibolife
       datatype: "local",
       height: 1000,
-         //colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
          colNames: colnames,
          colModel: colmodel,
          multiselect: false,
