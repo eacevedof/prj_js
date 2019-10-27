@@ -4,7 +4,7 @@ orion.tc_charts.table = function(){
 
   const objprovider = orion.tc_charts.provider
   const strcontid = "tbl_jqgrid"
-  const strjqid = `#${strcontid}`
+  const contjqid = `#${strcontid}`
 
   const _get_colnames = objson => objson.cols.map(col => col.title)
 
@@ -21,7 +21,7 @@ orion.tc_charts.table = function(){
   const _add_rows = (objson) => {
     const rows = objson.data
     console.log("rows: ",rows)
-    rows.forEach( (row, i) => jQuery(strjqid).jqGrid('addRowData',i+1,row) )
+    rows.forEach( (row, i) => jQuery(contjqid).jqGrid('addRowData',i+1,row) )
   }
   
   const _load_jqgrid = (objson)=>{
@@ -31,7 +31,7 @@ orion.tc_charts.table = function(){
     console.log("colnames: ",colnames)
     console.log("colmodel: ",colmodel)
 
-    jQuery(strjqid).jqGrid({
+    jQuery(contjqid).jqGrid({
       //http://www.trirand.com/blog/jqgrid/jqgrid.html?utm_source=weibolife
       datatype: "local",
       height: 1000,
