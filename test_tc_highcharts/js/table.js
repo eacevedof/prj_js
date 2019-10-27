@@ -28,7 +28,8 @@ orion.tc_charts.table = function(){
     const colnames = _get_colnames(objson)
     const colmodel = _get_colmodel(objson)
     
-    console.log("colnames: ",colnames,"colmodel: ",colmodel)
+    console.log("colnames: ",colnames)
+    console.log("colmodel: ",colmodel)
 
     jQuery(strjqid).jqGrid({
       //http://www.trirand.com/blog/jqgrid/jqgrid.html?utm_source=weibolife
