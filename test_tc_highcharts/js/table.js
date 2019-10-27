@@ -3,7 +3,7 @@ console.log("table.js")
 orion.tc_charts.table = function(){
 
   const objprovider = orion.tc_charts.provider
-  const strcontid = "container"
+  const strcontid = "tbl_jqgrid"
   const strjqid = `#${strcontid}`
 
   const _get_colnames = objson => objson.cols.map(col => col.title)
@@ -23,7 +23,6 @@ orion.tc_charts.table = function(){
   }
   
   const _load_jqgrid = (objson)=>{
-    
     const colnames = _get_colnames(objson)
     const colmodel = _get_colmodel(objson)
     
@@ -31,7 +30,7 @@ orion.tc_charts.table = function(){
     jQuery(strjqid).jqGrid({
       //http://www.trirand.com/blog/jqgrid/jqgrid.html?utm_source=weibolife
       datatype: "local",
-      height: 250,
+      height: 1000,
          //colNames:['Inv No','Date', 'Client', 'Amount','Tax','Total','Notes'],
          colNames: colnames,
          colModel: colmodel,
@@ -52,4 +51,6 @@ orion.tc_charts.table = function(){
   return {
     async_render: _async_render,
   }
+
 }()
+//orion.tc_charts.table
