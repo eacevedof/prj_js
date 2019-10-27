@@ -6,8 +6,9 @@ orion.tc_charts.table = function(){
   const strjqid = `#${strcontid}`
 
   const _get_colnames = (objson) => {
-    const cols = objson.map(col => col.title)
-    return cols
+    if(objson && objson.length !== "undefined")
+      return objson.map(col => col.title)
+    return []
   }
   const _load_jqgrid = ()=>{
     const colnames = _get_colnames()
