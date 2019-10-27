@@ -1,15 +1,18 @@
 console.log("table.js")
 
 orion.tc_charts.table = function(){
+  const objprovider = orion.tc_charts.provider
   const strcontid = "container"
-  const strjqid = "#container"
+  const strjqid = `#${strcontid}`
 
   const _get_str_columns = (objcols) => {
     return ""
   }
 
   const _async_render = async () => {
-    const objpromis = await orion.tc_charts.provider.get_async_table()
+    const objpromis = await objprovider.get_async_table() //no va
+    //const objpromis = await orion.tc_charts.provider.get_async_table()
+    console.log("_async_render.objpromis",objpromis)
     const strhtml = `
     <h1>Hola Table</h1>
     `

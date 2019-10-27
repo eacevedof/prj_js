@@ -12,6 +12,7 @@ orion.tc_charts.provider = function(){
     const response = await fetch(strurl)
     const json = await response.json()
     console.log("get_async_table.json",json)
+    return json
   }
 
   return {
