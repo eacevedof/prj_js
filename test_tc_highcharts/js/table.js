@@ -10,8 +10,8 @@ orion.tc_charts.table = function(){
       return objson.map(col => col.title)
     return []
   }
-  const _load_jqgrid = ()=>{
-    const colnames = _get_colnames()
+  const _load_jqgrid = (objson)=>{
+    const colnames = _get_colnames(objson)
     console.log("load_jqgrid.colnames:",colnames)
     jQuery("#tbl_jqgrid").jqGrid({
       //http://www.trirand.com/blog/jqgrid/jqgrid.html?utm_source=weibolife
@@ -46,16 +46,22 @@ orion.tc_charts.table = function(){
   }//_load_jqgrid
 
   const _async_render = async () => {
-    const objson = objprovider.get_async_table() //no va
+    const objson = await objprovider.get_async_table() //no va
     console.log("_async_render.objson",objson)
+    _load_jqgrid(objson.report.cols)
+  }
+  
+  const _render = () => {
+    const objson = objprovider.get_async_table() //no va
+    console.log("_render.objson",objson)
     objson.then(r => {
       console.log("r. ",r)
       _load_jqgrid(r)
     })
     
   }
-
   return {
-    async_render: _async_render
+    async_render: _async_render,
+    //async_render: _render
   }
 }()
