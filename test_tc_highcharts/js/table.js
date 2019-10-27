@@ -11,10 +11,10 @@ orion.tc_charts.table = function(){
   const _get_colmodel = objson => objson.cols.map((model, i) => {
 
     return {
-      name : i===0 ? "legend": model.title==="Totales"?"totales" :model.title,
+      name : model.id,
       index: i,
       width: model.width,
-      sorttype: i===0 ? "date":"float",
+      sorttype: model.type,
     }
   })
 
