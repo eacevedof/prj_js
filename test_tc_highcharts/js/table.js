@@ -12,7 +12,7 @@ orion.tc_charts.table = function(){
 
     return {
       name : model.id,
-      index: i,
+      index: model.id,
       width: model.width,
       sorttype: model.type,
     }
