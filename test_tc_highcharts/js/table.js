@@ -48,7 +48,7 @@ orion.tc_charts.table = function(){
         ];
     for(var i=0;i<=mydata.length;i++)
       jQuery("#tbl_jqgrid").jqGrid('addRowData',i+1,mydata[i]);    
-  }
+  }//_load_jqgrid
 
   const _async_render = async () => {
     const objpromis = await objprovider.get_async_table() //no va
@@ -57,7 +57,7 @@ orion.tc_charts.table = function(){
     const strhtml = `
     <h1>Hola Table</h1>
     `
-    $(strjqid).html(strhtml)
+    //$(strjqid).html(strhtml)
     _load_jqgrid()
   }
 
