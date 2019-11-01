@@ -4,7 +4,8 @@ console.log("lesson.js")
 function print(strvalue){
   let el = document.createElement("p")
   el.innerText = strvalue
-  document.body.appendChild(el)
+  //document.body.appendChild(el)
+  document.getElementById("blog-post").appendChild(el)
 }
 
 const objpromise = new Promise((fnresolve, fnreject)=>{
