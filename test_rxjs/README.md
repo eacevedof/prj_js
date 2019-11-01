@@ -131,7 +131,7 @@ hot.subscribe(b => print(`Subscriber hot B: ${b}`))
 hot.connect()
 ```
 ### [Example 9 - Completion timer (again)](https://youtu.be/2LCo926NFLI?t=293)
--
+- Este es un obsrvable que acaba automáticamente. No todos tienen esta propiedad
 ```js
 //timer: TimerObservable
 const timer = Rx.Observable.timer(1000)
