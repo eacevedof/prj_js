@@ -68,9 +68,13 @@ const timer = Rx.Observable.timer(1000)
 //observer
 timer.subscribe(idone => print("after 1 second. done:"+idone))
 ```
-### [Example xxx]()
--
+### [Example 5 Rx.Observable.interval()](https://youtu.be/2LCo926NFLI?t=163)
+- ![](https://trello-attachments.s3.amazonaws.com/5dbc52c6f0c94a02ee6e23dd/280x174/6043a45be18f5f7da01b316b02d4ce01/image.png)
 ```js
+//obsrver tipo interval
+const obsbleinterval = Rx.Observable.interval(1000)
+
+obsbleinterval.subscribe(iprocessId => print("iprocessId: "+iprocessId+" - seconds:"+ new Date().getSeconds()))
 ```
 ### [Example xxx]()
 -

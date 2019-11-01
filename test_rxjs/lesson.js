@@ -1,6 +1,6 @@
 console.log("lesson.js")
 
-//[Example 4 - Rx.Observable.timer()](https://youtu.be/2LCo926NFLI?t=147)
+//[Example 5 Rx.Observable.interval()](https://youtu.be/2LCo926NFLI?t=163)
 function print(strvalue){
   console.log("print.strvalue",strvalue)
   let el = document.createElement("p")
@@ -9,8 +9,7 @@ function print(strvalue){
   document.getElementById("blog-post").appendChild(el)
 }
 
-//observer timer
-const timer = Rx.Observable.timer(1000)
+//obsrver tipo interval
+const obsbleinterval = Rx.Observable.interval(1000)
 
-//observer
-timer.subscribe(idone => print("after 1 second. done:"+idone))
+obsbleinterval.subscribe(iprocessId => print("iprocessId: "+iprocessId+" - seconds:"+ new Date().getSeconds()))
