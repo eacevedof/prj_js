@@ -60,8 +60,13 @@ const obsPromise2 = Rx.Observable.fromPromise(objpromise2)
 obsPromise2.subscribe(objpromise => objpromise.json().then(strjon => print(JSON.stringify(strjon))))
 ```
 ### [Example 4 - Rx.Observable.timer()](https://youtu.be/2LCo926NFLI?t=147)
+- ![](https://trello-attachments.s3.amazonaws.com/5dbc52c6f0c94a02ee6e23dd/286x85/14ad2e7d16b2e3154a13d860a6387fe1/image.png)
 ```js
+//observer timer
+const timer = Rx.Observable.timer(1000)
 
+//observer
+timer.subscribe(idone => print("after 1 second. done:"+idone))
 ```
 ### [Example xxx]()
 -
