@@ -1,6 +1,6 @@
 console.log("lesson.js")
 
-//[Example 7 - Hot vs Cold](https://youtu.be/2LCo926NFLI?t=213)
+//[Example 8 - Otra forma de hacer un hot observable](https://youtu.be/2LCo926NFLI?t=260)
 function print(strvalue){
   console.log("print.strvalue",strvalue)
   let el = document.createElement("p")
@@ -9,22 +9,20 @@ function print(strvalue){
   document.getElementById("blog-post").appendChild(el)
 }
 
-//cold observable 
+//hay otra forma de hacer un hot observable sin desacoplar los datos del mismo observer
 const cold = Rx.Observable.create( observer => {
-  observer.next(Math.random()) //  math.random => print("subscriber x: ${math.random()}")
+  //observer: Subscriber.  Es una función genradora por eso acepta .next(value)
+  console.log("observer: ",observer,", typeof:",typeof observer)
+  console.log("math.random:",Math.random(),"typeof:",typeof Math.random())
+  observer.next(Math.random())
 })
+//cold: Observable 
+console.log("cold:",cold," typeof:",typeof cold)
 
-cold.subscribe(a => print(`Subscriber cold A: ${a}`))
-cold.subscribe(b => print(`Subscriber cold B: ${b}`))
+//hot: ConnectableObservable 
+const hot = cold.publish()
+console.log("hot:",hot," typeof:",typeof hot)
 
-//hot observable. Hace que todos los observers obtenga el mismo valor
-const fnrandom = Math.random()
-
-const hot = Rx.Observable.create( observer => {
-  observer.next(fnrandom)
-})
-
-//No se pq la función externa hace que obtengan el mismo valor ^^
 hot.subscribe(a => print(`Subscriber hot A: ${a}`))
 hot.subscribe(b => print(`Subscriber hot B: ${b}`))
-
+hot.connect()

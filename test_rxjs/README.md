@@ -109,19 +109,36 @@ const hot = Rx.Observable.create( observer => {
 hot.subscribe(a => print(`Subscriber hot A: ${a}`))
 hot.subscribe(b => print(`Subscriber hot B: ${b}`))
 ```
-### [Example xxx]()
+### [Example 8 - Otra forma de hacer un hot observable](https://youtu.be/2LCo926NFLI?t=260)
+- ![](https://trello-attachments.s3.amazonaws.com/5dbc52c6f0c94a02ee6e23dd/355x120/df7b30242f05391432bed0f29d5b82fa/image.png)
+```js
+//hay otra forma de hacer un hot observable sin desacoplar los datos del mismo observer
+const cold = Rx.Observable.create( observer => {
+  //observer: Subscriber.  Es una función genradora por eso acepta .next(value)
+  console.log("observer: ",observer,", typeof:",typeof observer)
+  console.log("math.random:",Math.random(),"typeof:",typeof Math.random())
+  observer.next(Math.random())
+})
+//cold: Observable 
+console.log("cold:",cold," typeof:",typeof cold)
+
+//hot: ConnectableObservable 
+const hot = cold.publish()
+console.log("hot:",hot," typeof:",typeof hot)
+
+hot.subscribe(a => print(`Subscriber hot A: ${a}`))
+hot.subscribe(b => print(`Subscriber hot B: ${b}`))
+hot.connect()
+```
+### [Example 9 - ]()
 -
 ```js
 ```
-### [Example xxx]()
+### [Example 10 - ]()
 -
 ```js
 ```
-### [Example xxx]()
--
-```js
-```
-### [Example xxx]()
+### [Example 11 - ]()
 -
 ```js
 ```
