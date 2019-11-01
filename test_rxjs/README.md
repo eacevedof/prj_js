@@ -76,12 +76,18 @@ const obsbleinterval = Rx.Observable.interval(1000)
 
 obsbleinterval.subscribe(iprocessId => print("iprocessId: "+iprocessId+" - seconds:"+ new Date().getSeconds()))
 ```
-### [Example xxx]()
--
+### [Example 6 - Rx.Observable.of(...)](https://youtu.be/2LCo926NFLI?t=192)
+- Permite pasar cualquier valor estático
+- ![](https://trello-attachments.s3.amazonaws.com/5dbc52c6f0c94a02ee6e23dd/392x258/bd6dabea692f3fc35da9fe23c459c135/image.png)
 ```js
+//observable tipo interval
+//mashup = triturar
+const mashup = Rx.Observable.of("anything",["you","want"],23,true,{cool:"stuff"})
+//observer
+mashup.subscribe(strval => print(strval))
 ```
-### [Example xxx]()
--
+### [Example xxx](https://youtu.be/2LCo926NFLI?t=213)
+- []
 ```js
 ```
 ### [Example xxx]()
