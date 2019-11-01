@@ -130,9 +130,17 @@ hot.subscribe(a => print(`Subscriber hot A: ${a}`))
 hot.subscribe(b => print(`Subscriber hot B: ${b}`))
 hot.connect()
 ```
-### [Example 9 - ]()
+### [Example 9 - Completion timer (again)](https://youtu.be/2LCo926NFLI?t=293)
 -
 ```js
+//timer: TimerObservable
+const timer = Rx.Observable.timer(1000)
+console.log("timer:",timer," typeof:",typeof timer)
+
+timer
+  .finally(() => print("All done!"))
+  .subscribe() //aqui normalmente se incluye un observador ^^^
+  //.subscribe(() => print("All done!"))  //esto hace lo mismo. Pq?? ^^
 ```
 ### [Example 10 - ]()
 -
