@@ -1,5 +1,6 @@
 console.log("lesson.js")
 
+//https://youtu.be/2LCo926NFLI?t=59
 function print(val){
   let el = document.createElement("p")
   el.innerText = val
