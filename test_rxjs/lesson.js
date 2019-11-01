@@ -1,6 +1,6 @@
 console.log("lesson.js")
 
-//[Example 3 - Trabajando con js asincrono y promises](https://youtu.be/
+//[Example 4 - Rx.Observable.timer()](https://youtu.be/2LCo926NFLI?t=147)
 function print(strvalue){
   console.log("print.strvalue",strvalue)
   let el = document.createElement("p")
@@ -9,24 +9,8 @@ function print(strvalue){
   document.getElementById("blog-post").appendChild(el)
 }
 
-//=====================================================================
-//Ejemplo1: 
-const objpromise = new Promise((fnresolve, fnreject)=>{
-  setTimeout(()=>{
-    fnresolve("resolved!") //print("resolved!")
-  },3000)
-})
+//observer timer
+const timer = Rx.Observable.timer(1000)
 
-//se hace promise observable
-const obsPromise = Rx.Observable.fromPromise(objpromise)
-//se le configura un observer
-obsPromise.subscribe(stresult => print(stresult))
-
-//=====================================================================
-//Ejemplo 2: Fetch json
-const objpromise2 = new Promise((fnresolve, fnreject) => fetch("http://json.theframework.es/index.php?getfile=app_product.json")
-                                  .then(fnresolve)
-                                  .catch(fnreject))
-                                  
-const obsPromise2 = Rx.Observable.fromPromise(objpromise2)
-obsPromise2.subscribe(objpromise => objpromise.json().then(strjon => print(JSON.stringify(strjon))))
+//observer
+timer.subscribe(idone => print("after 1 second. done:"+idone))
