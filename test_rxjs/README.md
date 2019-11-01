@@ -1,4 +1,5 @@
 ## [RxJS Quick Start with Practical Examples](https://youtu.be/2LCo926NFLI)
+- [Patrón observador](https://github.com/eacevedof/prj_phptests/tree/master/vendor/DesignPatterns/Observer#mi-conclusi%C3%B3n)
 - Everything is a stream
 - Ejecutar: `file:///E:/projects/prj_js/test_rxjs/index.html`
 
@@ -142,9 +143,24 @@ timer
   .subscribe() //aqui normalmente se incluye un observador ^^^
   //.subscribe(() => print("All done!"))  //esto hace lo mismo. Pq?? ^^
 ```
-### [Example 10 - ]()
--
+### [Example 10 - Interval unsubscribe](https://youtu.be/2LCo926NFLI?t=315)
+- ![](https://trello-attachments.s3.amazonaws.com/5dbc52c6f0c94a02ee6e23dd/1122x362/6eb6825cece7567f54551a0a64ac679b/image.png)
 ```js
+//interval: IntervalObservable
+const interval = Rx.Observable.interval(500)
+console.log("interval: ",interval," typeof: ",typeof interval)
+
+interval
+    .finally(() => print("All done!"))
+
+//subscriber: Subscriber
+const subscriber = interval.subscribe(x => print(x))
+console.log("subscriber: ",subscriber," typeof: ",typeof subscriber)
+
+setTimeout(()=>{
+  //se finaliza la observación
+  subscriber.unsubscribe()
+}, 3000)
 ```
 ### [Example 11 - ]()
 -
