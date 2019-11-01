@@ -20,9 +20,18 @@ const observable = Rx.Observable.create(observer => {
 //que llamará el observador
 observable.subscribe(val => print(val))
 ```
-### [Example 2](https://youtu.be/2LCo926NFLI?t=91)
--
+### [Example 2 - Observable de evento click](https://youtu.be/2LCo926NFLI?t=80)
+- Por lo general no creamos observables de forma manual como el anterior
+- ![](https://trello-attachments.s3.amazonaws.com/5dbc52c6f0c94a02ee6e23dd/356x175/1c682072ba1d48e7b12ce95e220f9a56/image.png)
 ```js
+//forma tradicional:
+document.addEventListener("click",(click)=>{
+  console.log("document.addEventListener.click",click)
+})
+
+//con observable
+const obsble_documentclick = Rx.Observable.fromEvent(document,"click")
+obsble_documentclick.subscribe(obsverclick => console.log("doc_click_subscribe.click:",obsverclick))
 ```
 ### [Example xxx]()
 -
