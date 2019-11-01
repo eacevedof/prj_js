@@ -33,7 +33,7 @@ document.addEventListener("click",(click)=>{
 const obsble_documentclick = Rx.Observable.fromEvent(document,"click")
 obsble_documentclick.subscribe(obsverclick => console.log("doc_click_subscribe.click:",obsverclick))
 ```
-### [Example xxx]()
+### [Example 3 - Trabajando con js asincrono y promises](https://youtu.be/2LCo926NFLI?t=111)
 -
 ```js
 ```

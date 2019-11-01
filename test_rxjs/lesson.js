@@ -1,17 +1,19 @@
 console.log("lesson.js")
 
-//[Example 2 - Observable de evento click](https://youtu.be/2LCo926NFLI?t=80)
-function print(val){
+//[Example 3 - Trabajando con js asincrono y promises](https://youtu.be/
+function print(strvalue){
   let el = document.createElement("p")
-  el.innerText = val
+  el.innerText = strvalue
   document.body.appendChild(el)
 }
 
-//forma tradicional:
-document.addEventListener("click",(click)=>{
-  console.log("document.addEventListener.click",click)
+const objpromise = new Promise((fnresolve, fnreject)=>{
+  setTimeout(()=>{
+    fnresolve("resolved!") //print("resolved!")
+  },3000)
 })
 
-//con observable
-const obsble_documentclick = Rx.Observable.fromEvent(document,"click")
-obsble_documentclick.subscribe(obsverclick => console.log("doc_click_subscribe.click:",obsverclick))
+const obsPromise = Rx.Observable.fromPromise(objpromise)
+
+// strresult => print(strresult) => fnresolve
+obsPromise.subscribe(stresult => print(stresult))
