@@ -59,9 +59,9 @@ const objpromise2 = new Promise((fnresolve, fnreject) => fetch("http://json.thef
 const obsPromise2 = Rx.Observable.fromPromise(objpromise2)
 obsPromise2.subscribe(objpromise => objpromise.json().then(strjon => print(JSON.stringify(strjon))))
 ```
-### [Example xxx]()
--
+### [Example 4 - Rx.Observable.timer()](https://youtu.be/2LCo926NFLI?t=147)
 ```js
+
 ```
 ### [Example xxx]()
 -
