@@ -12,8 +12,8 @@ function print(val){
 //se crea un observable cualquiera al que se le configura
 //una función observer desconocida a la que se le pasarán unos argumentos fijos
 const observable = Rx.Observable.create(observer => {
-  observer.next("hello")
-  observer.next("world")  
+  observer.next("hello") // print("hello") => <p>world</p>
+  observer.next("world") // print("world") => <p>world</p>
 })
 
 //despues de configurar el boservador se le suscribe la función
