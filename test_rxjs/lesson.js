@@ -9,7 +9,8 @@ function print(strvalue){
   document.getElementById("blog-post").appendChild(el)
 }
 
-//obsrver tipo interval
-const obsbleinterval = Rx.Observable.interval(1000)
-
-obsbleinterval.subscribe(iprocessId => print("iprocessId: "+iprocessId+" - seconds:"+ new Date().getSeconds()))
+//observable tipo interval
+//mashup = triturar
+const mashup = Rx.Observable.of("anything",["you","want"],23,true,{cool:"stuff"})
+//observer
+mashup.subscribe(strval => print(strval))
