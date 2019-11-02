@@ -364,9 +364,22 @@ console.log("zipped$ : ",zipped$ ," typeof zipped$: ",typeof zipped$ )
 const observer = zipped$.subscribe( arr => print(arr))                
 console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
-### [Example 22]()
--
+### [Example 22 - .forkJoin()](https://youtu.be/2LCo926NFLI?t=695)
+- [frokJoin](https://www.learnrxjs.io/operators/combination/forkjoin.html)
+  - When all observables complete, emit the last emitted value from each.
+- Se usa cuando se tiene que hacer varias llamadas ajax y hasta que no esten todas realizadas no se envia informacion al formulario
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/c57180e0f873fda2ceb4cf2db7cc03a7/image.png)
 ```js
+//yin$: ArrayObservable
+const yin$ = Rx.Observable.of("peanut butter","wine","rainbows")
+
+const yang$ = Rx.Observable.of("jelly","cheese","unicorns").delay(2000)
+console.log("yang$: ",yang$," typeof yang$: ",typeof yang$)
+
+const forked$ = Rx.Observable.forkJoin(yin$, yang$)
+
+//despues de que todos los observables anteriores emitan un valor este emite un array
+const observer = forked$.subscribe( arr => print(arr))    
 ```
 ### [Example 23]()
 -
