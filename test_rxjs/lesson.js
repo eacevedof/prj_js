@@ -9,19 +9,17 @@ function print(strvalue){
   document.getElementById("blog-post").appendChild(el)
 }
 
-const strjson = '{"type": "Dog", "breed": "Pug"}'
+//names: ArrayObservable 
+const names = Rx.Observable.of("Simon","Garfunle")
 
-//crea un iterable: ScalarObservable 
-const obsble_apicall = Rx.Observable.of(strjson)
-console.log("obsble_apicall: ",obsble_apicall,"typeof obsble_apicall: ",typeof obsble_apicall)
+console.log("names: ",names)
 
-obsble_apicall
-  //map en cada vuelta comunicará al observer para que se ejecute
-  .map(strjson => JSON.parse(strjson))
-  //el observer (la func print) se ejecutará en cada iteración de map
-  .subscribe(objson => {
-    console.log("objson:",objson)
-    console.log("objson typeof:",typeof objson)
-    print(objson.type)
-    print(objson.breed)
-  })
+//cada item "name" pasa por toda la pila primero y despues continua el siguiente
+//observer: Subscriber 
+const observer = names
+  .do(name => print(name))          //simon
+  .map(name => name.toUpperCase())  
+  .do(name => print(name))          //SIMON
+  .subscribe()
+
+console.log("observer: ",observer,"typeof observer: ",typeof observer)

@@ -193,10 +193,24 @@ obsble_apicall
     print(objson.breed)
   })
 ```
-### [Example xxx]()
--
-- ![]()
+### [Example 13 - do](https://youtu.be/2LCo926NFLI?t=379)
+- Permite ejecutar codigo sin alterar el estado del observable
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/2725ea99f1204f698924796de86036f5/image.png)
 ```js
+//names: ArrayObservable 
+const names = Rx.Observable.of("Simon","Garfunle")
+
+console.log("names: ",names)
+
+//cada item "name" pasa por toda la pila primero y despues continua el siguiente
+//observer: Subscriber 
+const observer = names
+  .do(name => print(name))          //simon
+  .map(name => name.toUpperCase())  
+  .do(name => print(name))          //SIMON
+  .subscribe()
+
+console.log("observer: ",observer,"typeof observer: ",typeof observer)
 ```
 ### [Example xxx]()
 -
