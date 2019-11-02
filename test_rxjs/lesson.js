@@ -16,9 +16,8 @@ const clicks = Rx.Observable.fromEvent(document, "click")
 console.log("clicks: ",clicks," typeof clicks: ",typeof clicks)
 
 const observer = clicks
-                    .map(objevent => parseInt(Math.random() * 10))
-                    .do(score => print(`Click scored +${score}`))
-                    .scan((acscore, score)=> acscore + score,0) //trabaja como reduce
-                    .subscribe(acscore =>  print(`High score ${acscore}`))
+                    //interval: emit value in sequence every 1 second
+                    .switchMap(click => Rx.Observable.interval(1000))
+                    .subscribe(iIterval => print(`interval value: ${iIterval}`))
 
 console.log("observer: ",observer," typeof observer: ",typeof observer)

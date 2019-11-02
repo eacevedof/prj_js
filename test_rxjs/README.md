@@ -286,9 +286,25 @@ const observer = clicks
 
 console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
-### [Example 18]()
--
+### [Example 18 - switchMap()](https://youtu.be/2LCo926NFLI?t=569)
+- [switchMap](https://www.learnrxjs.io/operators/transformation/switchmap.html)
+- Cuando tienes dependencias de observables. Un observable depende del valor previo que tenga otro observable.
+- Lo que hace: Con cada click se crea un nuevo observable interval
+- No entiendo muy bien la lógica. Según el autor es util cuando se necesita un "userid" antes de enviarlo a la bd
+- Por cada nuevo ciclo de clicks (es decir un click) **Rx.Observable.interval(1000)** se detiene
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/267dd37cbbed856e354f3b78b36c5635/image.png)
 ```js
+//clicks: FromEventObservable
+const clicks = Rx.Observable.fromEvent(document, "click")
+console.log("clicks: ",clicks," typeof clicks: ",typeof clicks)
+
+const observer = clicks
+                    //interval: emit value in sequence every 1 second
+                    //con cada click se reseta interval
+                    .switchMap(click => Rx.Observable.interval(1000))
+                    .subscribe(iIterval => print(`interval value: ${iIterval}`))
+
+console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
 ### [Example 19]()
 -
