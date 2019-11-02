@@ -327,9 +327,23 @@ const observer = interval               //intervalo de 1 seg
 
   console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
-### [Example 20]()
--
+### [Example 20 - takeWhile()](https://youtu.be/2LCo926NFLI?t=639)
+- [takewhile](https://www.learnrxjs.io/operators/filtering/takewhile.html)
+  - Emit values until provided expression is false
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/1058fcc65e98c33c6d0c95364b7eaee5/image.png)
+- emite un valor (un nombre) al siguiente paso mientras no se cumpla una condicion
+- Notar que con finally se cancela la suscripcion
 ```js
+//names$: ArrayObservable
+const names$ = Rx.Observable.of("Bob","Jeff","Doug","Steve")
+console.log("names$ : ",names$ ," typeof obsenames$: ",typeof names$ )
+
+const observer = names$
+                  .takeWhile(name => name!="Doug")
+                  .finally(() => print("Complete! I found Doug"))
+                  .subscribe( name => print(name)) //los nombres que no son Doug
+
+console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
 ### [Example 21]()
 -
