@@ -345,9 +345,24 @@ const observer = names$
 
 console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
-### [Example 21]()
--
+### [Example 21 - .zip](https://youtu.be/2LCo926NFLI?t=668)
+- [zip](https://www.learnrxjs.io/operators/combination/zip.html)
+  - After all observables emit, emit values as an array
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/fac5e9745e5b33beeabd04acb85f4b26/image.png)
 ```js
+//yin$: ArrayObservable
+const yin$ = Rx.Observable.of("peanut butter","wine","rainbows")
+console.log("yin$ : ",yin$ ," typeof yin$: ",typeof yin$ )
+
+const yang$ = Rx.Observable.of("jelly","cheese","unicorns")
+console.log("yang$ : ",yang$ ," typeof yang$: ",typeof yang$ )
+
+const zipped$ = Rx.Observable.zip(yin$, yang$)
+console.log("zipped$ : ",zipped$ ," typeof zipped$: ",typeof zipped$ )
+
+//despues de que todos los observables anteriores emitan un valor este emite un array
+const observer = zipped$.subscribe( arr => print(arr))                
+console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
 ### [Example 22]()
 -
