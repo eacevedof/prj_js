@@ -1,6 +1,7 @@
 console.log("lesson.js")
 
-//[Example 16 - .debounce() .throttle()](https://youtu.be/2LCo926NFLI?t=457)
+//[Example 17 - .scan()](https://youtu.be/2LCo926NFLI?t=518)
+//https://www.learnrxjs.io/operators/transformation/scan.html
 function print(strvalue){
   console.log("print.strvalue",strvalue)
   let el = document.createElement("p")
@@ -9,13 +10,15 @@ function print(strvalue){
   document.getElementById("blog-post").appendChild(el)
 }
 
-//mouseEvents: FromEventObservable 
-let mouseEvents = Rx.Observable.fromEvent(document, "mousemove")
-console.log("mouseEvents: ",mouseEvents," typeof mouseEvents: ",typeof mouseEvents)
 
-const observer = mouseEvents
-  .debounceTime(1000) //tiempo de suspension. Se suele usar para detectar la inactividad del usuario
-  //.throttleTime(1000) //escucha cada segundo, throttleTime "tiempo de regulación ^^"
-  .subscribe(objevent => print(`${objevent.type} x:${objevent.clientX} y:${objevent.clientY}`))
+//clicks: FromEventObservable
+const clicks = Rx.Observable.fromEvent(document, "click")
+console.log("clicks: ",clicks," typeof clicks: ",typeof clicks)
+
+const observer = clicks
+                    .map(objevent => parseInt(Math.random() * 10))
+                    .do(score => print(`Click scored +${score}`))
+                    .scan((acscore, score)=> acscore + score,0) //trabaja como reduce
+                    .subscribe(acscore =>  print(`High score ${acscore}`))
 
 console.log("observer: ",observer," typeof observer: ",typeof observer)

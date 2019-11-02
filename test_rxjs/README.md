@@ -270,9 +270,21 @@ const observer = mouseEvents
 
 console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
-### [Example 17]()
--
+### [Example 17 - .scan()](https://youtu.be/2LCo926NFLI?t=518)
+- Scan trabaja como un reducer pero con estado mientras haya un observador suscrito
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/38c86d2b18f2bb7a32b901cdfcf9d779/image.png)
 ```js
+//clicks: FromEventObservable
+const clicks = Rx.Observable.fromEvent(document, "click")
+console.log("clicks: ",clicks," typeof clicks: ",typeof clicks)
+
+const observer = clicks
+                    .map(objevent => parseInt(Math.random() * 10))
+                    .do(score => print(`Click scored +${score}`))
+                    .scan((acscore, score)=> acscore + score,0) //trabaja como reduce
+                    .subscribe(acscore =>  print(`High score ${acscore}`))
+
+console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
 ### [Example 18]()
 -
