@@ -162,9 +162,15 @@ setTimeout(()=>{
   subscriber.unsubscribe()
 }, 3000)
 ```
-### [Example 11 - ]()
--
+### [Example 11 - .map()](https://youtu.be/2LCo926NFLI?t=339)
+- ![](https://trello-attachments.s3.amazonaws.com/5dbc52c6f0c94a02ee6e23dd/1045x230/0034a83a57b92fd1f9f577226269773b/image.png)
 ```js
+const numbers = Rx.Observable.of(10,100,1000)
+
+numbers
+  .map(num => Math.log(num))
+  //el observer (la func print) se ejecutará en cada iteración
+  .subscribe(i => print(`this is i: ${i}`))
 ```
 ### [Example xxx]()
 -
