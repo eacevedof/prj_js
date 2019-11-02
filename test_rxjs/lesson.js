@@ -24,4 +24,5 @@ console.log("create$: ",create$," typeof create$: ",typeof create$)
 
 create$
   .catch( err => print(`Error caught: ${err}`))
+  .retry(2)
   .subscribe( val => print(val))
