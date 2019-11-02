@@ -306,27 +306,44 @@ const observer = clicks
 
 console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
-### [Example 19]()
+### [Example 19 - .takeUntil()](https://youtu.be/2LCo926NFLI?t=610)
+- [.takeUntil(observable)](https://www.learnrxjs.io/operators/filtering/takeuntil.html)
+- Ejecuta una subtarea durante x tiempo (segundo observable)
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/4a2cd589b7e0900c1c516e40195e5cf9/image.png)
+```js
+//interval: IntervalObservable 
+const interval = Rx.Observable.interval(1000)
+console.log("interval: ",interval," typeof interval: ",typeof interval)
+
+//notifier: TimerObservable 
+const notifier = Rx.Observable.timer(5000)
+console.log("notifier: ",notifier," typeof notifier: ",typeof notifier)
+
+
+const observer = interval               //intervalo de 1 seg
+                  .takeUntil(notifier)  //intervalo cada 5 segundos
+                  .finally(() => print("complete")) //cuando llegue a 5 segundos se acaba
+                  .subscribe(i => print(i))
+
+  console.log("observer: ",observer," typeof observer: ",typeof observer)
+```
+### [Example 20]()
 -
 ```js
 ```
-### [Example xxx]()
+### [Example 21]()
 -
 ```js
 ```
-### [Example xxx]()
+### [Example 22]()
 -
 ```js
 ```
-### [Example xxx]()
+### [Example 23]()
 -
 ```js
 ```
-### [Example xxx]()
--
-```js
-```
-### [Example xxx]()
+### [Example 24]()
 -
 ```js
 ```
