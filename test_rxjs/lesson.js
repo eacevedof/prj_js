@@ -9,15 +9,18 @@ function print(strvalue){
 }
 
 
-// [Example 20 - takeWhile()](https://youtu.be/2LCo926NFLI?t=639)
+// [Example 21 - .zip](https://youtu.be/2LCo926NFLI?t=668)
 
-//names$: ArrayObservable
-const names$ = Rx.Observable.of("Bob","Jeff","Doug","Steve")
-console.log("names$ : ",names$ ," typeof obsenames$: ",typeof names$ )
+//yin$: ArrayObservable
+const yin$ = Rx.Observable.of("peanut butter","wine","rainbows")
+console.log("yin$ : ",yin$ ," typeof yin$: ",typeof yin$ )
 
-const observer = names$
-                  .takeWhile(name => name!="Doug")
-                  .finally(() => print("Complete! I found Doug"))
-                  .subscribe( name => print(name)) //los nombres que no son Doug
+const yang$ = Rx.Observable.of("jelly","cheese","unicorns")
+console.log("yang$ : ",yang$ ," typeof yang$: ",typeof yang$ )
 
+const zipped$ = Rx.Observable.zip(yin$, yang$)
+console.log("zipped$ : ",zipped$ ," typeof zipped$: ",typeof zipped$ )
+
+//despues de que todos los observables anteriores emitan un valor este emite un array
+const observer = zipped$.subscribe( arr => print(arr))                
 console.log("observer: ",observer," typeof observer: ",typeof observer)
