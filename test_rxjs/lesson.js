@@ -1,6 +1,6 @@
 console.log("lesson.js")
 
-//[Example 14 .filter()](https://youtu.be/2LCo926NFLI?t=406)
+//[Example 15 .first() .last()](https://youtu.be/2LCo926NFLI?t=434)
 function print(strvalue){
   console.log("print.strvalue",strvalue)
   let el = document.createElement("p")
@@ -15,9 +15,15 @@ console.log("numbers: ",numbers," typeof numbers: ",typeof numbers)
 
 // observer: Subscriber
 const observer = numbers
-                      .do(n => print(`handling number: ${n}`))
-                      .filter( n => n>=0 )
-                      .do(n => print(`filter passed: ${n}`))
-                      .subscribe( n => print(n))
+                      .do(n => print(`number: ${n}`))
+                      //todas las acciones despues de first solo se ejecutarán si se cumple esto
+                      .first()
+                      //.last() //quedaría invalidado por first
+                      //solo se imprimirá first si se cumple la condición previa "is_first"
+                      .subscribe( n => print(`first: ${n}`))
+                      //esto no se ejecutaria ya que despues del subscribe no se puede agregar nada 
+                      //... eso creo :) ^^
+                      //.last()
+                      //.subscribe( n => print(`last: ${n}`))
 
 console.log("observer: ",observer," typeof observer: ",typeof observer)
