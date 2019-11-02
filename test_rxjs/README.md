@@ -212,29 +212,41 @@ const observer = names
 
 console.log("observer: ",observer,"typeof observer: ",typeof observer)
 ```
-### [Example xxx]()
+### [Example 14 .filter()](https://youtu.be/2LCo926NFLI?t=406)
+- Por lo que he podido comprobar siempre se trata un array en uno a uno por el pipeline
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/3dc7551694e10604ecd012770b4c1a14/image.png)
+```js
+// numbers: ArrayObservable
+const numbers = Rx.Observable.of(-3, 5, 7, 2, -7, 9, -2)
+console.log("numbers: ",numbers," typeof numbers: ",typeof numbers)
+
+// observer: Subscriber
+const observer = numbers
+                      .do(n => print(`handling number: ${n}`))
+                      .filter( n => n>=0 )
+                      .do(n => print(`filter passed: ${n}`))
+                      .subscribe( n => print(n))
+
+console.log("observer: ",observer," typeof observer: ",typeof observer)
+```
+### [Example 15 ]()
 -
 - ![]()
 ```js
 ```
-### [Example xxx]()
--
-- ![]()
-```js
-```
-### [Example xxx]()
+### [Example 16]()
 -
 ```js
 ```
-### [Example xxx]()
+### [Example 17]()
 -
 ```js
 ```
-### [Example xxx]()
+### [Example 18]()
 -
 ```js
 ```
-### [Example xxx]()
+### [Example 19]()
 -
 ```js
 ```
