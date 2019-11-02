@@ -430,33 +430,24 @@ setTimeout(() => {
 },1000)
 
 ```
-### [Example 25]()
--
-- ![]()
+### [Example 25 - .multicast()](https://youtu.be/2LCo926NFLI?t=843)
+- [multicast](https://www.learnrxjs.io/operators/multicasting/multicast.html)
+  - Share source utilizing the provided Subject.
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/0272c7749be9dd40caa81a97663e37ed/image.png)
 ```js
-```
-### [Example 26]()
--
-- ![]()
-```js
-```
-### [Example 27]()
--
-- ![]()
-```js
-```
-### [Example 28]()
--
-- ![]()
-```js
-```
-### [Example 29]()
--
-- ![]()
-```js
-```
-### [Example 30]()
--
-- ![]()
-```js
+//observable de document.click
+const event$ = Rx.Observable.fromEvent(document, "click")
+
+const clicks$ = event$ //on document click
+                  .do(objevent => print("do One Time!. Event: "+objevent.toString()))
+
+//el click se publique como multicast (se necesita un topic)
+//multicast: Share source utilizing the provided Subject.
+const subject$ = clicks$.multicast(()=> new Rx.Subject())
+
+const obsA = subject$.subscribe(objevent => print(`Sub A: ${objevent.timeStamp}`))
+const obsB = subject$.subscribe(objevent => print(`Sub B: ${objevent.timeStamp}`))
+
+subject$.connect()
+              
 ```
