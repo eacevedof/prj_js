@@ -1,6 +1,6 @@
 console.log("lesson.js")
 
-//[Example 11 - .map()](https://youtu.be/2LCo926NFLI?t=339)
+//[Example 12 map and json](https://youtu.be/2LCo926NFLI?t=359)
 function print(strvalue){
   console.log("print.strvalue",strvalue)
   let el = document.createElement("p")
@@ -9,9 +9,19 @@ function print(strvalue){
   document.getElementById("blog-post").appendChild(el)
 }
 
-const numbers = Rx.Observable.of(10,100,1000)
+const strjson = '{"type": "Dog", "breed": "Pug"}'
 
-numbers
-  .map(num => Math.log(num))
-  //el observer (la func print) se ejecutará en cada iteración
-  .subscribe(i => print(`this is i: ${i}`))
+//crea un iterable: ScalarObservable 
+const obsble_apicall = Rx.Observable.of(strjson)
+console.log("obsble_apicall: ",obsble_apicall,"typeof obsble_apicall: ",typeof obsble_apicall)
+
+obsble_apicall
+  //map en cada vuelta comunicará al observer para que se ejecute
+  .map(strjson => JSON.parse(strjson))
+  //el observer (la func print) se ejecutará en cada iteración de map
+  .subscribe(objson => {
+    console.log("objson:",objson)
+    console.log("objson typeof:",typeof objson)
+    print(objson.type)
+    print(objson.breed)
+  })

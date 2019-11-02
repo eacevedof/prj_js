@@ -172,20 +172,40 @@ numbers
   //el observer (la func print) se ejecutará en cada iteración
   .subscribe(i => print(`this is i: ${i}`))
 ```
+### [Example 12 map and json](https://youtu.be/2LCo926NFLI?t=359)
+- Convertir una respuesta json
+- ![](https://trello-attachments.s3.amazonaws.com/5dbc52c6f0c94a02ee6e23dd/1119x482/75741e1a1f0377a1fa2fb8b057ac6523/image.png)
+```js
+const strjson = '{"type": "Dog", "breed": "Pug"}'
+
+//crea un iterable: ScalarObservable 
+const obsble_apicall = Rx.Observable.of(strjson)
+console.log("obsble_apicall: ",obsble_apicall,"typeof obsble_apicall: ",typeof obsble_apicall)
+
+obsble_apicall
+  //map en cada vuelta comunicará al observer para que se ejecute
+  .map(strjson => JSON.parse(strjson))
+  //el observer (la func print) se ejecutará en cada iteración de map
+  .subscribe(objson => {
+    console.log("objson:",objson)
+    console.log("objson typeof:",typeof objson)
+    print(objson.type)
+    print(objson.breed)
+  })
+```
 ### [Example xxx]()
 -
+- ![]()
 ```js
 ```
 ### [Example xxx]()
 -
+- ![]()
 ```js
 ```
 ### [Example xxx]()
 -
-```js
-```
-### [Example xxx]()
--
+- ![]()
 ```js
 ```
 ### [Example xxx]()
