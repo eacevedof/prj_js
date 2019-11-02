@@ -415,6 +415,21 @@ const obsB = array$.subscribe(val => print(`Sub B: ${val}`))
 
 console.log("obsA: ",obsA,"obsB: ",obsB)
 ```
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/ef0a32adbdd4e02715beaefed5574fc6/image.png)
+```js
+const subject$ = new Rx.Subject()
+console.log("subject$: ",subject$)
+
+const obsA = subject$.subscribe(val => print(`Sub A: ${val}`))
+const obsB = subject$.subscribe(val => print(`Sub B: ${val}`))
+
+subject$.next("Hello") //los dos obs imprimen hello
+
+setTimeout(() => {
+  subject$.next("world") //los dos obs imprimen world 1 seg mas tarde
+},1000)
+
+```
 ### [Example 25]()
 -
 - ![]()

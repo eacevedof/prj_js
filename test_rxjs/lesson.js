@@ -11,11 +11,16 @@ function print(strvalue){
 
 // [Example 24 - Subject](https://youtu.be/2LCo926NFLI?t=789)
 
-const array$ = Rx.Observable.of("Hello")
-console.log("array$: ",array$)
+const subject$ = new Rx.Subject()
+console.log("subject$: ",subject$)
 
-const obsA = array$.subscribe(val => print(`Sub A: ${val}`))
-const obsB = array$.subscribe(val => print(`Sub B: ${val}`))
+const obsA = subject$.subscribe(val => print(`Sub A: ${val}`))
+const obsB = subject$.subscribe(val => print(`Sub B: ${val}`))
 
-console.log("obsA: ",obsA,"obsB: ",obsB)
+
+subject$.next("Hello")
+
+setTimeout(() => {
+  subject$.next("world")
+},1000)
 
