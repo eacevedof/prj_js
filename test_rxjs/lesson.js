@@ -1,7 +1,5 @@
 console.log("lesson.js")
 
-//[Example 17 - .scan()](https://youtu.be/2LCo926NFLI?t=518)
-//https://www.learnrxjs.io/operators/transformation/scan.html
 function print(strvalue){
   console.log("print.strvalue",strvalue)
   let el = document.createElement("p")
@@ -11,13 +9,19 @@ function print(strvalue){
 }
 
 
-//clicks: FromEventObservable
-const clicks = Rx.Observable.fromEvent(document, "click")
-console.log("clicks: ",clicks," typeof clicks: ",typeof clicks)
+// [Example 19 - .takeUntil()](https://youtu.be/2LCo926NFLI?t=610)
+//interval: IntervalObservable 
+const interval = Rx.Observable.interval(1000)
+console.log("interval: ",interval," typeof interval: ",typeof interval)
 
-const observer = clicks
-                    //interval: emit value in sequence every 1 second
-                    .switchMap(click => Rx.Observable.interval(1000))
-                    .subscribe(iIterval => print(`interval value: ${iIterval}`))
+//notifier: TimerObservable 
+const notifier = Rx.Observable.timer(5000)
+console.log("notifier: ",notifier," typeof notifier: ",typeof notifier)
 
-console.log("observer: ",observer," typeof observer: ",typeof observer)
+
+const observer = interval               //intervalo de 1 seg
+                  .takeUntil(notifier)  //intervalo cada 5 segundos
+                  .finally(() => print("complete")) //cuando llegue a 5 segundos se acaba
+                  .subscribe(i => print(i))
+
+  console.log("observer: ",observer," typeof observer: ",typeof observer)
