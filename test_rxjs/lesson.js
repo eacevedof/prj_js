@@ -9,18 +9,20 @@ function print(strvalue){
 }
 
 
-// [Example 24 - Subject](https://youtu.be/2LCo926NFLI?t=789)
+// [Example 25 - .multicast()](https://youtu.be/2LCo926NFLI?t=843)
 
-const subject$ = new Rx.Subject()
-console.log("subject$: ",subject$)
+//observable de document.click
+const event$ = Rx.Observable.fromEvent(document, "click")
 
-const obsA = subject$.subscribe(val => print(`Sub A: ${val}`))
-const obsB = subject$.subscribe(val => print(`Sub B: ${val}`))
+const clicks$ = event$ //on document click
+                  .do(objevent => print("do One Time!. Event: "+objevent.toString()))
 
+//el click se publique como multicast (se necesita un topic)
+//multicast: multicast: Share source utilizing the provided Subject.
+const subject$ = clicks$.multicast(()=> new Rx.Subject())
 
-subject$.next("Hello")
+const obsA = subject$.subscribe(objevent => print(`Sub A: ${objevent.timeStamp}`))
+const obsB = subject$.subscribe(objevent => print(`Sub B: ${objevent.timeStamp}`))
 
-setTimeout(() => {
-  subject$.next("world")
-},1000)
-
+subject$.connect()
+              
