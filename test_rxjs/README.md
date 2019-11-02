@@ -252,9 +252,23 @@ const observer = numbers
 
 console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
-### [Example 16]()
--
+### [Example 16 - .debounceTime() .throttleTime()](https://youtu.be/2LCo926NFLI?t=457)
+- debounce: rebotar. debounce time: tiempo de suspensión
+  - se usa para detectar la inactividad del usuario
+- throttle: regular, acelerar
+- Sirven para tratar con eventos
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/af3b344b0524aaf6f4710479eb4828e3/image.png)
 ```js
+//mouseEvents: FromEventObservable 
+let mouseEvents = Rx.Observable.fromEvent(document, "mousemove")
+console.log("mouseEvents: ",mouseEvents," typeof mouseEvents: ",typeof mouseEvents)
+
+const observer = mouseEvents
+  .debounceTime(1000) //tiempo de suspension. Se suele usar para detectar la inactividad del usuario
+  //.throttleTime(1000) //escucha cada segundo, throttleTime "tiempo de regulación ^^"
+  .subscribe(objevent => print(`${objevent.type} x:${objevent.clientX} y:${objevent.clientY}`))
+
+console.log("observer: ",observer," typeof observer: ",typeof observer)
 ```
 ### [Example 17]()
 -
