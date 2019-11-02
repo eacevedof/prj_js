@@ -9,19 +9,15 @@ function print(strvalue){
 }
 
 
-// [Example 19 - .takeUntil()](https://youtu.be/2LCo926NFLI?t=610)
-//interval: IntervalObservable 
-const interval = Rx.Observable.interval(1000)
-console.log("interval: ",interval," typeof interval: ",typeof interval)
+// [Example 20 - takeWhile()](https://youtu.be/2LCo926NFLI?t=639)
 
-//notifier: TimerObservable 
-const notifier = Rx.Observable.timer(5000)
-console.log("notifier: ",notifier," typeof notifier: ",typeof notifier)
+//names$: ArrayObservable
+const names$ = Rx.Observable.of("Bob","Jeff","Doug","Steve")
+console.log("names$ : ",names$ ," typeof obsenames$: ",typeof names$ )
 
+const observer = names$
+                  .takeWhile(name => name!="Doug")
+                  .finally(() => print("Complete! I found Doug"))
+                  .subscribe( name => print(name)) //los nombres que no son Doug
 
-const observer = interval               //intervalo de 1 seg
-                  .takeUntil(notifier)  //intervalo cada 5 segundos
-                  .finally(() => print("complete")) //cuando llegue a 5 segundos se acaba
-                  .subscribe(i => print(i))
-
-  console.log("observer: ",observer," typeof observer: ",typeof observer)
+console.log("observer: ",observer," typeof observer: ",typeof observer)
