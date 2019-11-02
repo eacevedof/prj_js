@@ -1,6 +1,6 @@
 console.log("lesson.js")
 
-//[Example 10 - Interval unsubscribe](https://youtu.be/2LCo926NFLI?t=315)
+//[Example 11 - .map()](https://youtu.be/2LCo926NFLI?t=339)
 function print(strvalue){
   console.log("print.strvalue",strvalue)
   let el = document.createElement("p")
@@ -9,18 +9,9 @@ function print(strvalue){
   document.getElementById("blog-post").appendChild(el)
 }
 
-//interval: IntervalObservable
-const interval = Rx.Observable.interval(500)
-console.log("interval: ",interval," typeof: ",typeof interval)
+const numbers = Rx.Observable.of(10,100,1000)
 
-interval
-    .finally(() => print("All done!"))
-
-//subscriber: Subscriber
-const subscriber = interval.subscribe(x => print(x))
-console.log("subscriber: ",subscriber," typeof: ",typeof subscriber)
-
-setTimeout(()=>{
-  //se finaliza la observación
-  subscriber.unsubscribe()
-}, 3000)
+numbers
+  .map(num => Math.log(num))
+  //el observer (la func print) se ejecutará en cada iteración
+  .subscribe(i => print(`this is i: ${i}`))
