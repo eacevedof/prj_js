@@ -9,15 +9,19 @@ function print(strvalue){
 }
 
 
-// [Example 21 - .zip](https://youtu.be/2LCo926NFLI?t=668)
+// [Example 23 - .catch()](https://youtu.be/2LCo926NFLI?t=726)
 
-//yin$: ArrayObservable
-const yin$ = Rx.Observable.of("peanut butter","wine","rainbows")
+const create$ = Rx.Observable.create( observer => {
+  observer.next("good")
+  observer.next("great")
+  observer.next("grand")
 
-const yang$ = Rx.Observable.of("jelly","cheese","unicorns").delay(2000)
-console.log("yang$: ",yang$," typeof yang$: ",typeof yang$)
+  throw "catch me!"
 
-const forked$ = Rx.Observable.forkJoin(yin$, yang$)
+  observer.next("wonderful")
+})
+console.log("create$: ",create$," typeof create$: ",typeof create$)
 
-//despues de que todos los observables anteriores emitan un valor este emite un array
-const observer = forked$.subscribe( arr => print(arr))                
+create$
+  .catch( err => print(`Error caught: ${err}`))
+  .subscribe( val => print(val))

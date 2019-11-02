@@ -381,15 +381,59 @@ const forked$ = Rx.Observable.forkJoin(yin$, yang$)
 //despues de que todos los observables anteriores emitan un valor este emite un array
 const observer = forked$.subscribe( arr => print(arr))    
 ```
-### [Example 23]()
--
+### [Example 23 - .catch()](https://youtu.be/2LCo926NFLI?t=726)
+- [catch](https://www.learnrxjs.io/operators/error_handling/catch.html)
+  - Gracefully handle errors in an observable sequence.
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/927b96e631fdbbc4dfdb7d61c5f5e134/image.png)
+- No va fino, no me captura el error. Me da un error de js
 ```js
+const create$ = Rx.Observable.create( observer => {
+  observer.next("good")
+  observer.next("great")
+  observer.next("grand")
+
+  throw "catch me!"
+
+  observer.next("wonderful")
+})
+console.log("create$: ",create$," typeof create$: ",typeof create$)
+
+create$
+  .catch( err => print(`Error caught: ${err}`))
+  .subscribe( val => print(val))
 ```
 ### [Example 24]()
 -
+- ![]()
 ```js
 ```
-### [Example xxx]()
+### [Example 25]()
 -
+- ![]()
+```js
+```
+### [Example 26]()
+-
+- ![]()
+```js
+```
+### [Example 27]()
+-
+- ![]()
+```js
+```
+### [Example 28]()
+-
+- ![]()
+```js
+```
+### [Example 29]()
+-
+- ![]()
+```js
+```
+### [Example 30]()
+-
+- ![]()
 ```js
 ```
