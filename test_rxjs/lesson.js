@@ -9,20 +9,13 @@ function print(strvalue){
 }
 
 
-// [Example 23 - .catch()](https://youtu.be/2LCo926NFLI?t=726)
+// [Example 24 - Subject](https://youtu.be/2LCo926NFLI?t=789)
 
-const create$ = Rx.Observable.create( observer => {
-  observer.next("good")
-  observer.next("great")
-  observer.next("grand")
+const array$ = Rx.Observable.of("Hello")
+console.log("array$: ",array$)
 
-  throw "catch me!"
+const obsA = array$.subscribe(val => print(`Sub A: ${val}`))
+const obsB = array$.subscribe(val => print(`Sub B: ${val}`))
 
-  observer.next("wonderful")
-})
-console.log("create$: ",create$," typeof create$: ",typeof create$)
+console.log("obsA: ",obsA,"obsB: ",obsB)
 
-create$
-  .catch( err => print(`Error caught: ${err}`))
-  .retry(2)
-  .subscribe( val => print(val))

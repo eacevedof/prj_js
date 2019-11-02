@@ -402,10 +402,18 @@ create$
   .catch( err => print(`Error caught: ${err}`))
   .subscribe( val => print(val))
 ```
-### [Example 24]()
--
-- ![]()
+### [Example 24 - Subject](https://youtu.be/2LCo926NFLI?t=789)
+- [Subject](https://rxjs-dev.firebaseapp.com/guide/subject)
+> A Subject is like an Observable, but can multicast to many Observers. Subjects are like EventEmitters: they maintain a registry of many listeners.
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dbc52c6f0c94a02ee6e23dd/4f733b81d4ed0d772463b6fa1a101e8b/image.png)
 ```js
+const array$ = Rx.Observable.of("Hello")
+console.log("array$: ",array$)
+
+const obsA = array$.subscribe(val => print(`Sub A: ${val}`))
+const obsB = array$.subscribe(val => print(`Sub B: ${val}`))
+
+console.log("obsA: ",obsA,"obsB: ",obsB)
 ```
 ### [Example 25]()
 -
