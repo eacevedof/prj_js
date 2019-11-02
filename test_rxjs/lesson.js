@@ -1,6 +1,6 @@
 console.log("lesson.js")
 
-//[Example 12 map and json](https://youtu.be/2LCo926NFLI?t=359)
+//[Example 14 .filter()](https://youtu.be/2LCo926NFLI?t=406)
 function print(strvalue){
   console.log("print.strvalue",strvalue)
   let el = document.createElement("p")
@@ -9,17 +9,15 @@ function print(strvalue){
   document.getElementById("blog-post").appendChild(el)
 }
 
-//names: ArrayObservable 
-const names = Rx.Observable.of("Simon","Garfunle")
+// numbers: ArrayObservable
+const numbers = Rx.Observable.of(-3, 5, 7, 2, -7, 9, -2)
+console.log("numbers: ",numbers," typeof numbers: ",typeof numbers)
 
-console.log("names: ",names)
+// observer: Subscriber
+const observer = numbers
+                      .do(n => print(`handling number: ${n}`))
+                      .filter( n => n>=0 )
+                      .do(n => print(`filter passed: ${n}`))
+                      .subscribe( n => print(n))
 
-//cada item "name" pasa por toda la pila primero y despues continua el siguiente
-//observer: Subscriber 
-const observer = names
-  .do(name => print(name))          //simon
-  .map(name => name.toUpperCase())  
-  .do(name => print(name))          //SIMON
-  .subscribe()
-
-console.log("observer: ",observer,"typeof observer: ",typeof observer)
+console.log("observer: ",observer," typeof observer: ",typeof observer)
