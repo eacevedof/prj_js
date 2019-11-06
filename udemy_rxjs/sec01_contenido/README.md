@@ -7,5 +7,12 @@
 ## [4 - Programación funcional](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648760#overview)
 - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/544x325/914cd494627c4390e6a24145393c484d/image.png) 
 - declarativo porque señalas paso a paso que es lo que tiene que hacerse para llegar al resultado
+## [5 - La libreria RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648764#questions)
+- observable: coleccion de datos que se pueden **emitir** en algun lugar en el futuro
+- observer: funcion que esta a ala escucha de lo que emite el observable
+- subscription: la ejecución de un observable y tambien sirve para cancelar la ejecución en un momento dado
+- operators: funciones que trabajan sobre el flujo de datos
+- subject: distribuir un observable a varios observers a la vez
 
-
+## []()
+-
