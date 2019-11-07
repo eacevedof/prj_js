@@ -1,8 +1,5 @@
 //node 05_iterator.js
 
-//import { range } from 'rxjs'; error pq es es6 y si no se usa babel solo entiende CommonJS 
-
-//COMMPONJS 
 /*
 CommonJS es una extensión del lenguaje de secuencias de comandos JavaScript que permite utilizar 
 JavaScript en entornos distintos de un navegador, como en el escritorio (o desktop). 
@@ -11,13 +8,20 @@ interfaces de programación que sean adecuados para su implementación en aplica
 web, bases de datos y aplicaciones de desktop.
 */
 
-//import { interval } from 'rxjs'; error
-
-//import { from, fromEvent } from 'rxjs' error
-//const Rx = require('rxjs/Rx'); error
+//import { range } from 'rxjs';             error pq es es6 y si no se usa babel solo entiende CommonJS 
+//import { interval } from 'rxjs';          error
+//import { from, fromEvent } from 'rxjs'    error
+//const Rx = require('rxjs/Rx');            error
 const { interval } = require("rxjs");
 
+//observable
 const stream = interval(1000)
-stream.subscribe(value => console.log(value))
 
-//var { fromEvent } = rxjs;
+//observer
+
+//subscription:
+const objsubs = stream.subscribe(n => console.log(n))
+console.log("objsubs:",objsubs)
+
+//cancela el stream
+setTimeout(()=> objsubs.unsubscribe(),4000)
