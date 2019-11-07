@@ -17,6 +17,7 @@
 - operators: funciones que trabajan sobre el flujo de datos
 - subject: distribuir un observable a varios observers a la vez
 - schedulers: organiza el orden de las suscripciones y el orden y la emisión de eventos
+- para aplicar operadores hay que hacerlo dentro de **.pipe()**
 ```js
 //05_iterator.js
 
