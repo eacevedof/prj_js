@@ -95,5 +95,7 @@ obs2:  0.5425679400359618
 */
 
 ```
-## []()
--
+## [6. Principios Push de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648774#questions)
+- Versión completa del observer:
+- ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/1190x823/160faf44f4b9cddbaa49ed4538a52d55/image.png)
+- 
