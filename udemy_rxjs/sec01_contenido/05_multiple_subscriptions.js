@@ -1,5 +1,6 @@
-//node 05_iterator_c.js
+//node 05_multiple_subscriptions.js
 
+//Multiple subscriptions:
 const { interval } = require("rxjs");
 const { map } = require("rxjs/operators")
 
