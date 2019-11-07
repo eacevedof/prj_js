@@ -18,9 +18,10 @@ const { interval } = require("rxjs");
 const stream = interval(1000)
 
 //observer
+const observer = n => console.log(n)
 
 //subscription:
-const objsubs = stream.subscribe(n => console.log(n))
+const objsubs = stream.subscribe(observer)
 console.log("objsubs:",objsubs)
 
 //cancela el stream
