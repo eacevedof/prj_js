@@ -98,4 +98,33 @@ obs2:  0.5425679400359618
 ## [6. Principios Push de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648774#questions)
 - Versión completa del observer:
 - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/1190x823/160faf44f4b9cddbaa49ed4538a52d55/image.png)
-- 
+```js
+//node 06_observables_iter.js
+//Observables work like iterators
+
+const { interval } = require("rxjs")
+const {take} = require("rxjs/operators")
+
+//al cabo de 4 eventos el stream se acaba
+const observable = interval(1000).pipe(take(4))
+
+const observer = {
+  //next: "hola", //provoca error
+  next: val => console.log("next:",val),
+  error: err => console.log(err),
+  complete: () => console.log("done"),
+}
+
+observable.subscribe(observer)
+
+/*
+MINGW64 /e/projects/prj_js/udemy_rxjs/sec01_contenido (master)
+$ node 06_observables_iter.js
+next: 0
+next: 1
+next: 2
+next: 3
+done
+*/
+```
+ 
