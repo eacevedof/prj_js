@@ -1,4 +1,4 @@
-//node 05_iterator_b.js
+//node 05_map.js
 
 const { interval } = require("rxjs");
 const { map } = require("rxjs/operators")

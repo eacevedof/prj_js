@@ -1,4 +1,4 @@
-//node 05_iterator.js
+//node 05_require_rxjs.js
 
 /*
 CommonJS es una extensión del lenguaje de secuencias de comandos JavaScript que permite utilizar 
