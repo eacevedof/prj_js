@@ -132,4 +132,25 @@ done
 - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/1009x757/0cd2389e172b80cf7ebd21d66ba38788/image.png)
   - Estrategia de RxJS
   - El observable es un productor que va empujando sus datos al observador
+```js
+//node 06_interval.js
+const { Observable, interval } = require("rxjs")
 
+const observable = my5Interval(5000)
+observable.subscribe(x => console.log(x))
+
+function my5Interval(ms){
+  return Observable.create(observer => {
+    let count = 0
+    const id = setInterval(()=>{
+      //aqui el observable está haciendo push de un dato al observer
+      observer.next(count)
+      count++
+      if(count>4){
+        clearInterval(id)
+        observer.complete()
+      }
+    },ms)
+  })
+}
+```
