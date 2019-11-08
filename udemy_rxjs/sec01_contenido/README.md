@@ -127,4 +127,9 @@ next: 3
 done
 */
 ```
- 
+- Protocolos **pull** vs **push**
+- ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/1022x728/3f4f9591beb45dd5eee56ebd036aa880/image.png)
+- ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/1009x757/0cd2389e172b80cf7ebd21d66ba38788/image.png)
+  - Estrategia de RxJS
+  - El observable es un productor que va empujando sus datos al observador
+
