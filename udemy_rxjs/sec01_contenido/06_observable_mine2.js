@@ -6,20 +6,28 @@ arStream.__proto__.subscribe = function(observer){
   //que transformación hace aqui subscribe para cambiar la funcion
   //en un observer object de modo que pueda pasar el valor con next?
   arStream.forEach((i)=>{
-    //arStream.subscribe(obsver)
+    //arStream.subscribe(objObserver)
     observer.next(i)
   })  
 }
 
-const obsver = {
-  next: val => console.log("obsver.next.val",val),
-  error: err => console.log("obsver.next.err",err),
+const objObserver = {
+  next: val => console.log("objObserver.next.val",val),
+  error: err => console.log("objObserver.next.err",err),
   complete: () => console.log("...done!")
 }
 
 //for(i of arStream) console.log(i)
-//arStream.subscribe(obsver) //ok
-arStream.subscribe(x => console.log(x)) //ok
+//arStream.subscribe(objObserver) //ok
+
+arStream.subscribe(x => console.log(x)) //Aqui da error! 
+//ya que espera un objObserver con su método next() y recibe una función
+
+//Consulta a Enrique en:
+//param:objObserver y fnObserver
+//https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648774#questions/8603478
+//observable es iterable sin next?
+//https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648774#questions/8591230
 
 
 
