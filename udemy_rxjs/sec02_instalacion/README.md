@@ -22,6 +22,56 @@ git config --unset  core.bare
 //tree since <commit> are discarded.
 git reset --hard
 ```
+- En este punto ya tenemos el proyecto clonado. Procedemos a instalar las dependencias
+```js
+$ npm install
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.4 (node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.4: wanted {"os":"darwin","arch":"any"} (current: 
+{"os":"win32","arch":"x64"})
+
+added 513 packages from 380 contributors and audited 7702 packages in 11.691s
+found 100 high severity vulnerabilities
+  run `npm audit fix` to fix them, or `npm audit` for details
+```
+- Aplicamos los parches que sugiere node
+```js
+$ npm audit fix
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.9 (node_modules\webpack-dev-server\node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.9: wanted {"os":"darwin","arch":"any"} (current: 
+{"os":"win32","arch":"x64"})
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.4 (node_modules\fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.4: wanted {"os":"darwin","arch":"any"} (current: 
+{"os":"win32","arch":"x64"})
+```
+- Con los parches de seguridad aplicados. Lanzamos el proyecto
+```js
+$ npm start
+```
+- Ramas
+```js
+$ git branch
+  dev/01-observable-create   
+  dev/...
+  dev/30-tic-tac-toe-reducers
+  intro-to-rxjs
+* master
+  solutions/01-observable-create
+  solutions/...
+  solutions/30-tic-tac-toe-reducers
+  tic-tac-toe
+```
+- Comparando diferencias
+```js
+//diferencias entre la rama actual y la solución seleccionada
+git diff solutions/01-observable-create
+
+//Ejemplo:
+$ git checkout dev/01-observable-create
+Switched to branch 'dev/01-observable-create'
+
+$ git diff solutions/01-observable-create
+diff --git a/src/create.js b/src/create.js
+``` 
 ## []()
 - 
 ```js
