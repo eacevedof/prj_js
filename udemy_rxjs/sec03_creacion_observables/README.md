@@ -44,7 +44,7 @@ export default () => {
 
 }//export default 
 ```
-## []()
+## [11. Suscripciones y Observadores](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648844#questions)
 - 
 ```js
 ```
