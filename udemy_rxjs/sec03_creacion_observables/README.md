@@ -502,7 +502,7 @@ export default () => {
   const subscription = click$.subscribe(data => displayLog(data));
 }
 ```
-## []()
+## [22. Operadores "distinct" y "distinctUntilChanged" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732736#questions)
 - 
 ```js
 ```
