@@ -313,7 +313,7 @@ export default () => {
                         Math.floor(aritem[0]/50), 
                         Math.floor(aritem[1]/50)
                       ]),
-                      
+
                       //print
                       tap(objevt => console.log("end tap:",objevt)),
 
@@ -324,7 +324,7 @@ export default () => {
 }//export default
 ```
 
-## []()
+## [18. Operadores "first", "take" y "takeWhile" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732716#questions)
 - 
 ```js
 ```
