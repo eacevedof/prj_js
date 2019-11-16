@@ -282,8 +282,46 @@ export default () => {
 ```
 
 ## [17. Operador "tap" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13719034#questions)
-- 
+- RxJs te dice que hay que trabajar con funciones puras 
+- pero que pasa si tienes que introducir efectos colaterales?
+- que pasa cuando en base a un flujo de datos tienes que modificar algo que no tiene que ver con este
+- Ejemplos
+  - Quieres enviar datos a google analytics
+  - cambiar el estado de la interfaz
+  - enviar algo por consola
+- Tap lo que recibe lo emite, pero puede ejecutar acciones ajenas al stream de datos
+- creo que se puede usar para debuguear
 ```js
+//sandbox.js
+import { displayLog } from './utils';
+import {fromEvent} from "rxjs"
+import {map, tap} from "rxjs/operators"
+
+export default () => {
+
+  const divgrid = document.getElementById('grid');
+
+  const clicks$ = fromEvent(divgrid,"click")
+                    //pipe, espera recibir funciones seperadas por ,
+                    .pipe(
+                      //print
+                      tap(objevt => console.log("fist tap:",objevt)),
+
+                      map(objevt => [objevt.offsetX, objevt.offsetY]),
+                      map(aritem => [
+                        //cada casilla tiene un ancho y alto de 50px
+                        Math.floor(aritem[0]/50), 
+                        Math.floor(aritem[1]/50)
+                      ]),
+                      
+                      //print
+                      tap(objevt => console.log("end tap:",objevt)),
+
+                    )// pipe
+
+  const subsclick = clicks$.subscribe(arxy => displayLog(arxy))
+
+}//export default
 ```
 
 ## []()
