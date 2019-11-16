@@ -178,9 +178,33 @@ import {of, range} from "rxjs"
 const range$ = range(3,10) //crea valores de 3...12
 const subs3 = range$.subscribe( data => displayLog(data))
 ```
-## []()
-- 
+## [14. Funciones "interval" y "time" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13718904#questions)
+- git stash
+- git checkout dev/05-interval-and-timer
 ```js
+//create.js
+import { displayLog } from './utils';
+import {interval,timer} from "rxjs"
+
+export default () => {
+  //si uso interval para lanzar un evento infinto
+  //lo detengo con timer() que es otro observable
+
+  const interval$ = interval(500)
+  const subsinterval = interval$.subscribe(data => displayLog(data))
+
+  //timer devuelve otro observable
+  //este emitirá un next cada 3 segundos, en este caso el observer es una SUSCRIPCIÓN ^^
+  timer(3000).subscribe(()=>{subsinterval.unsubscribe()})
+  
+  //timer es más poderosa que el setTimeout tradicional
+  //puedes crear intervalos a partir del primer evento, creas un primer evento concierto retraso
+  //y apartir de entonces un intervalo
+  const timer$ = timer(4000,100)
+  const substimer = timer$.subscribe(data=>displayLog(`2 - ${data}`))
+  timer(6000).subscribe(()=>substimer.unsubscribe())
+
+}//export default
 ```
 ## []()
 - 
