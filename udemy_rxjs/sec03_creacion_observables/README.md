@@ -475,8 +475,30 @@ export default () => {
 ```
 ## Sección 5: Utilidades
 ## [21. Operadores "startWith" y "endWith" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732732#questions)
-- 
+- git stash; git checkout dev/12-startwith-endwidth;
 ```js
+//sandbox.js
+import { displayLog } from './utils';
+import { fromEvent } from 'rxjs';
+import { map, takeWhile, tap,startWith,endWith } from 'rxjs/operators';
+
+export default () => {
+  const grid = document.getElementById('grid');
+  const click$ = fromEvent(grid, 'click').pipe(
+    map(val => [ 
+        Math.floor(val.offsetX/50), 
+        Math.floor(val.offsetY/50)
+    ]),
+    //al hacer click en col=0 finaliza el stream y emite endWith()
+    takeWhile( ([col, row]) => col != 0 ),
+    tap(val => console.log(`cell: [${val}]`)),
+    //startwith fuerza la emision de estos eventos
+    startWith("grid dimensions: ","10x10"),
+    endWith("game finished","bye!")
+  );
+
+  const subscription = click$.subscribe(data => displayLog(data));
+}
 ```
 ## []()
 - 
