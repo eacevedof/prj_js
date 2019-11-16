@@ -418,9 +418,62 @@ const click$ = fromEvent(grid, 'click').pipe(
 );
 ```
 ## [20. Operadores "reduce" y "scan" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732726#questions)
-- 
+- git stash; git checkout dev/11-reduce-scan
+- Aplicar una funcion a unos datos teniendo en cuenta el historico de esos datos
+- Un stream que emite los productos que se añaden a un carrito de la compra
+- Reduce: 
+  - Emite un evento solo al finalizar el stream
+  - Se de dedica a aplicar una función a cada evento que llega del stream de forma secuencial y solo devuelve el resultado cuando se cierra el stream.
+
 ```js
+import { map, takeWhile, tap, reduce } from 'rxjs/operators';
+
+export default () => {
+  const grid = document.getElementById('grid');
+  const click$ = fromEvent(grid, 'click').pipe(
+    map(val => [ 
+      Math.floor(val.offsetX/50), 
+      Math.floor(val.offsetY/50)
+    ]),
+    //al hacer click en la col = 0 se detiene la emisión
+    //y todo lo que ha ido almacenando reduce lo envia al observer
+    takeWhile( ([col, row]) => col != 0 ),
+    tap(val => console.log(`cell: [${val}]`)),
+    reduce((ac,arxy)=>{
+      return {
+        clicks: ac.clicks + 1,
+        cells: [...ac.cells, arxy] //uno dos arrays
+      }
+    },{clicks:0, cells:[]})
+  );
+
+  const subscription = click$
+                        .subscribe(reduobj => displayLog(`${reduobj.clicks} clicks: ${JSON.stringify(reduobj.cells)}`));
+}
 ```
+- scan
+  - Emite un evento en cada evento del stream
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/611x502/656669b13b8635d1f52bd5e383099c49/image.png)
+```js
+ const click$ = fromEvent(grid, 'click').pipe(
+    map(val => [ 
+      Math.floor(val.offsetX/50), 
+      Math.floor(val.offsetY/50)
+    ]),
+    //al hacer click en la col = 0 se detiene la emisión
+    //y todo lo que ha ido almacenando reduce lo envia al observer
+    takeWhile( ([col, row]) => col != 0 ),
+    tap(val => console.log(`cell: [${val}]`)),
+    //una llamada al observer por cada evento del stream
+    scan((ac,arxy)=>{
+      return {
+        clicks: ac.clicks + 1,
+        cells: [...ac.cells, arxy] //uno dos arrays
+      }
+    },{clicks:0, cells:[]})
+  );
+```
+
 ## []()
 - 
 ```js
