@@ -89,9 +89,36 @@ export default () => {
 }//export default 
 ```
 ## [12. Función "from" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648846#questions)
-- 
+- git stash
+  - archiva cualqueir cambio que tengas en el código, así evitas que pueda aparecer algún conflicto
+- git checkout dev/03-from
+- Promesas
+- Ejemplo Enrique
 ```js
+//create.js
+import { displayLog } from './utils';
+import {from } from "rxjs"
+
+export default () => {
+  const myArray = [1,2,3,4,5]
+  const myString = "Hello World" 
+  const oPromise = new Promise(fnresolve => setTimeout(()=>{
+    console.info("fnresolve",fnresolve)
+    fnresolve("Hello World")
+  },2000))
+
+  //const from$ = from(myArray)   //cada n es un evento
+  //const from$ = from(myString)  //cada char es un evento
+
+  //se crea un observable a partir de la estructura de una promesa
+  //esta espera un callback fnresolve que es el observer [val => displayLog(val)]
+  const from$ = from(oPromise)
+  const subscription = from$.subscribe(val => displayLog(val))
+
+}//export default
 ```
+- Mi ejemplo
+
 ## []()
 - 
 ```js
