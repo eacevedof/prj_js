@@ -325,8 +325,43 @@ export default () => {
 ```
 
 ## [18. Operadores "first", "take" y "takeWhile" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732716#questions)
-- 
+- git stash
+- git checkout dev/09-first-take-takewhile
+- first es como un filter del primer elemento
+- take indica cuantos eventos debe emitir el observable antes de cerrar el stream, en este caso 4 clicks
+- takewhile en el momento que deja de cumplirse se detiene la emisión 
+- destructuring del array
 ```js
+//sandbox.js
+import { displayLog } from './utils';
+import {fromEvent} from "rxjs"
+import {map,tap, first,take, takeWhile} from "rxjs/operators"
+
+export default () => {
+
+  const divgrid = document.getElementById('grid');
+
+  const clicks$ = fromEvent(divgrid,"click")
+                    .pipe(
+                      map(objevt => [
+                        Math.floor(objevt.offsetX/50), 
+                        Math.floor(objevt.offsetY/50)
+                      ]),
+                      //tap(obj => console.log("pre obj",obj)),
+                      //se le indica cuando se debe detectar que es first
+                      //first(aritem => aritem[0] > 3)
+
+                      //take(4),      //a los 4 clicks finaliza la emision
+                      
+                      //takeWhile(aritem => aritem[0]>3),
+                      takeWhile( ([col,row]) => col > 3 ), //destructuring del array
+
+                      //tap(obj => console.log("end obj",obj)),
+                    )// pipe
+
+  const subsclick = clicks$.subscribe(arxy => displayLog(arxy))
+
+}//export default
 ```
 ## []()
 - 
