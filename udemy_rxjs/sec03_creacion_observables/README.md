@@ -234,8 +234,51 @@ export default () => {
 ```
 ## Sección 4: Operadores básicos
 ## [16. Operadores "mapTo", "map" y "filter" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13719034#questions)
-- 
+- No se van a ver todos los que existen
+- **mapTo**
+  - emitir acciones en un form por ejemplo
+  - Transforma la salida devolviendo siempre el mismo valor
+  - Se podría usar para detectar los eventos en un menu. Cada vez que se hace click en una opción
+- **map**
+  - transforma el evento en otro objeto
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/d705649c553487128ad445b47fb808e8/image.png)
 ```js
+//sandbox.js
+import { displayLog } from './utils';
+import {fromEvent} from "rxjs"
+import {mapTo, map, filter} from "rxjs/operators"
+
+export default () => {
+  //div con esta img de fondo: 
+  //url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4wECDC4GIBN3ygAAALRJREFUeNrt3EERACAIRUF0LED/kETACp5xXwNm519Z3d0xoKqacEbsEBABASIgQAQEiIAAERABASIgQAQEiIAAERABASIgQAQEiIAAERABASIgQAQEiIAAERABASIgQAQEiIAAERABAaLHzpRPbJlpIQICRECACIiAABEQIAICRECACIiAABEQIAICRECACIiAABEQIAICRECACIiAABEQIAICRECACIiAABEQIAICRED+6gIWHgqTCjDh1wAAAABJRU5ErkJggg==')
+  const divgrid = document.getElementById('grid');
+
+  //los observadores se aplican usando el metodo pipe
+  //const clicks$ = fromEvent(divgrid,"click").pipe(mapTo("CLICK"))
+  const clicks$ = fromEvent(divgrid,"click")
+                    .pipe(
+                      map(objevt => [objevt.offsetX, objevt.offsetY]),
+
+                      map(aritem => [
+                        //cada casilla tiene un ancho y alto de 50px
+                        Math.floor(aritem[0]/50), 
+                        Math.floor(aritem[1]/50)
+                      ]),
+
+                      //solo avisara al observer si cumple esta condicion
+                      filter(aritem => (aritem[0] + aritem[1])%2!=0 )
+
+                    )// pipe
+  
+  //offsetX y Y devuelve la posicion relativa dentro del grid
+  //const subsclick = clicks$.subscribe(evt => console.log("X:",evt.offsetX,"Y:",evt.offsetY))
+  
+  const subsclick = clicks$.subscribe(arxy => {
+    console.log("observer: arxy",arxy,"typeof:",typeof arxy)
+    displayLog(arxy)
+  })
+
+}//export default
 ```
 
 ## [17. Operador "tap" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13719034#questions)
