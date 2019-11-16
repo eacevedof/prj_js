@@ -417,7 +417,7 @@ const click$ = fromEvent(grid, 'click').pipe(
   skip(5)
 );
 ```
-## []()
+## [20. Operadores "reduce" y "scan" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732726#questions)
 - 
 ```js
 ```
