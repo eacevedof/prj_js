@@ -118,7 +118,34 @@ export default () => {
 }//export default
 ```
 - Mi ejemplo
+```js
+//create.js
+import { displayLog } from './utils';
+import {from } from "rxjs"
 
+export default () => {
+
+  //en el resolve el observable inyectará observer.next
+  const oPromise = new Promise(fnNext => setTimeout(()=>{
+    console.info("fnNext",fnNext)
+    fnNext("Hello World")
+  },2000))
+
+  const from$ = from(oPromise)
+
+  const fullobs = {
+    next: val => {
+            console.log("val in next",val)
+            displayLog(val)
+          },
+    error: err => console.log("err:",err),
+    complete: () => console.log("completed")
+  }
+ 
+  const subscription = from$.subscribe(fullobs)
+
+}//export default
+```
 ## []()
 - 
 ```js
