@@ -147,8 +147,36 @@ export default () => {
 }//export default
 ```
 ## [13. Funciones "range" y "of" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648852#questions)
-- 
+- git stash
+- git checkout dev/04-of-and-range
+- Funciones:
+  - **of** te permite emitir una secuencia variable de objetos incluso de distinta tipologia
+  - **range** para emitir una secuencia ordenada de valores
+- **of**
 ```js
+//create.js
+import { displayLog } from './utils';
+import {of, range} from "rxjs"
+
+  //observables:
+  const of2$ = of([1,2,3],
+    "Hello World",
+    {foo:"bar"},
+    function sayHello(){
+      return "Hello!!"
+    }
+  )
+  
+  //subscriptions:
+
+  //se han emitido los valores de forma secuencial
+  //const subs1 = of$.subscribe( data => displayLog(data))
+  const subs2 = of2$.subscribe(data => displayLog(data)) 
+```
+- **range**
+```js
+const range$ = range(3,10) //crea valores de 3...12
+const subs3 = range$.subscribe( data => displayLog(data))
 ```
 ## []()
 - 
