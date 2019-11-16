@@ -544,8 +544,8 @@ export default () => {
 
 }
 ```
-## []()
-- 
+## [23. Operador "pairwise" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732738#questions)
+- git stash; git checkout dev/14-pairwise
 ```js
 ```
 ## []()
