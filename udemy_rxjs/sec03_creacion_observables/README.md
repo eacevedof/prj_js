@@ -232,14 +232,17 @@ export default () => {
 
 }//export default
 ```
+## Sección 4: Operadores básicos
+## [16. Operadores "mapTo", "map" y "filter" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13719034#questions)
+- 
+```js
+```
+
 ## [17. Operador "tap" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13719034#questions)
 - 
 ```js
 ```
-## []()
-- 
-```js
-```
+
 ## []()
 - 
 ```js
