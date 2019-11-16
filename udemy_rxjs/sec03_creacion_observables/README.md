@@ -617,6 +617,7 @@ export default () => {
 - Cada vez que se realiza una suscripción se crea una nueva instancia del flujo de datos **cold observables**
 - Esto penaliza el rendimiento de la app
 - Para evitar esto (es decir solo usar una instancia) tenemos el operador **share**
+- >Share es como el singleton de los observables
 - **Sin share**
   - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/703x306/5c316da624a0aba5712d9872b77b4ae8/image.png)
 - **con share**
@@ -655,7 +656,6 @@ const docElement = document.documentElement;
   //subscribe to scroll progress to paint a progress bar
   const subscription = scrollProgress$.subscribe(updateProgressBar);
   const subs2  = scrollProgress$.subscribe( val => updateDisplay(`${Math.floor(val)} %`))
-
 }
 ```
 ## []()
