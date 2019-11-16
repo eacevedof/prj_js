@@ -1,4 +1,6 @@
-## []()
+## Sección 3: Creación de Observables
+
+## [10. Función Create](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648834#questions)
 - 
 ```js
 ```
