@@ -473,8 +473,8 @@ export default () => {
     },{clicks:0, cells:[]})
   );
 ```
-
-## []()
+## Sección 5: Utilidades
+## [21. Operadores "startWith" y "endWith" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732732#questions)
 - 
 ```js
 ```
