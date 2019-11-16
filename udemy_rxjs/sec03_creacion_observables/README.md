@@ -660,7 +660,67 @@ const docElement = document.documentElement;
 ```
 ## [25. Subject, BehaviorSubject y los Hot Observables](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732744#questions/8651832)
 - git stash; git checkout dev/16-subject;
+- Subject
+  - Permite hacer multicast
+  - Es un hot observable
+  - Es un obsrvador
+  - Actua como un distribuidor
+  - Emite a todos sus observadores cualquier evento que recibe como observer
+- Vamos a emular el **share** con **subject**, ya que share internamente usa **subject**
+- BehaviorSubject
+  - Es un subject con estado
+  - Tiene un estado inicial
+  - En cada evento guarda el ultimo estado
+  - Este estado (valor inicial) se puede consultar en cualquier momento
 ```js
+//sandbox.js
+import { updateDisplay } from './utils';
+import { fromEvent, Subject, BehaviorSubject } from 'rxjs';
+import { map, tap, share } from 'rxjs/operators';
+
+export default () => {
+  const progressBar = document.getElementById('progress-bar');
+  const docElement = document.documentElement;
+
+  //function to update progress bar width on view
+  const updateProgressBar = (percentage) => {
+    progressBar.style.width = `${percentage}%`;
+  }
+
+  //observable that returns scroll (from top) on scroll events
+  const scroll$ = fromEvent(document, 'scroll').pipe(
+    map(() => docElement.scrollTop),
+    tap(evt => console.log("[scroll]: ", evt))
+  );
+
+  //observable that returns the amount of page scroll progress
+  const scrollProgress$ = scroll$.pipe(
+    map(evt => {
+        const docHeight = docElement.scrollHeight - docElement.clientHeight;
+        return (evt / docHeight) * 100;
+    }),
+    //share() // usa internamente la clase subject
+  )
+
+  //observer y observable
+  //const scrollSubject$ = new Subject()
+  const scrollSubject$ = new BehaviorSubject(0)
+  scrollProgress$.subscribe(scrollSubject$)
+
+  //scrollSubject ahora gestiona las dos sucripciones
+  //aqui hace una funcion de observable singleton
+  const subscription = scrollSubject$.subscribe(updateProgressBar);
+  const subscription2 = scrollSubject$.subscribe(
+    val => updateDisplay(`${ Math.floor(val) } %`)
+  );
+
+  //no sabia que la pagina guarda en memoria el scroll
+  //console.log("se ejecuta subject.next se ejeucta en la carga de la pagina")
+  //un subject puede emitir sus propios eventos
+  //scrollSubject$.next(0)
+
+  console.log("scroll initial state: ", scrollSubject$.value)
+}
 ```
 ## []()
 - 
