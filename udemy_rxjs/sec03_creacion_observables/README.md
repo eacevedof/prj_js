@@ -608,7 +608,7 @@ export default () => {
   //const subscribe2 = scrollEv$.subscribe(set_divwidth);
 }
 ```
-## []()
+## [24. Hot & Cold Observables: Operador "share" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732742#questions/8651832)
 - 
 ```js
 ```
