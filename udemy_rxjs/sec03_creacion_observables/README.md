@@ -88,7 +88,7 @@ export default () => {
 
 }//export default 
 ```
-## []()
+## [12. Función "from" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648846#questions)
 - 
 ```js
 ```
