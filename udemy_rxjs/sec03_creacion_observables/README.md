@@ -485,6 +485,8 @@ import { map, takeWhile, tap,startWith,endWith } from 'rxjs/operators';
 export default () => {
   const grid = document.getElementById('grid');
   const click$ = fromEvent(grid, 'click').pipe(
+    //si esto se pone aqui el resto de operaciones matematicas daria undefined
+    //startWith("grid dimensions: ","10x10"),
     map(val => [ 
         Math.floor(val.offsetX/50), 
         Math.floor(val.offsetY/50)
