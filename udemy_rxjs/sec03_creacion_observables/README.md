@@ -364,8 +364,58 @@ export default () => {
 }//export default
 ```
 ## [19. Operadores "last", "takeLast" y "skip" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732722#questions)
-- 
+- git stash; git checkout dev/10-last-takelast-skip
+- last
 ```js
+//sandbox.js
+import { displayLog } from './utils';
+import { fromEvent } from 'rxjs';
+import { map, takeWhile, last,tap } from 'rxjs/operators';
+
+export default () => {
+  const grid = document.getElementById('grid');
+  const click$ = fromEvent(grid, 'click').pipe(
+      map(val => [ 
+          Math.floor(val.offsetX/50), 
+          Math.floor(val.offsetY/50)
+      ]),
+      takeWhile( ([col, row]) => col > 3 ),
+      tap(val => console.log("tap valid takewhile",val)),
+      //emite el último valor que ha dejado pasar takewhile y no el que finaliza la emisión
+      //es decir si hago click en una casilla fuera de rango takewhile cierra la emisión y
+      //last recupera la ultima coord válida para pasarlo al observer
+      last() 
+  );
+  const subscription = click$.subscribe(data => displayLog(data));
+}
+```
+- takelast
+- Va almacenando los eventos, se queda con los ultimos 3 y cuando se deja de emitir los pasa al observer
+- ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/737x217/d3f65fef028238e1375cf513a29d0f16/image.png)
+```js
+  const click$ = fromEvent(grid, 'click').pipe(
+      map(val => [ 
+          Math.floor(val.offsetX/50), 
+          Math.floor(val.offsetY/50)
+      ]),
+      takeWhile( ([col, row]) => col > 3 ),
+      tap(val => console.log("tap valid takewhile",val)),
+      //Va almacenando los eventos, se queda con los ultimos 3 y cuando se 
+      //deja de emitir los pasa al observer
+      takeLast(3) 
+  );
+```
+- skip
+```js
+const click$ = fromEvent(grid, 'click').pipe(
+  map(val => [ 
+    Math.floor(val.offsetX/50), 
+    Math.floor(val.offsetY/50)
+  ]),
+  tap(val => console.log("cell:",val)),
+  //se salta los 5 primeros clicks y empieza a llamar al observer
+  skip(5)
+);
 ```
 ## []()
 - 
