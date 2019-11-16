@@ -40,13 +40,53 @@ export default () => {
     },2000)
   })
 
+  //el arrow func es una version reducida de un observer
   const subscribe = hello$.subscribe(evt => displayLog(evt))
 
 }//export default 
 ```
 ## [11. Suscripciones y Observadores](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13648844#questions)
-- 
+- Un arrow func es una versión reducida de un observer
+- **cold observables**
+  - cada suscripción al observable implica una nueva ejecución del flujo de datos
 ```js
+//create.js
+import { displayLog } from './utils';
+import {Observable} from "rxjs"
+
+export default () => {
+
+  //El observable hello$ se crea por defecto con una emisión "sincrona" para "hello" 
+  //y asincrona para "world" a cualquier observable
+  const hello$ = Observable.create(observer => {
+    observer.next("hello")
+    //crea asincronicidad, imaginemos que esto es una llamada a una API
+    setTimeout(()=>{
+      observer.next("world")
+      //se indica cuando debe acabar la emisión
+      observer.complete()
+    },2000)
+  })
+
+  //version extendida de un observer
+  const fullobserver = {
+    next:         evt => displayLog(evt),
+    error:        err => console.log("[ERR] - ",err),
+    complete:     ()  => displayLog("[DONE]")
+  }
+
+  console.log("fullobserver",fullobserver)
+  //subscribe es la referencia a la suscripción
+  const subscribe = hello$.subscribe(fullobserver)
+  //cada nueva suscripción implica una nueva ejecución del flujo de datos
+  //esto es lo que se llama cold observable
+  const subscribe2 = hello$.subscribe(fullobserver)
+
+  //con unsubscribe solo se visualizaría hello, si bien se ha abierto otro hilo
+  //con setTimeout no se espera a que este terimine
+  subscribe.unsubscribe()
+
+}//export default 
 ```
 ## []()
 - 
