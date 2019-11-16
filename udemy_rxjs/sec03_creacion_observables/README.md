@@ -207,8 +207,30 @@ export default () => {
 }//export default
 ```
 ## [15. Función "fromEvent" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13719024#questions)
-- 
+- Asocia un observable a un eventtarget concreto para emitir los eventos generados por este
+- puedes canalizar determinados eventos del dom o el eventemitter de node
+- Te permite reaccionar a eventos de la interfaz
+- Te permite crear un observable a partir de una tipología de eventos concreta de cualquier **eventtarget**
 ```js
+//create.js
+import { displayLog } from './utils';
+import {fromEvent} from "rxjs"
+
+export default () => {
+  //me voy a suscribir a los eventos del boton
+  const idboton = "action-btn"
+  const eboton = document.getElementById(idboton)
+  const fromevent$ = fromEvent(eboton,"click")
+
+  const subsbot = fromevent$.subscribe(evt => {
+    displayLog(`click event at pos (${evt.x}, ${evt.y})`)
+  })
+
+  fromEvent(document,"mousemove").subscribe(evt => {
+    console.log(evt)
+  })
+
+}//export default
 ```
 ## []()
 - 
