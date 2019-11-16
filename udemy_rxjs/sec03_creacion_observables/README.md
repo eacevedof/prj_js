@@ -658,8 +658,8 @@ const docElement = document.documentElement;
   const subs2  = scrollProgress$.subscribe( val => updateDisplay(`${Math.floor(val)} %`))
 }
 ```
-## []()
-- 
+## [25. Subject, BehaviorSubject y los Hot Observables](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732744#questions/8651832)
+- git stash; git checkout dev/16-subject;
 ```js
 ```
 ## []()
