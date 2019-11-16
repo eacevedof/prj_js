@@ -562,6 +562,7 @@ export default () => {
   const objdom = document.documentElement;
   //console.log("objdom: ",objdom)
 
+  //observer
   const set_divwidth = percentage => edivprogress.style.width = `${percentage}%`;
   
   //const click$ = fromEvent(document,"click")
