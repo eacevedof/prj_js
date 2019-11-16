@@ -503,8 +503,46 @@ export default () => {
 }
 ```
 ## [22. Operadores "distinct" y "distinctUntilChanged" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732736#questions)
-- 
+- git stash; git checkout dev/13-distinct-distinctuntilchanged;
+- distinct 
+  - comprueba el valor a emitir, si ya se ha emitido lo bloquea para que no se emita
+  - el valor que comprueba debe ser string o int o float (tipos simples)
+  - si es un objeto y/o array lo dejaria pasar
+- distintUntilChanged
+  - comprueba un valor previo y uno actual para ver si son distintos
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/688x318/94573dbe384b19632432f151995cad77/image.png)
 ```js
+//sandbox.js
+import { displayLog } from './utils';
+import { fromEvent } from 'rxjs';
+import { map, takeWhile, tap, distinct,distinctUntilChanged } from 'rxjs/operators';
+
+export default () => {
+  const grid = document.getElementById('grid');
+  const click$ = fromEvent(grid, 'click').pipe(
+    map(val => [ 
+      Math.floor(val.offsetX/50), 
+      Math.floor(val.offsetY/50)
+    ]),
+    takeWhile( ([col, row]) => col != 0 ),
+    tap(arxy => console.log(`cell: [${arxy}]`)),
+    //map(([col, row]) => col+row),
+    //tap(val => console.log('sum of col + row is:', val)),
+
+    //distinct()  //solo tipos simples
+    //distinct(([col, row]) => `${col} - ${row}`),  //tipos copuestos
+
+    //bloquear clicks consecutivos sobre la misma casilla
+    //cell1 y cell2 son arxy formado por map
+    distinctUntilChanged((cell1, cell2)=>
+                  (cell1[0] == cell2[0]) &&
+                  (cell1[1] == cell2[1]))
+
+  );
+
+  const subscription = click$.subscribe(data => displayLog(data));
+
+}
 ```
 ## []()
 - 
