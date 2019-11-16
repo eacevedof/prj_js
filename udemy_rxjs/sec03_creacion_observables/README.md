@@ -546,7 +546,66 @@ export default () => {
 ```
 ## [23. Operador "pairwise" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732738#questions)
 - git stash; git checkout dev/14-pairwise
+- Entendiendo el scroll
+  - es el punto superior de la parte visible en la ventana del navegador
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/1145x609/f1656d2e3db06311f5cbbbc9e532e5ee/image.png)
+- No se porque separa en dos streams la lógica
+- el return de un observable es otro observable? es como una concatenación de observables?
 ```js
+//sandbox.js
+import { updateDisplay } from './utils';
+import { fromEvent } from 'rxjs';
+import { map, tap, pairwise } from 'rxjs/operators';
+
+export default () => {
+  const edivprogress = document.getElementById('progress-bar');
+  const objdom = document.documentElement;
+  //console.log("objdom: ",objdom)
+
+  const set_divwidth = percentage => edivprogress.style.width = `${percentage}%`;
+  
+  //const click$ = fromEvent(document,"click")
+  //click$.subscribe(ev => console.log("evt",ev))
+
+  //observable that returns scroll (from top) on scroll events
+  const scrollEv$ = fromEvent(document, 'scroll').pipe(
+    //scrollTop es la parte superior oculta por bajar el scroll
+    map(() => objdom.scrollTop),
+    tap(iscrollpos => console.log("[scroll]: ", iscrollpos)),
+    
+    //para determinar la dirección del scroll (arriba o abajo) se necesita saber 
+    //el valor actual y el anterior, esta tupla la provee el operador pairwaise
+    pairwise(),     //devuelve un array con dos valores, en este caso enteros
+    
+    tap(([iprev, icurr])=>{ //se explota ese par en prev y curr
+      updateDisplay(icurr > iprev ? "DESC": "ASC")
+    }),
+
+    map( ([iprev,icurr]) => icurr),
+
+    //tiene el mismo efecto inclyuendo esta logica aqui como en otro observable
+    // map(iscrolltop => {
+    //   //scrollheight: 4138, clientheight:577 => docheight:3561
+    //   const docHeight = objdom.scrollHeight - objdom.clientHeight;
+    //   return (iscrolltop / docHeight) * 100;
+    // })
+  );
+
+  //scrollEv$ devuelve la posicion del scroll
+  //esto es como una concatenacion de observables. 
+  //El observer solo se suscribe al scrollProgress
+  const scrollProgress$ = scrollEv$.pipe(
+    map(iscrolltop => {
+        //scrollheight: 4138, clientheight:577 => docheight:3561 (docheight es la zona desplazable)
+        const docHeight = objdom.scrollHeight - objdom.clientHeight;
+        return (iscrolltop / docHeight) * 100;
+    })
+  )
+
+  //subscribe to scroll progress to paint a progress bar
+  const subscription = scrollProgress$.subscribe(set_divwidth);
+  //const subscribe2 = scrollEv$.subscribe(set_divwidth);
+}
 ```
 ## []()
 - 
