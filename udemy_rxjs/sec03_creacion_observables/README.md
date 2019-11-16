@@ -206,7 +206,7 @@ export default () => {
 
 }//export default
 ```
-## []()
+## [15. Función "fromEvent" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13719024#questions)
 - 
 ```js
 ```
