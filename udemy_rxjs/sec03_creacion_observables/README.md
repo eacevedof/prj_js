@@ -232,7 +232,7 @@ export default () => {
 
 }//export default
 ```
-## []()
+## [17. Operador "tap" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13719034#questions)
 - 
 ```js
 ```
