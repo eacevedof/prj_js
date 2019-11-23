@@ -916,9 +916,90 @@ export default () => {
 
 ## [27. Operadores "delay" y "buffertime" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732752#questions)
 - git stash; git checkout dev/18-delay-buffer-time
-```js
+- **delay**
+  - introduce un retraso entre el origen de los eventos y el flujo de salida observable
+  - Da un efecto de animación. Es como si almacenara en ese tiempo todos los eventos para que despues los procese todos jungos
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/619x530/befaba15d6f7bbd66fdb581cb176ecbf/image.png)
+  ```js
+  //sandbox.js
+  import { fromEvent } from 'rxjs';
+  import { map, tap, delay } from 'rxjs/operators';
 
-```
+  export default () => {
+    let iEmitted = 0
+    let iHandled = 0
+
+    const progressBar = document.getElementById('progress-bar');
+    const docElement = document.documentElement;
+
+    const updateProgressBar = (percentage) => {
+      progressBar.style.width = `${percentage}%`;
+    }
+
+    const scroll$ = fromEvent(document, 'scroll').pipe(
+      tap(evt => {iEmitted++; console.log("ev emitted:",iEmitted)}),
+      map(() => docElement.scrollTop),
+      //tap(evt => console.log("[scrollTop]: ", evt)),
+    );
+
+    const scrollProgress$ = scroll$.pipe(
+      map(evt => {
+          const docHeight = docElement.scrollHeight - docElement.clientHeight;
+          return (evt / docHeight) * 100;
+      }),
+      delay(500), //500 ms  
+      tap(evt => {iHandled++; console.log("after delay ev handled:",iHandled)}),
+    )
+
+    const subscription = scrollProgress$.subscribe(updateProgressBar);
+  }
+  ```
+- **bufferTime**
+  - Acumula muestras durante un tiempo y luego las emite juntas, en un array como si fuera un único evento
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/544x236/526f7cb79da097e79d2e620a6fa401cb/image.png)
+  ```js
+  import { fromEvent } from 'rxjs';
+  import { map, tap, delay, bufferTime } from 'rxjs/operators';
+
+  export default () => {
+    let iEmitted = 0
+    let iHandled = 0
+
+    const progressBar = document.getElementById('progress-bar');
+    const docElement = document.documentElement;
+
+    const updateProgressBar = (percentage) => {
+      console.log("iHandled",iHandled)
+      //trata el agumento que envia bufferTime
+      if(Array.isArray(percentage))
+        percentage = percentage.pop()
+      progressBar.style.width = `${percentage}%`;
+    }
+
+    const scroll$ = fromEvent(document, 'scroll').pipe(
+        tap(evt => {iEmitted++; console.log("ev emitted:",iEmitted)}),
+        map(() => docElement.scrollTop),
+    );
+
+    const scrollProgress$ = scroll$.pipe(
+        map(evt => {
+            const docHeight = docElement.scrollHeight - docElement.clientHeight;
+            return (evt / docHeight) * 100;
+        }),
+        //aqui buffer haria un efecto map devolviendo un array de valores algo que
+        //updateProgressBar no entiede ya que espera un entero (he refactorizado para que acete array)
+        //cada (1000 ms) segundo empieza a agrupar durante 500 ms 
+        //con buffertime se lanza una escucha constante no solo con cada scroll. Si se hace un scroll
+        //lo almacena en el array
+        //es como si fuera un sniffer
+        bufferTime(500,1000), 
+        
+        tap(evt => {iHandled++; console.log("evt",evt)}),
+    )
+
+    const subscription = scrollProgress$.subscribe(updateProgressBar);
+  }  
+  ```
 ## []()
 - 
 ```js
