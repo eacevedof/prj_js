@@ -1007,6 +1007,7 @@ export default () => {
   - No, seria mejor esperar un determinado tiempo. Este delay es debounceTime
   - debounceTime se diferencia de auditTime en que el primero reinicia la espera con cada nuevo valor recibido
   - Para que debounceTime emita un evento es imprescindible que el flujo de eventos deje de emitir datos durante el tiempo prefijado
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/453b4845248be41eccac335739b52c50/image.png)
 ```js
 //sandbox.js
 import { updateDisplay, displayLog } from './utils';
@@ -1031,6 +1032,7 @@ export default () => {
   inputBox$.subscribe(displayLog)
 }
 ```
+## Sección 7: Combinación de Observables
 ## []()
 - 
 ```js
