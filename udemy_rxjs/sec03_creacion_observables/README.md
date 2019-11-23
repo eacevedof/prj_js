@@ -1000,7 +1000,7 @@ export default () => {
     const subscription = scrollProgress$.subscribe(updateProgressBar);
   }  
   ```
-## []()
+## [28. Operador debounceTime de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732754#questions)
 - 
 ```js
 ```
