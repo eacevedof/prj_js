@@ -1001,8 +1001,35 @@ export default () => {
   }  
   ```
 ## [28. Operador debounceTime de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732754#questions)
-- 
+- git stash; git checkout dev/19-debouncetime;
+- **debounceTime**
+  - Si tenemos un searchbox. Tiene sentido hacer una petición con cada press de una tecla?
+  - No, seria mejor esperar un determinado tiempo. Este delay es debounceTime
+  - debounceTime se diferencia de auditTime en que el primero reinicia la espera con cada nuevo valor recibido
+  - Para que debounceTime emita un evento es imprescindible que el flujo de eventos deje de emitir datos durante el tiempo prefijado
 ```js
+//sandbox.js
+import { updateDisplay, displayLog } from './utils';
+import {fromEvent} from "rxjs"
+import {tap,map, debounceTime} from "rxjs/operators"
+
+export default () => {
+  const inputBox = document.getElementById('input-box');
+  const inputBox$ = fromEvent(inputBox,"input")
+                  //no es lo mismo ejecutar el pipe aqui que despues de definir la variable inputBox$
+                  //asi: inputBox$.pipe(...)
+                      .pipe(
+                        //cada objeto evento es una representación de una letra
+                        tap(evt => console.log("inievt - evt",evt)),
+                        //en el momento que se deja de escribir espera 300 ms si no hay ningún
+                        //otro evento entonces envia todo el stream
+                        //para un searchbox esto tiene sentido, tener un periodo de guarda
+                        debounceTime(300),
+                        map(event => event.target.value),
+                        tap(str => console.log("endevt - str",str)),
+                      )
+  inputBox$.subscribe(displayLog)
+}
 ```
 ## []()
 - 
