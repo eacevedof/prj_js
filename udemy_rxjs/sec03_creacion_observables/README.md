@@ -722,7 +722,8 @@ export default () => {
   console.log("scroll initial state: ", scrollSubject$.value)
 }
 ```
-## []()
+## Sección 6: Operadores temporales
+## [26. Operadores "sampleTime", "throttleTime" y "auditTime" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732748#questions)
 - 
 ```js
 ```
