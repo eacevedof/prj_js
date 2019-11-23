@@ -1033,7 +1033,7 @@ export default () => {
 }
 ```
 ## Sección 7: Combinación de Observables
-## []()
+## [29. Funciones zip y merge de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732960#questions)
 - 
 ```js
 ```
