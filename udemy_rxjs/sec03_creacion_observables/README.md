@@ -914,9 +914,10 @@ export default () => {
   }
   ```
 
-## []()
-- 
+## [27. Operadores "delay" y "buffertime" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732752#questions)
+- git stash; git checkout dev/18-delay-buffer-time
 ```js
+
 ```
 ## []()
 - 
