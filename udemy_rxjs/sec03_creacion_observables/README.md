@@ -1034,9 +1034,186 @@ export default () => {
 ```
 ## Sección 7: Combinación de Observables
 ## [29. Funciones zip y merge de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732960#questions)
-- 
-```js
-```
+- git stash; git checkout dev/20-zip-merge;
+- **zip**
+  - combina varios flujos de datos en un único observable
+  - entre el mouse-start y mouse-end
+  - se combinaran estos dos eventos en uno para obtener coord orig y coord fin
+  - es como un **AND** de eventos
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/1126x327/8e554963e5612aac3f674862f195e048/image.png)
+  ```js
+  //sandbox.js
+  import { updateDisplay, displayLog } from './utils';
+  import { fromEvent,zip} from 'rxjs';
+  import { map,tap } from 'rxjs/operators';
+
+  export default () => {
+
+    const canvas = document.getElementById('drawboard');
+    const ctx = canvas.getContext('2d');
+
+    const drawLine = (initCoords, endCoords) => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(initCoords.x, initCoords.y);
+      ctx.lineTo(endCoords.x, endCoords.y);
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.closePath();
+    }
+
+    const getLocalClickCoords = (event, parent) =>{
+      return {
+        x: event.clientX - parent.offsetLeft,
+        y: event.clientY - parent.offsetTop,
+      }
+    }
+
+    //emite coords (ini) on mousedown
+    const mouseStart$ = fromEvent(canvas, 'mousedown').pipe(
+      map(event => {
+        return {
+            label: 'start',
+            coords: getLocalClickCoords(event, canvas)
+        }
+      })
+    );
+
+    //emite coords (end) on mouseup
+    const mouseEnd$ = fromEvent(canvas, 'mouseup').pipe(
+    map(event => {
+      return {
+        label: 'end',
+        coords: getLocalClickCoords(event, canvas)
+      }
+    }));
+
+    /** observable from canvas mouse move events */
+    const mouseMove$ = fromEvent(canvas, 'mousemove').pipe(
+    map(event => {
+      return {
+        label: 'drawing',
+        coords: getLocalClickCoords(event, canvas)
+      }
+    }));        
+
+    //crea un evento unificado que emite inicio y fin, es decir se tienen que dar
+    //los dos eventos para que emita el evt comprimido
+    const drawLine$ = zip(mouseStart$,mouseEnd$)
+                        .pipe(
+                          //esto ^^ tap le inyecta el parámetro a console.log(evt)
+                          tap(console.log),
+                          map(([start,end]) => {
+                            return {
+                              origin: start.coords,
+                              end: end.coords,
+                            }
+                          })
+                        )
+
+    //drawLine usa el contexto2d para realizar el trazo con orig y destino
+    drawLine$.subscribe(data => drawLine(data.origin, data.end))
+  }  
+  ```
+- **merge**
+  - No espera tener datos de todos los flujos de entrada
+  - Tampoco devuelve un array
+  - Actua como un hub, si alguno de sus flujos de entrada emite un evento entonces lo retransmite
+  - Es como un **OR** de eventos
+  - Para pintar una linea mientras se estan ejecutando los eventos necesito una variable donde vaya guardando las coord por donde esta pasando el puntero (con scan por ejemplo)
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/1120x426/1931f994110d873364ded993a3f1a75f/image.png)
+  ```js
+  //sandbox.js
+  import { updateDisplay, displayLog } from './utils';
+  import { fromEvent,zip,merge} from 'rxjs';
+  import { map,tap, scan,filter,distinctUntilChanged } from 'rxjs/operators';
+
+  export default () => {
+
+    const canvas = document.getElementById('drawboard');
+    const ctx = canvas.getContext('2d');
+
+    const drawLine = (initCoords, endCoords) => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(initCoords.x, initCoords.y);
+      ctx.lineTo(endCoords.x, endCoords.y);
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.closePath();
+    }
+
+    const getLocalClickCoords = (event, parent) =>{
+      return {
+        x: event.clientX - parent.offsetLeft,
+        y: event.clientY - parent.offsetTop,
+      }
+    }
+
+    //emite coords (ini) on mousedown
+    const mouseStart$ = fromEvent(canvas, 'mousedown').pipe(
+      map(event => {
+        return {
+            label: 'start',
+            coords: getLocalClickCoords(event, canvas)
+        }
+      })
+    );
+
+    //emite coords (end) on mouseup
+    const mouseEnd$ = fromEvent(canvas, 'mouseup').pipe(
+    map(event => {
+      return {
+        label: 'end',
+        coords: getLocalClickCoords(event, canvas)
+      }
+    }));
+
+    /** observable from canvas mouse move events */
+    const mouseMove$ = fromEvent(canvas, 'mousemove').pipe(
+    map(event => {
+      return {
+        label: 'drawing',
+        coords: getLocalClickCoords(event, canvas)
+      }
+    }));        
+
+    const computeDrawState = (prev,evt)=>{
+      switch(prev.label){
+        case "init":
+        case "end": //mouseup
+          //si es mouseclick "cambio" origin y "mantengo" label y coords
+          if(evt.label == "start"){
+            return {origin:evt.coords, ...evt}
+          }
+          break
+        case "start": //mouseclick
+        case "drawing"://mousemove
+          return {origin:prev.origin,...evt}
+      }
+      return prev;
+    }
+
+    //si cualquier moseEvent emite, se ejecuta pipe
+    const drawLine$ = merge(mouseStart$,mouseMove$,mouseEnd$)
+                        .pipe(
+                          //reduce
+                          scan(computeDrawState,{label:"init"}),
+                          //solo se emiten los que tienen data.origin y coords
+                          filter(data => data.origin && data.coords),
+                          //excluye los repetidos
+                          distinctUntilChanged(),
+                          //esto ^^ tap le inyecta el parámetro a console.log(evt)
+                          tap(console.log),
+                        )
+
+    //drawLine usa el contexto2d para realizar el trazo con orig y destino
+    drawLine$.subscribe(data => drawLine(data.origin, data.coords))
+    //drawLine$.subscribe()
+  }  
+  ```
 ## []()
 - 
 ```js
