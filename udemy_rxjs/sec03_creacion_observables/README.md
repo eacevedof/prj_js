@@ -724,7 +724,11 @@ export default () => {
 ```
 ## Sección 6: Operadores temporales
 ## [26. Operadores "sampleTime", "throttleTime" y "auditTime" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732748#questions)
-- 
+- En el ejemplo de la barra de scroll probablemente sean excesivas las veces que se llama al evento scroll de modo que perjudica el rendimiento de la app.
+- En este caso quiza interese solo escuchar el evento cada x segundos
+- **sampleTime**
+  - emite el valor más reciente de un flujo de datos cada cierto tiempo siempre y cuando el flujo de datos haya emitido algún valor en el intervalo
+  - 
 ```js
 ```
 ## []()
