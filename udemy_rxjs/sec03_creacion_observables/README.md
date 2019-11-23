@@ -724,13 +724,196 @@ export default () => {
 ```
 ## Sección 6: Operadores temporales
 ## [26. Operadores "sampleTime", "throttleTime" y "auditTime" de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13732748#questions)
+- Ejemplo sin ningún filtro:
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/797x515/d402d1cbe55f09188c26591235fc416d/image.png)
 - En el ejemplo de la barra de scroll probablemente sean excesivas las veces que se llama al evento scroll de modo que perjudica el rendimiento de la app.
-- En este caso quiza interese solo escuchar el evento cada x segundos
+- En este caso quiza interese solo escuchar el evento cada x segundoss
 - **sampleTime**
   - emite el valor más reciente de un flujo de datos cada cierto tiempo siempre y cuando el flujo de datos haya emitido algún valor en el intervalo
-  - 
-```js
-```
+- **auditTime**
+  - Detecta un evento y desde entonces crea una ventana temporal del tamaño indicado y cuando finaliza es cuando emite la muestra más reciente y se queda a la espera.
+  - Es similar pero no es lo mismo, audiTime agrega un retraso
+- **throttleTime**
+  - Cuando este operador detecta un evento, lo emite y acto seguido deja de escuchar durante la ventana indicada.
+  - Cuando acaba la ventana, se vuelve a quedar a la espera para el siguiente evento
+
+- **sampleTime**
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/808x286/f9b0888ddd45591d1616545fd3b516a7/image.png)
+  ```js
+  //sandbox.js
+  import { updateDisplay } from './utils';
+  import { fromEvent, Subject, BehaviorSubject } from 'rxjs';
+  import { map, tap,sampleTime, share } from 'rxjs/operators';
+
+  export default () => {
+    const progressBar = document.getElementById('progress-bar');
+    const docElement = document.documentElement;
+
+    let iEmitted = 0
+    let iHandled = 0
+
+    //function to update progress bar width on view
+    const updateProgressBar = (percentage) => {
+      progressBar.style.width = `${percentage}% `;
+    }
+
+    //observable that returns scroll (from top) on scroll events
+    const scroll$ = fromEvent(document, 'scroll').pipe(
+      tap(evt => iEmitted++),
+      //tap(evt => console.log("[scroll event]")),
+      sampleTime(50), //deja pasar los eventos, "como mínimo", cada 50 milisegundos
+      map(() => docElement.scrollTop),
+      tap(evt => console.log("[scroll CON sampleTime(50)]: ", evt)),
+      tap(evt => iHandled++),
+    );
+
+    //observable that returns the amount of page scroll progress
+    const scrollProgress$ = scroll$.pipe(
+      map(evt => {
+        const docHeight = docElement.scrollHeight - docElement.clientHeight;
+        return (evt / docHeight) * 100;
+      }),
+      //share() // usa internamente la clase subject
+    )
+
+    //observer y observable
+    //const scrollSubject$ = new Subject()
+    const scrollSubject$ = new BehaviorSubject(0)
+    scrollProgress$.subscribe(scrollSubject$)
+
+    //scrollSubject ahora gestiona las dos sucripciones
+    //aqui hace una funcion de observable singleton 
+    //(no abre otro hilo con el segundo subscribe)
+    const subscription = scrollSubject$.subscribe(updateProgressBar);
+    const subscription2 = scrollSubject$.subscribe(
+      val => updateDisplay(`
+        ${ Math.floor(val) } % 
+        ev emitted: ${iEmitted}
+        ev notfiltered: ${iHandled}
+      `)
+    );
+
+    //no sabia que la pagina guarda en memoria el scroll
+    //console.log("se ejecuta subject.next se ejeucta en la carga de la pagina")
+    //un subject puede emitir sus propios eventos
+    //scrollSubject$.next(0)
+    console.log("scroll initial state: ", scrollSubject$.value)
+  }
+  ```
+- **auditTime**
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/689x292/f4577186fbea07036509de4e0ce47fae/image.png)
+  ```js
+  //sandbox.js
+  import { updateDisplay } from './utils';
+  import { fromEvent, Subject, BehaviorSubject } from 'rxjs';
+  import { map, tap, auditTime } from 'rxjs/operators';
+
+  export default () => {
+    const progressBar = document.getElementById('progress-bar');
+    const docElement = document.documentElement;
+
+    let iEmitted = 0
+    let iHandled = 0
+
+    const updateProgressBar = (percentage) => {
+      progressBar.style.width = `${percentage}% `;
+    }
+
+    const scroll$ = fromEvent(document, 'scroll').pipe(
+      tap(evt => iEmitted++),
+      auditTime(50), //ventana de 50 milisegundos despues de cada evento
+      map(() => docElement.scrollTop),
+      tap(evt => console.log("[scroll CON auditTime(50)]: ", evt)),
+      tap(evt => iHandled++),
+    );
+
+    const scrollProgress$ = scroll$.pipe(
+      map(evt => {
+          const docHeight = docElement.scrollHeight - docElement.clientHeight;
+          return (evt / docHeight) * 100;
+      }),
+    )
+
+    //subj as observer
+    const scrollSubject$ = new BehaviorSubject(0)
+    scrollProgress$.subscribe(scrollSubject$)
+
+    //subj as observable
+    const subscription = scrollSubject$.subscribe(updateProgressBar);
+    const subscription2 = scrollSubject$.subscribe(
+      val => updateDisplay(`
+        ${ Math.floor(val) } % 
+        ev emitted: ${iEmitted}
+        ev handled: ${iHandled}
+      `)
+    );
+
+    //subj as observable
+    //scrollSubject$.next(0) //es como el trigger
+    console.log("scroll initial state: ", scrollSubject$.value)
+  }
+  ```
+- **throttleTime**
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/810x559/07cd9936fcf5643417bdd916049827d7/image.png)
+  - Se llega al final de la pag pero no se completa la barra
+  - Si ejecuto el scroll muy rápido (con el ratón) no le doy tiempo a que vuelva a escuchar con lo cual puede acabar (llegar al fin de pag) emitiendo eventos sin ser escuchado
+  - Este operador se usa cuando se desea hacer una salvaguarda. 
+  - Por ejemplo cuando no se quiere tomar en cuenta el dobleclick mientras se escucha eventos en un botón
+  - No es una buena idea usar este operador si deseas quedarte con el último valor emitido
+  ```js
+   //sandbox.js
+  import { updateDisplay } from './utils';
+  import { fromEvent, BehaviorSubject } from 'rxjs';
+  import { map, tap, throttleTime } from 'rxjs/operators';
+
+  export default () => {
+    const progressBar = document.getElementById('progress-bar');
+    const docElement = document.documentElement;
+
+    let iEmitted = 0
+    let iHandled = 0
+
+    //function to update progress bar width on view
+    const updateProgressBar = (percentage) => {
+      progressBar.style.width = `${percentage}% `;
+    }
+
+    //emite scrolltop
+    const scroll$ = fromEvent(document, 'scroll').pipe(
+      tap(evt => {iEmitted++; console.log("ev emitted")}),
+      throttleTime(50),//deja de escuchar eventos
+      map(() => docElement.scrollTop),
+      tap(evt => console.log("[scroll CON throttleTime(50)]: ", evt)),
+      tap(evt => iHandled++,console.log("ev handled")),
+    );
+
+    //emite el progreso
+    const scrollProgress$ = scroll$.pipe(
+      map(evt => {
+          const docHeight = docElement.scrollHeight - docElement.clientHeight;
+          return (evt / docHeight) * 100;
+      }),
+      //share() // usa internamente la clase subject
+    )
+
+    //subj as observer. Escucha el progreso
+    const scrollSubject$ = new BehaviorSubject(0)
+    scrollProgress$.subscribe(scrollSubject$)
+
+    //subj as observable. broadcast del progreso
+    const subscription = scrollSubject$.subscribe(updateProgressBar);
+    const subscription2 = scrollSubject$.subscribe(
+      val => updateDisplay(`
+        ${ Math.floor(val) } % 
+        ev emitted: ${iEmitted}
+        ev handled: ${iHandled}
+      `)
+    );
+
+    console.log("scrollSubject$.value ", scrollSubject$.value)
+  }
+  ```
+
 ## []()
 - 
 ```js
