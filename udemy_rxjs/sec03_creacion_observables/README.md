@@ -1732,9 +1732,216 @@ export default () => {
 ```
 ## Sección 9: Utilidades avanzadas
 ## [35. Operadores throwError, catchError y retry de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13794456#questions)
-- 
+- git stash; git checkout dev/26-throwerror-catcherror-retry
+- Una vez que se emite el error el botón deja de funcionar
+- Eso sucede pq cuando ocurre un error se cierra la suscripción al botón
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/9fbfc5f64e17aabd908c603dc7c5bebc/image.png)
 ```js
+//api.js
+import { timer, throwError, of } from 'rxjs';
+import { tap, mapTo, mergeMap } from 'rxjs/operators';
+
+export class api{
+
+  static getComment(id){
+    //timer, despues de un cierto tiempo emite un evento con un tiempo aleatorio
+    //para simular la latencia de la red
+    return timer(Math.random()*1000).pipe(
+      tap(evt => console.log("timer evt",evt)),
+      mergeMap(evt => {
+        console.log("mergemap evt",evt)
+        const frnd = Math.random()
+        console.log("mergemap frnd",frnd)
+        
+        const isError = frnd>0.6 ? true: false
+        console.log("mergemap isError",isError)
+        if(isError) return throwError(new Error("Request Timeout"))
+        
+        return of({id:id, comment:`comment number ${id}`})
+      })
+    );
+  }//getComment(id)
+
+  static getCommentsList(page){
+    const buildCommentsList = (page) =>{
+      let comments = [];
+      const offset = (page-1)*10;
+      for(let i=offset; i < offset+10; i++){
+        comments.push({id:i, comment:`comment number ${i}`})
+      }
+      return comments;
+    }//buildCommentsList
+
+    return timer(Math.random()*1000).pipe(
+      mapTo(buildCommentsList(page))
+    );
+  }//getCommentsList
+
+}//export class api
+
+//sandbox.js throwError
+import { updateDisplay, displayLog } from './utils';
+import { api } from './api';
+import { fromEvent } from 'rxjs';
+import { map, scan, tap, concatMap } from 'rxjs/operators';
+
+export default () => {
+  const button = document.getElementById('btn');
+  fromEvent(button, 'click').pipe(
+    tap(evt => console.log("ini evt",evt)),
+    scan((acc, evt) => acc + 1, 0),            
+    concatMap(id => api.getComment(id)),
+    map(JSON.stringify),
+    tap(evt => console.log("end evt",evt)),
+  ).subscribe(displayLog);
+}
 ```
+- Pasando el handler en subscribe
+- Esto no evita que el botón deje de funcionar
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/8ca3eba55354bd7589eb6db9e515dc90/image.png)
+```js
+//sandbox.js throwError
+import { updateDisplay, displayLog } from './utils';
+import { api } from './api';
+import { fromEvent } from 'rxjs';
+import { map, scan, tap, concatMap } from 'rxjs/operators';
+
+export default () => {
+  const button = document.getElementById('btn');
+  fromEvent(button, 'click').pipe(
+    tap(evt => console.log("ini evt",evt)),
+    scan((acc, evt) => acc + 1, 0),            
+    concatMap(id => api.getComment(id)),
+    map(JSON.stringify),
+    tap(evt => console.log("end evt",evt)),
+  )
+  //en subscribe se le puede pasar el handler de erores, el botón de
+  .subscribe(displayLog,err => console.log("Error:",err.message));
+}
+```
+- **catchError**
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/ccbdacec02cf5e607d9dfc81a839f6ce/image.png)
+  ```js
+  //sandbox.js throwError
+  import { updateDisplay, displayLog } from './utils';
+  import { api } from './api';
+  import { fromEvent } from 'rxjs';
+  import { map, scan, tap, concatMap, catchError } from 'rxjs/operators';
+
+  export default () => {
+    const button = document.getElementById('btn');
+    fromEvent(button, 'click').pipe(
+      tap(evt => console.log("ini evt",evt)),
+      scan((acc, evt) => acc + 1, 0),
+
+      //esto puede emitir un error
+      concatMap(id => api.getComment(id)),
+
+      //TypeError: You provided 'undefined' where a stream was expected. 
+      //You can provide an Observable, Promise, Array, or Iterable
+      //se puede pasar como segundo parametro el observable para que continue la ejecución 
+      //y el botón siga funcionando
+      catchError((err,src$) => { console.log("catched!!",err); return src$}),
+
+      map(JSON.stringify),
+      tap(evt => console.log("end evt",evt)),
+    )
+    //en subscribe se le puede pasar el handler de erores, el botón de
+    .subscribe(displayLog,err => console.log("Error:",err.message));
+  }  
+  ```
+  - Ahora evitamos que deje de funcionar el botón
+  - El problema es que cada vez que ocurre un error vuelve a intentar desde el primer evento del observable interno. Esto es asi pq se esta capturando el error del observable de orden superior
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/6eaad7f966ef9afed27a2422fbed828b/image.png)
+  ```js
+  //sandbox.js throwError
+  import { updateDisplay, displayLog } from './utils';
+  import { api } from './api';
+  import { fromEvent } from 'rxjs';
+  import { map, scan, tap, concatMap, catchError } from 'rxjs/operators';
+
+  export default () => {
+    const button = document.getElementById('btn');
+    fromEvent(button, 'click').pipe(
+      tap(evt => console.log("ini evt",evt)),
+      scan((acc, evt) => acc + 1, 0),
+
+      //esto puede emitir un error
+      concatMap(id => api.getComment(id)),
+
+      //ypeError: You provided 'undefined' where a stream was expected. 
+      //You can provide an Observable, Promise, Array, or Iterable
+      //se puede pasar como segundo parametro el observable para que continue la ejecución 
+      //y el botón siga funcionando
+      catchError((err,src$) => { console.log("catched!!",err); return src$}),
+
+      map(JSON.stringify),
+      tap(evt => console.log("end evt",evt)),
+    )
+    //en subscribe se le puede pasar el handler de erores, el botón de
+    .subscribe(displayLog,err => console.log("Error:",err.message));
+  }  
+  ```
+  - Para evitar que se resetee el observable de orden superior movemos catchError dentro del pipe de la api
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/12b049877b7e295519bf8068c792a97e/image.png)
+  ```js
+  //sandbox.js throwError
+  import { updateDisplay, displayLog } from './utils';
+  import { api } from './api';
+  import { fromEvent } from 'rxjs';
+  import { map, scan, tap, concatMap, catchError } from 'rxjs/operators';
+
+  export default () => {
+    const button = document.getElementById('btn');
+    fromEvent(button, 'click').pipe(
+      tap(evt => console.log("ini evt",evt)),
+      scan((acc, evt) => acc + 1, 0),
+
+      //esto puede emitir un error
+      concatMap(id => api.getComment(id).pipe(
+        catchError((err,src$) => { console.log("catched!!",err); return src$})
+      )),
+
+      map(JSON.stringify),
+      tap(evt => console.log("end evt",evt)),
+    )
+    //en subscribe se le puede pasar el handler de erores, el botón de
+    .subscribe(displayLog,err => console.log("Error:",err.message));
+  }  
+  ```
+  - El ejemplo anterior puede dar lugar a que se quede en un bucle infinito el catch ya que petición se repite hasta que se complete correctamente
+  - Imagina que hemos hecho 3 peticiones y la cuarta da error siempre se intentaria resolver (la cuarta), en bucle infinito, para continuar con la quinta
+  - Para evitar este tipo de situaciones contamos con **retry** permite capturar el error y reintentar su ejecución un número limitado de veces.
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/b87beca5964e551b1616fb80365e2d07/image.png)
+  ```js
+  //sandbox.js throwError
+  import { updateDisplay, displayLog } from './utils';
+  import { api } from './api';
+  import { fromEvent } from 'rxjs';
+  import { map, scan, tap, concatMap, catchError,retry } from 'rxjs/operators';
+
+  export default () => {
+    const button = document.getElementById('btn');
+    fromEvent(button, 'click').pipe(
+      tap(evt => console.log("ini evt",evt)),
+      scan((acc, evt) => acc + 1, 0),
+
+      //esto puede emitir un error
+      concatMap(id => api.getComment(id).pipe(
+        //catchError((err,src$) => { console.log("catched!!",err); return src$})
+        tap(evt => console.log("before retry evt",evt)),
+        retry(3) //lo intentará en 3 ocasiones si continua el error lo capturará el handler
+        //en el subscribe y el botón dejara de funcionar
+      )),
+
+      map(JSON.stringify),
+      tap(evt => console.log("end evt",evt)),
+    )
+    //en subscribe se le puede pasar el handler de erores, el botón de
+    .subscribe(displayLog,err => console.log("Error:",err.message));
+  }  
+  ```
+
 ## []()
 - 
 ```js
