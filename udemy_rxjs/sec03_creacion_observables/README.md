@@ -1435,8 +1435,8 @@ export default () => {
 
   }//export default (withLatestFrom)  
   ```
-
-## []()
+## Sección 8: High Order Observables (HOO)
+## [32. Introducción a los HOO, mergeAll y mergeMap](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13760216#questions)
 - 
 ```js
 ```
