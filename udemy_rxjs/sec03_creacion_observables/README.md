@@ -1214,7 +1214,7 @@ export default () => {
     //drawLine$.subscribe()
   }  
   ```
-## []()
+## [30. Operadores concat y forkJoin de RxJS]()
 - 
 ```js
 ```
