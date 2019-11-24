@@ -1215,9 +1215,130 @@ export default () => {
   }  
   ```
 ## [30. Operadores concat y forkJoin de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13760204#questions)
-- 
+- git stash; git checkout dev/21-concat-forkjoin
+- ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/782x509/2fd6d52d64d20e490001eaaf15ff9f16/image.png)
 ```js
+//api.js
+import { timer } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
+
+export class api{
+  static getComment(id){
+    return timer(Math.random()*1000).pipe(
+      mapTo({id:id, comment:`comment number ${id}`})
+    );
+  }
+}
+
+//sandbox.js (merge)
+import { updateDisplay, displayLog } from "./utils";
+import { api } from "./api";
+import { merge, fromEvent } from "rxjs";
+import { tap,map, endWith } from "rxjs/operators";
+
+export default () => {
+  const button = document.getElementById("btn");
+  
+  const getComments = () =>{
+    //getComment(id) 
+    //es un builder de observables
+    //devuelve: timer(Math.random()*1000).pipe(..), que es un emisor random
+    const comment1$ = api.getComment(1);
+    const comment2$ = api.getComment(2);
+    const comment3$ = api.getComment(3);
+    const comment4$ = api.getComment(4);
+    //observables
+    console.log("getComents:","comment1$:",comment1$,"comment4$:",comment4$)
+
+    //como las peticiones tienen un orden aleatorio y merge emitiria un evento
+    //en ese orden, pueden llegar desordenadas
+    //para forzar siempre un orden en lugar de merge se usa concat
+    merge(comment1$, comment2$, comment3$, comment4$).pipe(
+      tap(evt => console.log("evt ini",evt)),//evt es el obj comment
+      map(({id, comment}) => `#${id} - ${comment}`),
+      endWith("--------//--------"),//finaliza la emisión de eventos
+      tap(evt => console.log("evt end",evt)) //evt es el str comment o ---//---
+    ).subscribe(data =>{
+      displayLog(data);
+    })
+  }//getComments()
+
+  fromEvent(button, "click").subscribe(getComments);
+}//export default
 ```
+- **concat**
+  - Ejecuta la suscripción en un orden preconfigurado, el orden de sus parámetros
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/694x399/113ae005bcb84f53309a451d70d78bde/image.png)  
+  ```js
+  //sandbox.js (concat)
+  import { updateDisplay, displayLog } from "./utils";
+  import { api } from "./api";
+  import { fromEvent,concat } from "rxjs";
+  import { tap, map, endWith } from "rxjs/operators";
+
+  export default () => {
+    const button = document.getElementById("btn");
+    
+    const getComments = () =>{
+      //obtengo los observables
+      const comment1$ = api.getComment(1);
+      const comment2$ = api.getComment(2);
+      const comment3$ = api.getComment(3);
+      const comment4$ = api.getComment(4);
+
+      //se usa igual que merge pero ahora aplicará un orden, 
+      //va ejecutando suscripciones en el orden configurado (emisor1$,emisor2$,...,emisorN$)
+      concat(comment1$, comment2$, comment3$, comment4$).pipe(
+        tap(evt => console.log("evt ini",evt)),//evt es el obj comment
+        map(({id, comment}) => `#${id} - ${comment}`),
+        endWith("--------//--------")//finaliza la emisión de eventos
+        tap(evt => console.log("evt end",evt)) //evt es el str comment o ---//---
+      ).subscribe(data =>{
+        displayLog(data);
+      })
+    }//getComments()
+
+    fromEvent(button,"click").subscribe(getComments);
+  }//export default  
+  ```
+- **forkJoin**
+  - Recibe varios observables de entrada, espera que se completen todos y entonces los emite un array ordenado con el último valor de cada flujo de entrada
+  - Tarda un poco más en la emsión porque tiene que agrupar los eventos para formar el array
+  - ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/968x240/04f516a18c276fbf7c64a79665eaff5f/image.png)
+  ```js
+  //sandbox.js (forkJoin)
+  import { updateDisplay, displayLog } from "./utils";
+  import { api } from "./api";
+  import { fromEvent,forkJoin } from "rxjs";
+  import { tap,map, endWith } from "rxjs/operators";
+
+  export default () => {
+    const button = document.getElementById("btn");
+    
+    const getComments = () =>{
+      //obtengo los observables
+      const comment1$ = api.getComment(1);
+      const comment2$ = api.getComment(2);
+      const comment3$ = api.getComment(3);
+      const comment4$ = api.getComment(4);
+
+      //forkjoin devuelve un array con el último valor de cada evento emitido por 
+      //cada observable
+      forkJoin(comment1$, comment2$, comment3$, comment4$).pipe(
+        tap(evt => console.log("evt ini",evt)),//evt es el array de objetos comment
+        map(JSON.stringify),//aplicará la función stringify a cada uno de los eventos
+        endWith("--------//--------"), //emite un string y finaliza la emision
+        tap(evt => console.log("evt end",evt)) //es el json en string y el endwith
+      ).subscribe(data =>{
+        displayLog(data);
+      })
+    }//getComments()
+
+    fromEvent(button,"click").subscribe(getComments);
+    console.log("forkJoin")
+  }//export default   
+  ```
+
 ## []()
 - 
 ```js
