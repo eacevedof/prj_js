@@ -1338,11 +1338,104 @@ export default () => {
     console.log("forkJoin")
   }//export default   
   ```
+## [31. Operadores combineLatest y withLatestFrom de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13760212#questions)
+- git stash; git checkout dev/22-combinelatest-withlatestfrom
+  - **combineLatest**
+  - Devuelve un array con el último valor de cada evento
+  - En la carga del formulario combineLatest empieza a emitir cuando todos los observables han emitido algo
+  - En este caso, van emitiendo el contenido de la caja esperando 400 ms despues de pulsar la última tecla
+  - Este operador puede usarse para validación
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/3460c652dc265536d3136db96d65aa20/image.png)
+  ```js
+  //sandbox.js (combineLatest)
+  import { updateDisplay, displayLog } from './utils';
+  import { fromEvent,combineLatest } from 'rxjs';
+  import { tap, map, debounceTime } from 'rxjs/operators';
 
-## []()
-- 
-```js
-```
+  export default () => {
+    console.log("31. Operadores combineLatest y withLatestFrom de RxJS")
+
+    const form = document.getElementById('form');
+
+    const formName$ = fromEvent(form.name,'input').pipe(
+      tap(evt => console.log("formName ini",evt)),
+      debounceTime(400),//tiempo de salvaguarda 400 ms
+      map(evt => evt.target.value)
+    );
+
+    const formEmail$ = fromEvent(form.email,'input').pipe(
+      tap(evt => console.log("formEmail ini",evt)),
+      debounceTime(400),//tiempo de salvaguarda 400 ms
+      map(evt => evt.target.value)
+    );
+
+    const formNumber$ = fromEvent(form.phone,'input').pipe(
+      tap(evt => console.log("formNumber ini",evt)),
+      debounceTime(400),//tiempo de salvaguarda 400 ms
+      map(evt => evt.target.value) //devuelve el string
+    );
+
+    const submitButton$ = fromEvent(form.btn,'click');
+    const formData$ = combineLatest(formName$, formEmail$, formNumber$);
+    formData$.subscribe(displayLog)
+
+  }//export default   
+  ```
+  - **withLatestFrom**
+  - Más alla de validación puede que interese recibir un evento con estos datos (los inputs) solo cuando se pulse en un botón
+  - Solo emite datos cuando su stream de origen lo emite
+  - Este operador acumula el resultado de varios eventos 
+  - **Interesante ejemplo del spread operator**
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/92024e4dd07c2665189f13b9a4f7b08e/image.png)
+  ```js  
+  //sandbox.js (withLatestFrom)
+  import { updateDisplay, displayLog } from './utils';
+  import { fromEvent } from 'rxjs';
+  import { tap, map, debounceTime, withLatestFrom } from 'rxjs/operators';
+
+  export default () => {
+    console.log("31. Operadores combineLatest y withLatestFrom de RxJS")
+
+    const form = document.getElementById('form');
+
+    const formName$ = fromEvent(form.name,'input').pipe(
+      tap(evt => console.log("formName ini",evt)),
+      debounceTime(400),//tiempo de salvaguarda 400 ms
+      map(evt => evt.target.value)
+    );
+
+    const formEmail$ = fromEvent(form.email,'input').pipe(
+      tap(evt => console.log("formEmail ini",evt)),
+      debounceTime(400),//tiempo de salvaguarda 400 ms
+      map(evt => evt.target.value)
+    );
+
+    const formNumber$ = fromEvent(form.phone,'input').pipe(
+      tap(evt => console.log("formNumber ini",evt)),
+      debounceTime(400),//tiempo de salvaguarda 400 ms
+      map(evt => evt.target.value) //devuelve el string
+    );
+
+    const submitButton$ = fromEvent(form.btn,'click');
+    const formData$ = submitButton$.pipe(
+      tap(evt => console.log("ini evt",evt)),//evt es MouseEvent 
+      withLatestFrom(formName$, formEmail$, formNumber$),
+      tap(evt => console.log("after with evt",evt)),//evt es: [MouseEvent, "a", "b", "c"]
+      map(data => {
+        //se explota data: [MouseEvent, "a", "b", "c"]
+        //evclick = MouseEvent, el resto se guarda en inputvals, es decir "a","b","c"
+        //ocurre esto: evclick = data[0], inputvals.push(data[1]),..,inputvals.push(data[n])
+        const [evclick, ...inputvals] = data
+        console.log("inputvals",inputvals)
+        return inputvals
+      }),
+      tap(evt => console.log("end evt",evt))
+    )
+    formData$.subscribe(displayLog)
+
+  }//export default (withLatestFrom)  
+  ```
+
 ## []()
 - 
 ```js
