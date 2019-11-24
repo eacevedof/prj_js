@@ -1550,7 +1550,7 @@ export default () => {
 
   }//export default (mergeMap)  
   ```
-## []()
+## [33. Operadores switchMap y concatMap de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13760224#questions)
 - 
 ```js
 ```
