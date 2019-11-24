@@ -1437,9 +1437,119 @@ export default () => {
   ```
 ## Sección 8: High Order Observables (HOO)
 ## [32. Introducción a los HOO, mergeAll y mergeMap](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13760216#questions)
-- 
+- git stash; git checkout dev/23-hoo-mergeall-mergemap;
+- Se puede dar el caso que los eventos que emite un observable puedan ser observables a los que me interese suscribirme
+- Esto se conoce como **High Order Observables** un evento observable :), observables que emiten observables
+- Por ejemplo **concat y forkJoin** (manera sin HOO), nos suscribiamos al botón y dentro de getComments nos suscribiamos a los observables generados por la apirest
+- Simplificaremos el ejemplo 
+- Tenemos un observable "button.click" que emite un observable api1$ un HOO
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/21485aa51870cd4548e7eafbd4ec6a07/image.png)
 ```js
+//sandbox.js 
+import { updateDisplay, displayLog } from './utils';
+import { api } from './api';
+import { concat, fromEvent, observable } from 'rxjs';
+import { tap,map, endWith } from 'rxjs/operators';
+
+export default () => {
+  console.log("32. Introducción a los HOO")
+  const button = document.getElementById('btn');
+
+  const api1$ = api.getComment(1).pipe(
+    tap(evt => console.log("api1$ evt",evt)),
+    map(JSON.stringify)
+  )
+
+  fromEvent(button, 'click')
+    .pipe(
+      tap(evt => console.log("but.click evt ini",evt)), //evt es MouseEvent
+      map(evt => api1$), //no esta recibiendo ninguna suscripcion
+      tap(evt => console.log("but.click evt end",evt)), //evt es observable
+    )
+    .subscribe(displayLog)
+    //.subscribe(()=>{
+      //tengo un observable que devuelve un evento y me he suscrito a el
+      //cada vez que hago click creo una nueva suscripción
+      //esta arquitectura me obliga a anidar suscripciones lo que acopla el código
+      //lo ideal sería que el primer observable transformará su evento en el segundo teniendo así
+      //una única suscripcion
+      //const subscription2 = api1$.subscribe(displayLog)
+    //});
+}//export default
 ```
+- **mergeAll**
+  - Emite un evento de los observables en su interior como si fuera de este
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/8d64214893357b05cbf0c3ad3cbda289/image.png)
+  ```js
+  //sandbox.js (mergeAll)
+  import { updateDisplay, displayLog } from './utils';
+  import { api } from './api';
+  import { concat, fromEvent } from 'rxjs';
+  import { tap,map, endWith,mergeAll } from 'rxjs/operators';
+
+  export default () => {
+    console.log("32. Introducción a los HOO, mergeAll")
+    const button = document.getElementById('btn');
+
+    const api1$ = api.getComment(1).pipe(
+      tap(evt => console.log("api1$ evt",evt)),
+      map(JSON.stringify)
+    )
+
+    fromEvent(button, 'click')
+      .pipe(
+        tap(evt => console.log("but.click evt ini",evt)), //evt es MouseEvent
+        map(evt => api1$), //se emite el observable interno
+        mergeAll(), //nos suscribimos al observable anterior y lo pasamos al observable superior
+        tap(evt => console.log("but.click evt end",evt)), //evt es observable
+      )
+      .subscribe(displayLog)
+
+  }//export default (mergeAll)  
+  ```
+- **mergeMap**
+  - Es tan común emitir un observable con map y seguidamente suscribirse a el con mergeAll que se ha creado este operador que une esas dos instrucciones
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/a53063254d140dfda01cd490b72581e5/image.png)
+  ```js
+  //sandbox.js (mergeMap)
+  import { updateDisplay, displayLog } from './utils';
+  import { api } from './api';
+  import { concat, fromEvent } from 'rxjs';
+  import { tap,map, endWith,mergeMap } from 'rxjs/operators';
+
+  export default () => {
+    console.log("32. Introducción a los HOO, mergeMap")
+    const button = document.getElementById('btn');
+
+    const getCommentsObl = () =>{
+
+      const comment1$ = api.getComment(1);
+      const comment2$ = api.getComment(2);
+      const comment3$ = api.getComment(3);
+      const comment4$ = api.getComment(4);
+
+      //devuelve un observable concatenado
+      return concat(comment1$, comment2$, comment3$, comment4$).pipe(
+        tap(evt => console.log("concat evt ini",evt)),
+        map(JSON.stringify),
+        endWith('--------//--------'),
+        tap(evt => console.log("concat evt end",evt)),
+      )
+    }//getCommentsObl
+
+
+    fromEvent(button, 'click')
+      .pipe(
+        tap(evt => console.log("but.click evt ini",evt)), //evt es MouseEvent
+        //mergeMap(evt => api1$), //se suscribe al obs$ interno y emite al externo
+        //getCommentsObl devuelve un observable producto de la concatenación
+        mergeMap(evt => getCommentsObl()), 
+        tap(evt => console.log("but.click evt end",evt)), //evt es observable
+      )
+      .subscribe(displayLog)
+
+  }//export default (mergeMap)  
+  ```
 ## []()
 - 
 ```js
