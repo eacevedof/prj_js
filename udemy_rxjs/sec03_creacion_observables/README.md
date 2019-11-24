@@ -1508,6 +1508,7 @@ export default () => {
   }//export default (mergeAll)  
   ```
 - **mergeMap**
+  - Ayuda a suscribirse al observable interno y pasar los eventos internos al observable externo
   - Es tan común emitir un observable con map y seguidamente suscribirse a el con mergeAll que se ha creado este operador que une esas dos instrucciones
   - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/a53063254d140dfda01cd490b72581e5/image.png)
   ```js
@@ -1639,9 +1640,97 @@ export default () => {
   }//export default ()   
   ```
 ## [34. High Order Observables: de Arrays a Eventos](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13794448#questions)
-- 
+- git stash; git checkout dev/25-hoo-arrays
+- Todos los operadores de RxJS no que se relacionan con arrays lo hacen en el mismo sentido juntar un conjunto de eventos en un array para trabajar con este como un único evento
+- Si se desea el proceso inverso, se cuenta con un evento con un array de datos y se desea que cada uno de sus valores se traten como un evento separado
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/0b18e69ea7f452198209602bdf5eca96/image.png)
 ```js
+//api.js
+import { timer } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
+
+export class api{
+
+  static getComment(id){
+    return timer(Math.random()*1000).pipe(
+      mapTo({id:id, comment:`comment number ${id}`})
+    );
+  }//getComment
+
+  static getCommentsList(page){
+
+    const buildCommentsList = (page) =>{
+      let comments = [];
+      const offset = (page-1)*10;
+      for(let i=offset; i < offset+10; i++){
+        comments.push({id:i, comment:`comment number ${i}`})
+      }
+      return comments;
+    }
+
+    return timer(Math.random()*1000).pipe(
+      //buildCommentsList devuelve un array de comentarios según el tamaño de page
+      mapTo(buildCommentsList(page))
+    );
+  }//getCommentsList
+
+}//export class api
+
+//sandbox.js
+import { updateDisplay, displayLog } from './utils';
+import { api } from './api';
+import { fromEvent } from 'rxjs';
+import { map, scan, tap, concatMap } from 'rxjs/operators';
+
+export default () => {
+  const button = document.getElementById('btn');
+
+  fromEvent(button, 'click').pipe(
+    tap(evt => console.log("ini evt",evt)),
+    scan((acc, evt) => acc + 1, 0),     
+    //getCommentsList devuelve un observable que emite un array de comentarios
+    //gracias a concatMap se aplana ese observable para que los eventos emitidos por el observable 
+    //externo.
+    concatMap(page => api.getCommentsList(page)),
+    map(JSON.stringify),
+    tap(console.log),
+    tap(evt => console.log("end evt",evt)),
+  ).subscribe(displayLog);
+
+}//export default ()
 ```
+- Si quisiera usar getCommentsList pero no quiero un array de comentarios sino eventos individuales 
+- Se podria pensar de primeras en el método **from**.
+- **from** no es un operador es una función que crea observables
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/046768e062d999e1755e515e8845d61d/image.png)
+```js
+//hacer un explode de un evento en varios eventos
+//sandbox.js (mergeMap y from)
+import { updateDisplay, displayLog } from './utils';
+import { api } from './api';
+import { fromEvent, from } from 'rxjs';
+import { map, scan, tap, concatMap, mergeMap } from 'rxjs/operators';
+
+export default () => {
+  const button = document.getElementById('btn')
+
+  fromEvent(button, 'click').pipe(
+    tap(evt => console.log("ini evt",evt)),
+    scan((acc, evt) => acc + 1, 0),     
+    //getCommentsList devuelve un observable que emite un array de comentarios
+    //gracias a concatMap se aplana ese observable para que los eventos emitidos por el observable 
+    //externo.
+    concatMap(page => api.getCommentsList(page)),//hasta aqui hay un array de datos
+    mergeMap(comments=>from(comments)), //from crea observables con cada valor de comments
+    //con mergeMap nos suscribimos al observable interno y emitimos los eventos internos al observable externo
+    map(JSON.stringify),
+    tap(console.log),
+    tap(evt => console.log("end evt",evt))
+  ).subscribe(displayLog)
+
+}//export default ()
+```
+
 ## []()
 - 
 ```js
