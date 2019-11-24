@@ -1941,8 +1941,7 @@ export default () => {
     .subscribe(displayLog,err => console.log("Error:",err.message));
   }  
   ```
-
-## []()
+## [36. Constantes NEVER y EMPTY de RxJS 8 min](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13794460#questions)
 - 
 ```js
 ```
