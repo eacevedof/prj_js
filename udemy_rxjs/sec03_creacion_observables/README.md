@@ -1551,9 +1551,93 @@ export default () => {
   }//export default (mergeMap)  
   ```
 ## [33. Operadores switchMap y concatMap de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13760224#questions)
-- 
+- git stash; git checkout dev/24-hoo-switchmap-concatmap
+- En el ejemplo tenemos un contador de clicks que al mismo tiempo son los ids de los comentarios
+- Si bien las llamadas son ordenadas el resultado puede ser desordenado por la asincronicidad de la api
+- Pensemos en searchbox, si el usuario ha escrito en una caja de busqueda no espera que se acumulen las peticiones y las devuelva todas sino que se deberia descartar las primeras y quedarse con la última
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/38c19500ec6bce9ed671610610bcb463/image.png)
 ```js
+//sandbox.js 
+import { updateDisplay, displayLog } from './utils';
+import { api } from './api';
+import { fromEvent } from 'rxjs';
+import { map, scan, tap, mergeMap } from 'rxjs/operators';
+
+export default () => {
+  console.log("24 switchMap")
+  const button = document.getElementById('btn');
+
+  fromEvent(button, 'click').pipe(
+    tap(evt => console.log("ini evt",evt)),
+    //scan emite un contador
+    scan((acc, evt) => acc + 1, 0),
+    mergeMap(id => api.getComment(id)),
+    map(JSON.stringify),
+    tap(console.log),
+    tap(evt => console.log("end evt",evt)),
+  ).subscribe(displayLog);
+
+}//export default () 
 ```
+- **switchMap**
+  - La diferencia con mergeMap es que si recibe un evento externo cancela la suscripción del evento interno anterior antes de suscribirse a un nuevo evento interno
+  - Con cada nuevo evento externo se resetea la suscripcion interna
+  - Si se han hecho varias peticiones todas las que no hayan sido resueltas se cancelan y solo se espera la última
+  - Se suele usar para cancelar peticiones innecesarias al servidor
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/77eff2fc8d65fa812b7a79317ae41df8/image.png)
+  ```js
+  //sandbox.js (switchMap)
+  import { updateDisplay, displayLog } from './utils';
+  import { api } from './api';
+  import { fromEvent } from 'rxjs';
+  import { map, scan, tap, switchMap } from 'rxjs/operators';
+
+  export default () => {
+    console.log("24 switchMap")
+    const button = document.getElementById('btn');
+
+    fromEvent(button, 'click').pipe(
+      tap(evt => console.log("ini evt",evt)),
+      //scan emite un contador
+      scan((acc, evt) => acc + 1, 0),        
+      //en cada evento nuevo que llega se cancela el anterior con el fin de quedarse con el último    
+      switchMap(id => api.getComment(id)),
+      map(JSON.stringify),
+      tap(console.log),
+      tap(evt => console.log("end evt",evt)),
+    ).subscribe(displayLog);
+
+  }//export default ()   
+  ```
+- **concatMap**  
+  - Supongamos que si deseamos recibir todas las peticiones pero en orden
+  - Se suscribe a los observables internos de forma ordenada
+  - Eso quiere decir que hasta que no se complete los eventos del observable interno no se suscribe
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/0aac2cf36e359d0690df78a92b22a232/image.png)
+  ```js
+  //sandbox.js (concatMap)
+  import { updateDisplay, displayLog } from './utils';
+  import { api } from './api';
+  import { fromEvent } from 'rxjs';
+  import { map, scan, tap, concatMap } from 'rxjs/operators';
+
+  export default () => {
+    console.log("24 concatMap")
+    const button = document.getElementById('btn');
+
+    fromEvent(button, 'click').pipe(
+      tap(evt => console.log("ini evt",evt)),
+      //scan emite un contador que es el id
+      scan((acc, evt) => acc + 1, 0),        
+      //se suscribe a todas las peticiones pero de forma ordenada
+      concatMap(id => api.getComment(id)),
+      map(JSON.stringify),
+      tap(console.log),
+      tap(evt => console.log("end evt",evt)),
+    ).subscribe(displayLog);
+
+  }//export default ()   
+  ```
 ## []()
 - 
 ```js
