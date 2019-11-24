@@ -1581,6 +1581,10 @@ export default () => {
 }//export default () 
 ```
 - **switchMap**
+  - Se suscriben a los observables internos que se le pasa y emite los valores recibidos a traves del observable externo 
+  - Lo único que mueve de dentro hacia afuera son los valores emitidos
+  - Si el observable interno completa la suscripción el observable externo no se entera
+  - Me permite remplazar el observable bajo una condición
   - La diferencia con mergeMap es que si recibe un evento externo cancela la suscripción del evento interno anterior antes de suscribirse a un nuevo evento interno
   - Con cada nuevo evento externo se resetea la suscripcion interna
   - Si se han hecho varias peticiones todas las que no hayan sido resueltas se cancelan y solo se espera la última
@@ -1942,9 +1946,91 @@ export default () => {
   }  
   ```
 ## [36. Constantes NEVER y EMPTY de RxJS 8 min](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13794460#questions)
-- 
-```js
-```
+- git stash; git checkout dev/27-never-empty 
+- **NEVER**
+  - Nunca ejecuta complete()
+  - Devuelve un observable vacio, no emite un error ni se completa, no hace nada.
+  - ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/2882e59c31c485a4d4144e80379f3f88/image.png)
+  ```js
+  //sandbox.js NEVER
+  import { updateDisplay } from './utils';
+  import { fromEvent, interval, merge, NEVER } from 'rxjs';
+  import {tap, mapTo, scan, takeWhile,switchMap,startWith  } from 'rxjs/operators';
+
+  export default () => {
+    const countdownSeconds = 10;
+
+    const pauseButton = document.getElementById('pause-btn');
+    const resumeButton = document.getElementById('resume-btn');
+
+    const pause$ = fromEvent(pauseButton, 'click');
+    const resume$ = fromEvent(resumeButton, 'click');
+
+    //mapTo transforma la salida emitiendo el mismo valor
+    const isPaused$ = merge(pause$.pipe(mapTo(true)),resume$.pipe(mapTo(false)))
+    const interval$ = interval(1000).pipe(mapTo(-1));
+
+    const countdown$ = isPaused$.pipe(
+      tap(evt => console.log("ini evt",evt)), //esto no se imprime
+      //startWith fuerza la emisión de un evento, parece como un BEGIN
+      startWith(false),//en cuanto carga el contandor sabrá que no está parado
+      tap(evt => console.log("after startwith evt",evt)), //solo se imprime una vez
+      //switchmap me permite remplazar un observable bajo una condicion
+      //si no está pausado devuelvo un observable que devuelve -1 si esta pausado, con NEVER un observable vacio 
+      switchMap(paused => !paused ? interval$: NEVER), 
+      //si no está pausado aqui se recibe -1 cada seg entonces se resta a countDownSeconds
+      scan((acc, curr) => ( curr ? curr + acc : curr ), countdownSeconds),
+      //si el valor recibido es < 0 se de emitir
+      takeWhile(v => v >= 0),
+      tap(evt => console.log("end evt",evt)),
+    );
+
+    countdown$.subscribe(updateDisplay);
+  }  
+  ```
+- **EMPTY**
+  - Ejecuta complete en el momento que se instancia
+  - Es una función que devuelve un observable vacio que tal como recibe una suscripción se completa
+  ```js
+  //sandbox.js EMPTY
+  import { updateDisplay } from './utils';
+  import { fromEvent, interval, merge, NEVER, EMPTY } from 'rxjs';
+  import {tap, mapTo, scan, takeWhile,switchMap,startWith  } from 'rxjs/operators';
+
+  export default () => {
+    const countdownSeconds = 10;
+
+    const pauseButton = document.getElementById('pause-btn');
+    const resumeButton = document.getElementById('resume-btn');
+
+    const pause$ = fromEvent(pauseButton, 'click');
+    const resume$ = fromEvent(resumeButton, 'click');
+
+    //mapTo transforma la salida emitiendo el mismo valor
+    const isPaused$ = merge(pause$.pipe(mapTo(true)),resume$.pipe(mapTo(false)))
+    const interval$ = interval(1000).pipe(mapTo(-1));
+
+    const countdown$ = isPaused$.pipe(
+      tap(evt => console.log("ini evt",evt)), //esto no se imprime
+      //startWith fuerza la emisión de un evento, parece como un BEGIN
+      startWith(false),//en cuanto carga el contandor sabrá que no está parado
+      tap(evt => console.log("after startwith evt",evt)), //solo se imprime una vez
+      //switchmap me permite remplazar un observable bajo una condicion
+      //si no está pausado devuelvo un observable que devuelve -1 si esta pausado
+      //con EMPTY "deberia" detener la ejecución, pero no es así pq:
+      //switchmap lo único que mueve de dentro hacia afuera son los valores emitidos
+      //- Si el observable interno completa la suscripción el observable externo no se entera
+      switchMap(paused => !paused ? interval$: EMPTY), 
+      //si no está pausado aqui se recibe -1 cada seg entonces se resta a countDownSeconds
+      scan((acc, curr) => ( curr ? curr + acc : curr ), countdownSeconds),
+      //si el valor recibido es < 0 se de emitir
+      takeWhile(v => v >= 0),
+      tap(evt => console.log("end evt",evt)),
+    );
+
+    countdown$.subscribe(updateDisplay);
+  }  
+  ```
 ## []()
 - 
 ```js
