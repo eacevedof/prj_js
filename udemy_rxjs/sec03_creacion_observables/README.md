@@ -1730,8 +1730,8 @@ export default () => {
 
 }//export default ()
 ```
-
-## []()
+## Sección 9: Utilidades avanzadas
+## [35. Operadores throwError, catchError y retry de RxJS](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13794456#questions)
 - 
 ```js
 ```
