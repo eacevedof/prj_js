@@ -1638,7 +1638,7 @@ export default () => {
 
   }//export default ()   
   ```
-## []()
+## [34. High Order Observables: de Arrays a Eventos](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13794448#questions)
 - 
 ```js
 ```
