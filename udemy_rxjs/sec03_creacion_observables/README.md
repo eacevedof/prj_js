@@ -2032,8 +2032,79 @@ export default () => {
   }  
   ```
 ## [37. Eventos y Notificaciones: materialize y dematerialize](https://www.udemy.com/course/rxjs-nivel-pro/learn/lecture/13794462#questions)
-- 
+- git stash; git checkout dev/28-materialize-dematerialize 
+- En el ejemplo anterior EMPTY no comunica al HOO que se ha completado
+- Como podríamos hacer que EMPTY comunicará este este estado?
+- Para eso están las notificaciones
+  - kind: N: next, C: complete, E: error
+- ![](https://trello-attachments.s3.amazonaws.com/5dc316fd2234d1332d1f66ac/1146x290/30eebb82d7d6326cd08aebf1aa11f609/image.png)
 ```js
+//sandbox.js
+import { updateDisplay } from './utils';
+import { fromEvent, interval, merge, EMPTY } from 'rxjs';
+import {tap, mapTo, scan, takeWhile, switchMap, startWith, materialize } from 'rxjs/operators';
+
+export default () => {
+
+  const countdownSeconds = 10;
+  const pauseButton = document.getElementById('pause-btn');
+  const resumeButton = document.getElementById('resume-btn');
+
+  const pause$ = fromEvent(pauseButton, 'click');
+  const resume$ = fromEvent(resumeButton, 'click');
+  const isPaused$ = merge(pause$.pipe(mapTo(true)), resume$.pipe(mapTo(false)));
+
+  const interval$ = interval(1000).pipe(mapTo(-1));
+
+  const countdown$ = isPaused$.pipe(
+    startWith(false),
+    tap(evt => console.log("ini evt",evt)),
+    switchMap(paused => !paused ? interval$ : EMPTY),
+    scan((acc, curr) => ( curr ? curr + acc : curr ), countdownSeconds),
+    takeWhile(v => v >= 0),
+    materialize(), //emite esto: Notification {kind: "N", value: 2, error: undefined, hasValue: true}
+    tap(evt => console.log("end evt",evt)),
+  );
+
+  countdown$.subscribe(updateDisplay);
+}
+```
+- Con `EMPTY.pipe(materialize())` forzamos la notificacion complete al exterior
+- ![](https://trello-attachments.s3.amazonaws.com/5b014dcaf4507eacfc1b4540/5dc316fd2234d1332d1f66ac/79631bcd165a24872c9c5bc030b899f0/image.png)
+- Todo lo que está materializado en una notificacion hay que traducirlo con dematerialize en el HOO
+```js
+//sandbox.js (materialize y dematerialize)
+import { updateDisplay } from './utils';
+import { fromEvent, interval, merge, EMPTY } from 'rxjs';
+import {tap, mapTo, scan, takeWhile, switchMap, startWith, materialize,dematerialize } from 'rxjs/operators';
+
+export default () => {
+
+  const countdownSeconds = 10;
+  const pauseButton = document.getElementById('pause-btn');
+  const resumeButton = document.getElementById('resume-btn');
+
+  const pause$ = fromEvent(pauseButton, 'click');
+  const resume$ = fromEvent(resumeButton, 'click');
+  const isPaused$ = merge(pause$.pipe(mapTo(true)), resume$.pipe(mapTo(false)));
+
+  const interval$ = interval(1000).pipe(mapTo(-1));
+
+  const countdown$ = isPaused$.pipe(
+    startWith(false),
+    tap(evt => console.log("ini evt",evt)),
+    //con el pipe en empty ya hemos forzado su notificación al exterior
+    switchMap(paused => !paused ? interval$.pipe(materialize()) : EMPTY.pipe(materialize())),
+    //como ahora switchmap devolverá un contenido materializado hay que saber interpretarlo con 
+    //dematerialize 
+    dematerialize(),
+    scan((acc, curr) => ( curr ? curr + acc : curr ), countdownSeconds),
+    takeWhile(v => v >= 0),
+    tap(evt => console.log("end evt",evt)),
+  );
+
+  countdown$.subscribe(updateDisplay,null /*handler error*/,(evt)=>console.log("completed!",evt));
+}
 ```
 ## []()
 - 
