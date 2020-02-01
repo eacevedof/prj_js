@@ -17,7 +17,7 @@ function lg($content,$title="")
     $now = date("YmdHis");
     $now = "";
     $str = "\n-- $title: -$now- \n".$content;
-    pr($str);
+    //pr($str);
     file_put_contents($pathfile,$str,FILE_APPEND);
 }
 

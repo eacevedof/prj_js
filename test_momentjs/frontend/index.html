@@ -15,28 +15,37 @@
   <demo-button></demo-button>
   -->
   <div class="row" style="padding: 15px;">
+
     <form id="form-fechas" class="form-inline">
       <div class="form-group">
         <label for="fecha_inicio">Fecha inicio</label>
-        <input type="date" class="form-control" id="fecha_inicio">
+        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
   
         <label for="fecha_fin">Fecha fin</label>
-        <input type="date" class="form-control" id="fecha_fin">
+        <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
       </div>
       <div class="form-group">
         <label for="units">Units</label>
-        <input type="number" class="form-control" id="num-units" value="1">
+        <input type="number" class="form-control" id="num-units" name="num-units" value="1">
   
-        <label for="sel-interval">Interval</label>
-        <select class="form-control" id="sel-interval">
+        <label for="sel-period">Period</label>
+        <select class="form-control" id="sel-period" name="sel-period">
           <option value="days">Days</option>
           <option value="weeks">weeks</option>
           <option value="months">Months</option>
           <option value="years">Years</option>
         </select>
+
+        <label for="sel-operation">Operation</label>
+        <select class="form-control" id="sel-operation" name="sel-operation">
+          <option value="add">Add</option>
+          <option value="subtract">Subtract</option>
+        </select>        
       </div>
       <button id="btn-send" type="button" class="btn btn-primary">Submit</button>
-  </div>
+    </form>
+    
+</div>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

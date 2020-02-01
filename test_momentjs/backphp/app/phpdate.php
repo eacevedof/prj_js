@@ -10,43 +10,65 @@ final class Phpdate extends Appbase
     {
         parent::__construct();
         $this->request = $this->_get_request();
+        lg($this->request,"request");
     }
 
     private function _get_request()
     {
-        $opearion = $this->get_post("operation");
+        $opearion = $this->get_post("sel-operation");
+        
         $fechaini = $this->get_post("fecha_inicio");
+        $fechaini = !$fechaini ? date("Ymd") : $fechaini;
+        
         $fechafin = $this->get_post("fecha_fin");
-        $interval = $this->get_post("interval");
-        $parts = explode(" ",$interval);
-        $i = $parts[0] ?? "1" ? $parts[0] : "1";
-        $period = $parts[1] ?? "days";
+        $fechafin = !$fechafin ? date("Ymd") : $fechafin;
+        
+        $i = $this->get_post("num-units");
+        $period = $this->get_post("sel-period");
+        $period = !$period ? "days" : $period;
 
         return [
+            "operation" => $opearion,
             "fechaini" => $fechaini,
             "fechafin" => $fechafin,
-            "interval" => $interval,
             "i" => $i,
-            "period" => $period
+            "period" => $period,
+            "interval" => "$i $period"
         ];
     }
 
     private function add_interval($fecha)
     {
-        $strtotime = strtotime(date($fecha)."+ ".$this->request["interval"]);
-        return date("Ymd",$strtotime);
+        $stroperation = date($fecha)."+ ".$this->request["interval"];
+        $strtotime = strtotime($stroperation);
+        $date = date("Ymd",$strtotime);
+        lg("add_interval: stroperation: $stroperation, strtotime: $strtotime, date: $date");
+        return $date;
     }
 
     private function subtract_interval($fecha)
     {
-        $strtotime = strtotime(date($fecha)."- ".$this->request["interval"]);
-        return date("Ymd",$strtotime);
+        $stroperation = date($fecha)."- ".$this->request["interval"];
+        $strtotime = strtotime($stroperation);
+        $date = date("Ymd",$strtotime);
+        lg("subtract_interval: stroperation: $stroperation, strtotime: $strtotime, date: $date");
+        return $date;
     }
 
     public function index()
     {
-        //lg($this->request,"request");
-        return $this->get_json(["mi"=>"respuesta"]);
+        $response = [];
+        if($this->request["operation"]=="add")
+        {
+            $response["fechaini1"] = $this->add_interval($this->request["fechaini"]);
+            $response["fechafin2"] = $this->add_interval($this->request["fechafin"]);
+        }
+        else
+        {
+            $response["fechaini1"] = $this->subtract_interval($this->request["fechaini"]);
+            $response["fechafin2"] = $this->subtract_interval($this->request["fechafin"]);
+        }
+        return $this->get_json($response);
     }
 
 }//Phpdate
