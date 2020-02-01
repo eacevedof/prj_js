@@ -1,22 +1,15 @@
 //fechas.js
-lg("fechas.js")
-const get_phpdate = function (){
+import get_async from "./provider.js"
+
+const get_fechasphp =  ()=>{
   const formid = "form-fechas"
-  const url = "http://localhost:1500/index.php?m=Phpdate"
-  
+    
   const eform = document.getElementById(formid)
   const frmdata  = new FormData(eform);
 
-  fetch(url,{
-    method:"POST",
-    body: frmdata,
-  })
-  .then(function(response) {
-    lg("then1: response ",response)
-    return response.json();
-  })
-  .then(function(myJson) {
-    lg("myjson:",myJson)
-  });  
+  const url = "http://localhost:1500/index.php?m=Phpdate"
+  const data = get_async(url,frmdata)
+  return data
 }
-export default get_phpdate
+
+export default get_fechasphp
