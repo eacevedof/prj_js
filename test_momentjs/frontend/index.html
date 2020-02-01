@@ -15,7 +15,27 @@
   <demo-button></demo-button>
   -->
   <div class="row" style="padding: 15px;">
-    <seleccion-fechas />
+    <form id="form-fechas" class="form-inline">
+      <div class="form-group">
+        <label for="fecha_inicio">Fecha inicio</label>
+        <input type="date" class="form-control" id="fecha_inicio">
+  
+        <label for="fecha_fin">Fecha fin</label>
+        <input type="date" class="form-control" id="fecha_fin">
+      </div>
+      <div class="form-group">
+        <label for="units">Units</label>
+        <input type="number" class="form-control" id="num-units" value="1">
+  
+        <label for="sel-interval">Interval</label>
+        <select class="form-control" id="sel-interval">
+          <option value="days">Days</option>
+          <option value="weeks">weeks</option>
+          <option value="months">Months</option>
+          <option value="years">Years</option>
+        </select>
+      </div>
+      <button id="btn-submit" type="button" class="btn btn-primary">Submit</button>
   </div>
 
   <!-- Optional JavaScript -->
