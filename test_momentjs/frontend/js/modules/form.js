@@ -12,6 +12,7 @@ const configform = ()=>{
   //$("#fecha_fin").val(strtoday)
   $("#fecha_inicio")[0].valueAsDate = new Date()
   $("#fecha_fin")[0].valueAsDate = new Date()
+  $("#fecha_hoy")[0].valueAsDate = new Date()
 }
 
 export default configform
