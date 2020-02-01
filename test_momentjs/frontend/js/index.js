@@ -1,4 +1,12 @@
-import fechas  from "./modules/fechas.js"
+//index.js
+lg("index.js")
+import get_phpdate from "./modules/fechas.js"
 
-fechas()
-lg("mi variable","titulo","mi var2","titulo 2")
+get_phpdate()
+
+document.addEventListener("DOMContentLoaded", function() {
+    const btnid = "btn-send"
+    document.getElementById(btnid).addEventListener("click",()=>{
+        alert("click")
+    })
+ });

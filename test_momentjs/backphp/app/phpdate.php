@@ -45,8 +45,8 @@ final class Phpdate extends Appbase
 
     public function index()
     {
-        lg($this->request,"request");
-
+        //lg($this->request,"request");
+        return $this->get_json(["mi"=>"respuesta"]);
     }
 
 }//Phpdate
