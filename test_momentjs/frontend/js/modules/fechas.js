@@ -5,20 +5,18 @@ const get_phpdate = function (){
   const url = "http://localhost:1500/index.php?m=Phpdate"
   
   const eform = document.getElementById(formid)
-  //const data = $(eform).serialize()
-  const data  = new FormData(eform);
-  const json = JSON.stringify(data)
-  lg("data:",data,"json",json)
+  const frmdata  = new FormData(eform);
 
   fetch(url,{
     method:"POST",
-    body: data,
+    body: frmdata,
   })
   .then(function(response) {
+    lg("then1: response ",response)
     return response.json();
   })
   .then(function(myJson) {
-    console.log(myJson);
+    lg("myjson:",myJson)
   });  
 }
 export default get_phpdate
