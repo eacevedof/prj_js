@@ -24,4 +24,9 @@ abstract class Appbase
     }
 
     public function get_response(){return $response;}
+
+    protected function get_json($data=[])
+    {
+        return (new Json($data))->toString();
+    }
 }
