@@ -61,12 +61,12 @@ final class Phpdate extends Appbase
         if($this->request["operation"]=="add")
         {
             $response["fechaini1"] = $this->_add($this->request["fechaini"]);
-            $response["fechafin2"] = $this->_add($this->request["fechafin"]);
+            $response["fechafin1"] = $this->_add($this->request["fechafin"]);
         }
         else
         {
             $response["fechaini1"] = $this->_subtract($this->request["fechaini"]);
-            $response["fechafin2"] = $this->_subtract($this->request["fechafin"]);
+            $response["fechafin1"] = $this->_subtract($this->request["fechafin"]);
         }
         return $response;
     }
