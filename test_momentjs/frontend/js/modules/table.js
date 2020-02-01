@@ -21,6 +21,7 @@ const get_objfecha = fechaphp =>{
     fechafin1:  fechaphp.fechafin1,
     fechaini1m: objfecham.fechaini1,
     fechafin1m: objfecham.fechafin1,
+    fechahoy:   $("#fecha_hoy").val(),
   }
   return objfecha
 }
@@ -33,6 +34,7 @@ const exists = (objfecha)=>{
     && row.opearation == objfecha.opearation 
     && row.i == objfecha.i 
     && row.period == objfecha.period
+    && row.fechahoy == objfecha.fechahoy
   ))
 
   return arfilter.length > 0
@@ -51,6 +53,7 @@ const add_row = objfecha => {
     <td>${objfecha.fechafin1}</td>
     <td>${objfecha.fechaini1m}</td>
     <td>${objfecha.fechafin1m}</td>
+    <td>${objfecha.fechahoy}</td>
   </tr>
   `
   //lg("tpl:",strtpl)
