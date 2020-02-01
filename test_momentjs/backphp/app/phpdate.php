@@ -19,14 +19,14 @@ final class Phpdate extends Appbase
         $fechafin = $this->get_post("fecha_fin");
         $interval = $this->get_post("interval");
         $parts = explode(" ",$interval);
-        $i = $parts[0];
-        $period = $parts[1];
+        $i = $parts[0] ?? "1" ? $parts[0] : "1";
+        $period = $parts[1] ?? "days";
 
         return [
             "fechaini" => $fechaini,
             "fechafin" => $fechafin,
             "interval" => $interval,
-            "i" => $fechaini,
+            "i" => $i,
             "period" => $period
         ];
     }
@@ -45,7 +45,7 @@ final class Phpdate extends Appbase
 
     public function index()
     {
-
+        lg($this->request,"request");
 
     }
 
