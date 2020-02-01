@@ -24,7 +24,7 @@ if($isfile)
     } 
     catch (\Exeption $e) 
     {
-        echo 'Excepción capturada: ',$e->getMessage(), "\n";
+        echo "Excepción capturada: ",$e->getMessage(), "\n";
     }   
 }
 else 
