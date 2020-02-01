@@ -68,7 +68,9 @@ final class Phpdate extends Appbase
             $response["fechaini1"] = $this->subtract_interval($this->request["fechaini"]);
             $response["fechafin2"] = $this->subtract_interval($this->request["fechafin"]);
         }
-        return $this->get_json($response);
+        $json = $this->get_json($response);
+        lg($json," json response");
+        return $json;
     }
 
 }//Phpdate

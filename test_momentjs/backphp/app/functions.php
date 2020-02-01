@@ -15,8 +15,8 @@ function lg($content,$title="")
         
     $pathfile = __DIR__."/../logs/index.log";
     $now = date("YmdHis");
-    $now = "";
-    $str = "\n-- $title: -$now- \n".$content;
+    //$now = "";
+    $str = "\n[ $now ] $title:\n".$content;
     //pr($str);
     file_put_contents($pathfile,$str,FILE_APPEND);
 }
