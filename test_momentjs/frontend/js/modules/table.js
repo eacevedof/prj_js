@@ -29,7 +29,7 @@ const get_objfecha = fechaphp =>{
 
 const add_row = objfecha => {
   const strtpl = `
-  <tr>
+  <tr id="tr-${objfecha.id}">
     <td>${objfecha.id}</td>
     <td>${objfecha.id}</td>
     <td>${objfecha.id}</td>
@@ -48,23 +48,23 @@ const add_row = objfecha => {
 }
 
 const clearrows = ()=>{
-  $("#table-body-1").remove()
-  //$(`${jqid} tbdoy`).empty()
+  arfechas.forEach(row => {
+    const rowid = `#tr-${row.id}`
+    lg("remove rowid:",rowid)
+    $(rowid).remove()
+  })
 }
 
 const render = fechaphp => {
-  lg("fechas:",arfechas)
   const objfecha = get_objfecha(fechaphp)
-  lg("render",objfecha)
-  if(objfecha)
-    arfechas.push(objfecha)
+  arfechas.push(objfecha)
   
   clearrows()
-
   arfechas.forEach(row => {
     add_row(row)
   })
-  
+
+  lg("render",objfecha,"arfechas:",arfechas)
 }
 
 export default render
