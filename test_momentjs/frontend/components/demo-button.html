@@ -1,6 +1,5 @@
 <html>
   <template id="sellBtn">
-
     <style>
       :host {
         --orange: #e67e22;
@@ -27,20 +26,20 @@
   </template>
 
   <script>
-    class SellButton extends HTMLElement {
+    class DemoButton extends HTMLElement {
       constructor () {
         super();
         this.importDocument = document.currentScript.ownerDocument;
       }
 
       connectedCallback () {
-        let shadowRoot = this.attachShadow({mode: 'open'});
-        const t = this.importDocument.querySelector('#sellBtn');
+        let shadowRoot = this.attachShadow({mode: "open"});
+        const t = this.importDocument.querySelector("#sellBtn");
         const instance = t.content.cloneNode(true);
         shadowRoot.appendChild(instance);
       }
     }
 
-    window.customElements.define('sell-button', SellButton);
+    window.customElements.define("demo-button", DemoButton);
   </script>
 </html>
