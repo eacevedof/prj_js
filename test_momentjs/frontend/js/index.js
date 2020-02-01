@@ -1,10 +1,9 @@
 //index.js
 lg("index.js")
-import get_phpdate from "./modules/fechas.js"
+import configbutton from "./modules/button.js"
 
-document.addEventListener("DOMContentLoaded", function() {
-    const btnid = "btn-send"
-    document.getElementById(btnid).addEventListener("click",()=>{
-        get_phpdate()
-    })
- });
+const on_docready = () => {
+  configbutton()
+}
+
+document.addEventListener("DOMContentLoaded", on_docready);
