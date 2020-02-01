@@ -7,8 +7,6 @@ const jqtable = $(jqid)
 
 const arfechas = []
 
-
-
 const get_objfecha = fechaphp =>{
   const objfecham = get_fechamoment()
 
@@ -31,15 +29,15 @@ const add_row = objfecha => {
   const strtpl = `
   <tr id="tr-${objfecha.id}">
     <td>${objfecha.id}</td>
-    <td>${objfecha.id}</td>
-    <td>${objfecha.id}</td>
-    <td>${objfecha.id}</td>
-    <td>${objfecha.id}</td>
-    <td>${objfecha.id}</td>
-    <td>${objfecha.id}</td>
-    <td>${objfecha.id}</td>
-    <td>${objfecha.id}</td>
-    <td>${objfecha.id}</td>
+    <td>${objfecha.fechaini}</td>
+    <td>${objfecha.fechafin}</td>
+    <td>${objfecha.opearation}</td>
+    <td>${objfecha.i}</td>
+    <td>${objfecha.period}</td>
+    <td>${objfecha.fechaini1}</td>
+    <td>${objfecha.fechafin1}</td>
+    <td>${objfecha.fechaini1m}</td>
+    <td>${objfecha.fechafin1m}</td>
   </tr>
   `
   //lg("tpl:",strtpl)
@@ -50,7 +48,7 @@ const add_row = objfecha => {
 const clearrows = ()=>{
   arfechas.forEach(row => {
     const rowid = `#tr-${row.id}`
-    lg("remove rowid:",rowid)
+    //lg("remove rowid:",rowid)
     $(rowid).remove()
   })
 }
