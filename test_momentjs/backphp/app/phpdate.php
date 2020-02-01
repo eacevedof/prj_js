@@ -37,37 +37,43 @@ final class Phpdate extends Appbase
         ];
     }
 
-    private function add_interval($fecha)
+    private function _add($fecha)
     {
         $stroperation = date($fecha)."+ ".$this->request["interval"];
         $strtotime = strtotime($stroperation);
         $date = date("Ymd",$strtotime);
-        lg("add_interval: stroperation: $stroperation, strtotime: $strtotime, date: $date");
+        lg("_add: stroperation: $stroperation, strtotime: $strtotime, date: $date");
         return $date;
     }
 
-    private function subtract_interval($fecha)
+    private function _subtract($fecha)
     {
         $stroperation = date($fecha)."- ".$this->request["interval"];
         $strtotime = strtotime($stroperation);
         $date = date("Ymd",$strtotime);
-        lg("subtract_interval: stroperation: $stroperation, strtotime: $strtotime, date: $date");
+        lg("_subtract: stroperation: $stroperation, strtotime: $strtotime, date: $date");
         return $date;
     }
 
-    public function index()
+    private function _get_calculated()
     {
         $response = [];
         if($this->request["operation"]=="add")
         {
-            $response["fechaini1"] = $this->add_interval($this->request["fechaini"]);
-            $response["fechafin2"] = $this->add_interval($this->request["fechafin"]);
+            $response["fechaini1"] = $this->_add($this->request["fechaini"]);
+            $response["fechafin2"] = $this->_add($this->request["fechafin"]);
         }
         else
         {
-            $response["fechaini1"] = $this->subtract_interval($this->request["fechaini"]);
-            $response["fechafin2"] = $this->subtract_interval($this->request["fechafin"]);
+            $response["fechaini1"] = $this->_subtract($this->request["fechaini"]);
+            $response["fechafin2"] = $this->_subtract($this->request["fechafin"]);
         }
+        return $response;
+    }
+
+    public function index()
+    {
+        $response = $this->_get_calculated();
         $json = $this->get_json($response);
         lg($json," json response");
         return $json;
