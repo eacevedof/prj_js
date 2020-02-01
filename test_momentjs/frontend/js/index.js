@@ -1,5 +1,3 @@
 import { Momento } from "./modules/momento.js"
 
-Momento('http://www.example.com',
-    data => { doSomethingUseful(data); });
-
+lg("mi variable","titulo","mi var2","titulo 2")
