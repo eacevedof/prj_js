@@ -41,6 +41,15 @@ const exists = (objfecha)=>{
 }
 
 const add_row = objfecha => {
+
+  let styleini = ""
+  let stylefin = ""
+  
+  if(objfecha.fechaini1 !== objfecha.fechaini1m)
+    styleini = "background:lemon;"
+  if(objfecha.fechafin1 !== objfecha.fechafin1m)
+    stylefin = "background:yellow;"
+
   const strtpl = `
   <tr id="tr-${objfecha.id}">
     <td>${objfecha.id}</td>
@@ -49,10 +58,10 @@ const add_row = objfecha => {
     <td>${objfecha.opearation}</td>
     <td>${objfecha.i}</td>
     <td>${objfecha.period}</td>
-    <td>${objfecha.fechaini1}</td>
-    <td>${objfecha.fechafin1}</td>
-    <td>${objfecha.fechaini1m}</td>
-    <td>${objfecha.fechafin1m}</td>
+    <td style="${styleini}">${objfecha.fechaini1}</td>
+    <td style="${stylefin}">${objfecha.fechafin1}</td>
+    <td style="${styleini}">${objfecha.fechaini1m}</td>
+    <td style="${stylefin}">${objfecha.fechafin1m}</td>
     <td>${objfecha.fechahoy}</td>
   </tr>
   `
