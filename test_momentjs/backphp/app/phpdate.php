@@ -13,14 +13,18 @@ final class Phpdate extends Appbase
         lg($this->request,"request");
     }
 
+    private function _get_yyyymmdd($fecha){return str_replace("-","",$fecha);}
+
     private function _get_request()
     {
         $opearion = $this->get_post("sel-operation");
         
         $fechaini = $this->get_post("fecha_inicio");
+        $fechaini = $this->_get_yyyymmdd($fechaini);
         $fechaini = !$fechaini ? date("Ymd") : $fechaini;
         
         $fechafin = $this->get_post("fecha_fin");
+        $fechafin = $this->_get_yyyymmdd($fechafin);
         $fechafin = !$fechafin ? date("Ymd") : $fechafin;
         
         $i = $this->get_post("num-units");
