@@ -26,11 +26,16 @@ const get_objfecha = fechaphp =>{
 }
 
 const exists = (objfecha)=>{
-  const i = arfechas.filter(row => (
-    row.fechaini = objfecha.fechaini && row.fechafin == objfecha.fechafin && row.opearation == objfecha.opearation 
-    && row.i == objfecha.i && row.period == objfecha.period
+
+  const arfilter = arfechas.filter(row => (
+    row.fechaini == objfecha.fechaini 
+    && row.fechafin == objfecha.fechafin 
+    && row.opearation == objfecha.opearation 
+    && row.i == objfecha.i 
+    && row.period == objfecha.period
   ))
-  return i>0
+
+  return arfilter.length > 0
 }
 
 const add_row = objfecha => {
@@ -58,8 +63,11 @@ const clearrows = ()=>{
 }
 
 const resetfechas = ()=>{
-  if( $("tr[id]").length ==0 )
-    arfechas.splice(0,arfechas.length)
+  if( $("tr[id]").length ==0 ){
+    while(arfechas.length>0){
+      arfechas.pop()
+    }
+  }
 }
 
 
@@ -67,7 +75,7 @@ const render = fechaphp => {
   const objfecha = get_objfecha(fechaphp)
   resetfechas()
   if( exists(objfecha))
-    return null
+    return 0
 
 
   arfechas.push(objfecha)
