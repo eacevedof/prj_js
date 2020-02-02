@@ -3,7 +3,7 @@ namespace App;
 
 use App\Appbase;
 
-final class Datefix 
+final class Moment 
 {
     
     private $date = "";
@@ -19,6 +19,26 @@ final class Datefix
         $this->_load_exploded();
     }
     
+    private function _get_as_array($yyymmdd)
+    {
+        $ardate = [];
+        $numbers = str_split($yyymmdd);
+            
+        $tmp = "";
+        foreach(range(0,3) as $i) $tmp .= $numbers[$i];
+        $ardate[0] = $tmp;
+
+        $tmp = "";
+        foreach(range(4,5) as $i) $tmp .= $numbers[$i];
+        $ardate[1] = $tmp;
+
+        $tmp = "";
+        foreach(range(6,7) as $i) $tmp .= $numbers[$i];
+        $ardate[2] = $tmp;
+        
+        return $ardate;
+    }
+    
     private function _load_exploded()
     {
         if(!$this->is_valid()) return -1;
@@ -28,19 +48,7 @@ final class Datefix
         elseif(strstr($date,"/")) $this->ardate = explode("/",$date);
         else
         {
-            $numbers = str_split($date);
-            
-            $tmp = "";
-            foreach(range(0,3) as $i) $tmp .= $numbers[$i];
-            $this->ardate[0] = $tmp;
-            
-            $tmp = "";
-            foreach(range(4,5) as $i) $tmp .= $numbers[$i];
-            $this->ardate[1] = $tmp;
-            
-            $tmp = "";
-            foreach(range(6,7) as $i) $tmp .= $numbers[$i];
-            $this->ardate[2] = $tmp;
+            $this->ardate = $this->_get_as_array($date);
         }
         $this->cleaned = implode("",$this->ardate);
         $this->operdate = $this->cleaned;
@@ -64,6 +72,7 @@ final class Datefix
     {
         $thisday = $this->ardate[2];
         $yyyymm01 = $this->ardate[0].$this->ardate[1]."01";
+        //todos los segundos pasados hasta la fecha
         $stroperation = strtotime(date($yyyymm01)."$sign $i months");
         lg("by_month: stroperation: $stroperation");
         $newmonth = date("Ym",$stroperation);
@@ -101,6 +110,19 @@ final class Datefix
         }
         else
             $this->_by_month($i);
+        
+        return $this;
+    }
+    
+    public function as_maxdate($today="")
+    {
+        if(!$today) $today = date("Ymd");
+        if($this->cleaned > $today)
+        {
+            $this->cleaned = $today;
+            $this->ardate = $this->_get_as_array($this->cleaned);
+            $this->operdate = $today;
+        }
         return $this;
     }
     

@@ -77,11 +77,21 @@ final class Phpdatefix extends Appbase
 
     public function index()
     {
-        include_once "datefix.php";
-        $fixer = new Datefix("2019-03-31");
-        $r = $fixer->subtract(1,"months")->get_calculated();
+        include_once "moment.php";
+        $dates = [
+          "2019-03-01",
+          "2020-05-01"
+        ];
+        
+        foreach($dates as $date)
+        {
+            $r = (new Moment($date))
+                ->as_maxdate("20190501")
+                ->subtract(1,"months")
+                ->get_calculated();
 
-        lgp($fixer,"fixer $r");
+            lgp("$date => $r");
+        }
     }
     
     public function index_()
@@ -92,4 +102,4 @@ final class Phpdatefix extends Appbase
         return $json;
     }
 
-}//Phpdatefix
+}//PhpMoment
