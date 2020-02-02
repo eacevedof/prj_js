@@ -6,7 +6,6 @@ use App\Appbase;
 final class Datefix 
 {
     
-    private $months = [];
     private $date = "";
     private $cleaned = "";
     private $ardate = [];
@@ -17,18 +16,7 @@ final class Datefix
     public function __construct($date="")
     {
         $this->date = !$date?date("Ymd"):trim($date);
-        $this->_load_config();
         $this->_load_exploded();
-    }
-    
-    private function _load_config()
-    {
-        $this->months = [
-            "28" => ["02"],
-            "29" => ["02"],
-            "30" => ["04","06","09","11"],
-            "31" => ["01","03","05","07","08","10","11"],
-        ];
     }
     
     private function _load_exploded()
@@ -65,16 +53,9 @@ final class Datefix
         return $newdate;
     }
     
-    private function common_sub($i,$period)
+    private function common_ops($i,$period,$op="-")
     {
-        $stroperation = date($this->cleaned)."- $i $period";
-        $this->operdate = $this->_get_strtotimed($stroperation);
-        //return $this;
-    }
-    
-    private function common_add($i,$period)
-    {
-        $stroperation = date($this->cleaned)."+ $i $period";
+        $stroperation = date($this->cleaned)."$op $i $period";
         $this->operdate = $this->_get_strtotimed($stroperation);
         //return $this;
     }
@@ -105,7 +86,7 @@ final class Datefix
     {
         if($period!=="months")
         {
-            $this->common_add($i, $period);
+            $this->common_ops($i, $period, "+");
         }
         else
             $this->_by_month($i, "+");
@@ -116,10 +97,10 @@ final class Datefix
     {
         if($period!=="months")
         {
-            $this->common_sub($i, $period);
+            $this->common_ops($i, $period);
         }
         else
-            $this->_by_month($i, "-");
+            $this->_by_month($i);
         return $this;
     }
     
