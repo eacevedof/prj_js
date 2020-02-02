@@ -109,6 +109,8 @@ final class Orion extends Appbase
 
         if(!$today) $today = date("Ymd");
 
+        $today = (new Moment($today))->add()->get_calculated();
+        lgp($today,"today + 1");
         $prevfini = (new Moment($fini))
                         ->as_maxdate($today)
                         ->subtract($i,$period)
@@ -125,25 +127,29 @@ final class Orion extends Appbase
     public function index()
     {
         $periods = [
-            ["values"=>["20200101","20200131"],"interval"=>"1 months","today"=>"20200129"], //ok
-            ["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>date("Ymd")], 
-            ["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190331"],
-            ["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190330"], //error febrero
+            1=>["values"=>["20200201","20200229"],"interval"=>"1 months","today"=>"20200202"], 
+            2=>["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200301"], //er
+            "x" => ["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200331"], 
             
-            ["values"=>["20190301","20190331"],"interval"=>"2 months","today"=>"20190330"],
-            ["values"=>["20190301","20190430"],"interval"=>"2 months","today"=>"20190330"],
-            ["values"=>["20200101","20200131"],"interval"=>"1 months","today"=>"20200130"],            
-            ["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200301"], //er
+            3=>["values"=>["20200101","20200131"],"interval"=>"1 months","today"=>"20200129"], 
+            4=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>date("Ymd")], 
+            5=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190331"],
+            6=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190330"], //error febrero
+            
+            7=>["values"=>["20190301","20190331"],"interval"=>"2 months","today"=>"20190330"],
+            8=>["values"=>["20190301","20190430"],"interval"=>"2 months","today"=>"20190330"],
+            9=>["values"=>["20200101","20200131"],"interval"=>"1 months","today"=>"20200130"],            
+            
         ];
         
         foreach($periods as $i=>$period)
         {
-            $this->debug("============================");
-            $this->debug($period,"ar period");
+            $this->debug("============= $i =============");
+            $this->debug($period,"input form");
             $period["values"][1] = (new Moment($period["values"][1]))->add()->get_calculated();
-            $this->debug($period,"period $i");
+            $this->debug($period["values"],"query 1 report");
             $r = $this->_get_fix_lastday($period["values"],$period["interval"],$period["today"]);
-            $this->debug($r,"result");
+            $this->debug($r,"query 2 comparativa");
             $this->debug("============================");
         }        
     }
