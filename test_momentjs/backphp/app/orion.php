@@ -58,29 +58,7 @@ final class Orion extends Appbase
                             ->get_calculated();
         }
         
-        
-        
-
-        
-        $values = [$compini,$compfin];
-        //si es marzo 28,29,30,31 como mes pasado marca <29 febrero
-        //si es m28 y ultimo dia de feb=28 => ffin < mar01
-        //si es m29 y ultimo dia de feb=29 => ffin < mar01
-        //si es m28 y ultimo dia de feb29 => ffin < feb29
-        
-        //si es m30 y ultimo feb=28 => ffin<mar03 
-        //si es m30 y ultimo feb=29 => ffin<mar02
-        
-        //si es m31 y ultimo feb=28 => ffin<mar01
-        //si es m31 y ultimo feb=29 => ffin<mar01
-        
-        //obtengo el último día de febrero
-        
-        //si es mes completo (mismo día):
-            //se mueve por periodos
-        //si es mes incompleto (distinto dia)
-            //
-        
+        $values = [$compini,$compfin];       
         return $values;
     }
         
@@ -90,8 +68,8 @@ final class Orion extends Appbase
             1=>["values"=>["20200201","20200229"],"interval"=>"1 months","today"=>"20200202"], 
             2=>["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200301"], //ok
             
-            "f1x"=>["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200330"], //nok
-            "f2x"=>["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200329"], //nok
+            "f1x"=>["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200330"], //ok
+            "f2x"=>["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200329"], //ok
             "f3x"=>["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200328"], //ok
             "f4x"=>["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200327"], //ok
             "f5x"=>["values"=>["20200301","20200331"],"interval"=>"1 months","today"=>"20200326"], //ok
@@ -102,17 +80,17 @@ final class Orion extends Appbase
             4=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>date("Ymd")], 
             5=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190331"],
             
-            "f1"=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190330"], //nok
-            "f2"=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190329"], //nok
-            "f3"=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190328"], //nok
+            "f1"=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190330"], //ok
+            "f2"=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190329"], //ok
+            "f3"=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190328"], //ok
             "f4"=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190327"], //ok
             "f5"=>["values"=>["20190301","20190331"],"interval"=>"1 months","today"=>"20190326"], //ok
             
             "ff5"=>["values"=>["20190301","20190430"],"interval"=>"2 months","today"=>"20190405"], //ok
             
             7=>["values"=>["20190301","20190331"],"interval"=>"2 months","today"=>"20190330"], //ok
-            8=>["values"=>["20191001","20191031"],"interval"=>"1 months","today"=>"20191030"],  //nok
-            9=>["values"=>["20191001","20191031"],"interval"=>"1 months","today"=>"20191031"],  //nok           
+            8=>["values"=>["20191001","20191031"],"interval"=>"1 months","today"=>"20191030"],  //ok
+            9=>["values"=>["20191001","20191031"],"interval"=>"1 months","today"=>"20191031"],  //ok           
             
         ];
         
@@ -128,12 +106,4 @@ final class Orion extends Appbase
         }        
     }
 
-    public function index_()
-    {
-        $response = $this->_get_calculated();
-        $json = $this->get_json($response);
-        lg($json," json response");
-        return $json;
-    }
-
-}//PhpMoment
+}//Orion
