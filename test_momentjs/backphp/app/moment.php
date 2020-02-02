@@ -10,6 +10,7 @@ final class Moment
     private $cleaned = "";
     private $ardate = [];
     private $operdate = "";
+    private $periods = [];
     
     private $errors = [];
     
@@ -17,6 +18,17 @@ final class Moment
     {
         $this->date = !$date?date("Ymd"):trim($date);
         $this->_load_exploded();
+        $this->_load_periods();
+    }
+    
+    private function _load_periods()
+    {
+        $this->periods = [
+            "d"=>["day","days"],
+            "m"=>["month","months"],
+            "w"=>["week","weeks"],
+            "y"=>["year","years"]
+        ];
     }
     
     private function _get_as_array($yyymmdd)
@@ -93,7 +105,7 @@ final class Moment
     
     public function add($i=1,$period="days")
     {
-        if($period!=="months")
+        if(!in_array($period, $this->periods["m"]))
         {
             $this->common_ops($i, $period, "+");
         }
@@ -104,7 +116,7 @@ final class Moment
     
     public function subtract($i=1,$period="days")
     {
-        if($period!=="months")
+        if(!in_array($period, $this->periods["m"]))
         {
             $this->common_ops($i, $period);
         }
