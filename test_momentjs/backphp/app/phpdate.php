@@ -2,6 +2,8 @@
 namespace App;
 
 use App\Appbase;
+include_once "datefix.php";
+use App\Datefix;
 
 final class Phpdate extends Appbase
 {
@@ -43,6 +45,23 @@ final class Phpdate extends Appbase
 
     private function _add($fecha)
     {
+        $fixer = new Datefix($fecha);
+        $date = $fixer->subtract($this->request["i"], $this->request["period"])->get_calculated();
+        lg("_add date: $date");
+        return $date;
+    }
+    
+    private function _subtract($fecha)
+    {
+        $fixer = new Datefix($fecha);
+        $date = $fixer->subtract($this->request["i"], $this->request["period"])->get_calculated();
+        lg("_add date: $date");
+        return $date;
+    }    
+    
+    
+    private function _add_old($fecha)
+    {
         $stroperation = date($fecha)."+ ".$this->request["interval"];
         $strtotime = strtotime($stroperation);
         $date = date("Ymd",$strtotime);
@@ -50,7 +69,7 @@ final class Phpdate extends Appbase
         return $date;
     }
 
-    private function _subtract($fecha)
+    private function _subtract_old($fecha)
     {
         $stroperation = date($fecha)."- ".$this->request["interval"];
         $strtotime = strtotime($stroperation);
