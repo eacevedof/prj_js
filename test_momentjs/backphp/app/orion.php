@@ -11,94 +11,13 @@ final class Orion extends Appbase
     public function __construct()
     {
         parent::__construct();
-        $this->request = $this->_get_request();
-        lg($this->request,"request");
     }
 
     private function debug($content,$title="")
     {
         lgp($content,$title);
     }
-    
-    private function _get_yyyymmdd($fecha){return str_replace("-","",$fecha);}
-
-    private function _get_request()
-    {
-        $opearion = $this->get_post("sel-operation");
-        
-        $fechaini = $this->get_post("fecha_inicio");
-        $fechaini = $this->_get_yyyymmdd($fechaini);
-        $fechaini = !$fechaini ? date("Ymd") : $fechaini;
-        
-        $fechafin = $this->get_post("fecha_fin");
-        $fechafin = $this->_get_yyyymmdd($fechafin);
-        $fechafin = !$fechafin ? date("Ymd") : $fechafin;
-        
-        $i = $this->get_post("num-units");
-        $period = $this->get_post("sel-period");
-        $period = !$period ? "days" : $period;
-
-        return [
-            "operation" => $opearion,
-            "fechaini" => $fechaini,
-            "fechafin" => $fechafin,
-            "i" => $i,
-            "period" => $period,
-            "interval" => "$i $period"
-        ];
-    }
-
-    private function _add($fecha)
-    {
-        $stroperation = date($fecha)."+ ".$this->request["interval"];
-        $strtotime = strtotime($stroperation);
-        $date = date("Ymd",$strtotime);
-        lg("_add: stroperation: $stroperation, strtotime: $strtotime, date: $date");
-        return $date;
-    }
-
-    private function _subtract($fecha)
-    {
-        $stroperation = date($fecha)."- ".$this->request["interval"];
-        $strtotime = strtotime($stroperation);
-        $date = date("Ymd",$strtotime);
-        lg("_subtract: stroperation: $stroperation, strtotime: $strtotime, date: $date");
-        return $date;
-    }
-
-    private function _get_calculated()
-    {
-        $response = [];
-        if($this->request["operation"]=="add")
-        {
-            $response["fechaini1"] = $this->_add($this->request["fechaini"]);
-            $response["fechafin1"] = $this->_add($this->request["fechafin"]);
-        }
-        else
-        {
-            $response["fechaini1"] = $this->_subtract($this->request["fechaini"]);
-            $response["fechafin1"] = $this->_subtract($this->request["fechafin"]);
-        }
-        return $response;
-    }
-
-    public function index2()
-    {
-        $dates = [
-          "2019-03-01",
-          "2020-05-01"
-        ];
-        
-        foreach($dates as $date)
-        {
-            $r = (new Moment($date))
-                ->as_maxdate("20190501")
-                ->subtract(1,"months")
-                ->get_calculated();
-
-            lgp("$date => $r");
-        }
-    }
+   
     
     private function _get_fix_lastday($values = [], $interval, $today="")
     {
@@ -108,18 +27,59 @@ final class Orion extends Appbase
         $ffin = $values[1];
 
         if(!$today) $today = date("Ymd");
-
-        $today = (new Moment($today))->add()->get_calculated();
-        lgp($today,"today + 1");
-        $prevfini = (new Moment($fini))
-                        ->as_maxdate($today)
+        $today1 = (new Moment($today))->add()->get_calculated();
+        lgp($today1,"today + 1");
+        
+        if($ffin>$today1)
+            $ffin = $today1;
+        
+        $moment = new Moment($fini);
+        if($moment->is_fullmonth($ffin))
+        {
+            pr("mes completo $fini == $ffin");
+            $prevfini = (new Moment($fini))
                         ->subtract($i,$period)
                         ->get_calculated();
-        $prevffin = (new Moment($ffin))
-                        ->as_maxdate($today)
+            $prevffin = (new Moment($ffin))
                         ->subtract($i,$period)
-                        ->get_calculated();        
+                        ->get_calculated();                 
+        }
+        else
+        {
+            pr("incompleto $fini !== $ffin");
+            
+            $prevfini = (new Moment($fini))
+                        ->subtract($i,$period)
+                        ->get_calculated();
+            $days = $moment->get_ndays($ffin);
+            lgp("days to add $days");
+            $prevffin = (new Moment($prevfini))
+                            ->add($days)
+                            ->get_calculated();
+        }
+        
+        
+        
+
+        
         $values = [$prevfini,$prevffin];
+        //si es marzo 28,29,30,31 como mes pasado marca <29 febrero
+        //si es m28 y ultimo dia de feb=28 => ffin < mar01
+        //si es m29 y ultimo dia de feb=29 => ffin < mar01
+        //si es m28 y ultimo dia de feb29 => ffin < feb29
+        
+        //si es m30 y ultimo feb=28 => ffin<mar03 
+        //si es m30 y ultimo feb=29 => ffin<mar02
+        
+        //si es m31 y ultimo feb=28 => ffin<mar01
+        //si es m31 y ultimo feb=29 => ffin<mar01
+        
+        //obtengo el último día de febrero
+        
+        //si es mes completo (mismo día):
+            //se mueve por periodos
+        //si es mes incompleto (distinto dia)
+            //
         
         return $values;
     }
@@ -151,8 +111,8 @@ final class Orion extends Appbase
             "ff5"=>["values"=>["20190301","20190430"],"interval"=>"2 months","today"=>"20190405"], //ok
             
             7=>["values"=>["20190301","20190331"],"interval"=>"2 months","today"=>"20190330"], //ok
-            8=>["values"=>["20190301","20190430"],"interval"=>"2 months","today"=>"20190330"],
-            9=>["values"=>["20200101","20200131"],"interval"=>"1 months","today"=>"20200130"],            
+            8=>["values"=>["20191001","20191031"],"interval"=>"1 months","today"=>"20191030"],  //nok
+            9=>["values"=>["20191001","20191031"],"interval"=>"1 months","today"=>"20191031"],  //nok           
             
         ];
         
