@@ -37,10 +37,10 @@ final class Orion extends Appbase
         if($moment->is_fullmonth($ffin))
         {
             pr("mes completo $fini == $ffin");
-            $prevfini = (new Moment($fini))
+            $compini = (new Moment($fini))
                         ->subtract($i,$period)
                         ->get_calculated();
-            $prevffin = (new Moment($ffin))
+            $compfin = (new Moment($ffin))
                         ->subtract($i,$period)
                         ->get_calculated();                 
         }
@@ -48,12 +48,12 @@ final class Orion extends Appbase
         {
             pr("incompleto $fini !== $ffin");
             
-            $prevfini = (new Moment($fini))
+            $compini = (new Moment($fini))
                         ->subtract($i,$period)
                         ->get_calculated();
             $days = $moment->get_ndays($ffin);
             lgp("days to add $days");
-            $prevffin = (new Moment($prevfini))
+            $compfin = (new Moment($compini))
                             ->add($days)
                             ->get_calculated();
         }
@@ -62,7 +62,7 @@ final class Orion extends Appbase
         
 
         
-        $values = [$prevfini,$prevffin];
+        $values = [$compini,$compfin];
         //si es marzo 28,29,30,31 como mes pasado marca <29 febrero
         //si es m28 y ultimo dia de feb=28 => ffin < mar01
         //si es m29 y ultimo dia de feb=29 => ffin < mar01
