@@ -21,5 +21,12 @@ function lg($content,$title="")
     file_put_contents($pathfile,$str,FILE_APPEND);
 }
 
+function lgp($content,$title="")
+{
+    pr($content,$title);
+    lg($content,$title);
+}
+
+
 function get_get($key=""){ return $key ? $_GET[$key] ?? null: $_GET; }
 function get_post($key=""){ return $key ? $_POST[$key] ?? null: $_POST; }
