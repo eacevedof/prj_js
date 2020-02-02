@@ -79,6 +79,23 @@ final class Datefix
         //return $this;
     }
     
+    private function _by_month($i, $sign="-")
+    {
+        $thisday = $this->ardate[2];
+        $yyyymm01 = $this->ardate[0].$this->ardate[1]."01";
+        $stroperation = strtotime(date($yyyymm01)."$sign $i months");
+        lg("by_month: stroperation: $stroperation");
+        $newmonth = date("Ym",$stroperation);
+        $newmonth01 = $newmonth."01";
+        $newmonththisday = $newmonth.$thisday;
+        $newmonthlastday = date("Ymt", strtotime($newmonth01));
+        lg("by_month: yyyymm01:$yyyymm01,newmonth: $newmonth, newmonth01:$newmonth01, newmonthlastday:$newmonthlastday","by_month $i");
+        if($newmonththisday>$newmonthlastday)
+            $this->operdate = $newmonthlastday;
+        else
+            $this->operdate = $newmonththisday;
+    }
+    
     public function is_valid()
     {
         return (bool) strtotime($this->date);
@@ -86,19 +103,23 @@ final class Datefix
     
     public function add($i=1,$period="days")
     {
-        if($period=="days")
+        if($period!=="months")
         {
             $this->common_add($i, $period);
         }
+        else
+            $this->_by_month($i, "+");
         return $this;
     }
     
     public function subtract($i=1,$period="days")
     {
-        if($period=="days")
+        if($period!=="months")
         {
             $this->common_sub($i, $period);
         }
+        else
+            $this->_by_month($i, "-");
         return $this;
     }
     
