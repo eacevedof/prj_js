@@ -78,8 +78,8 @@ final class Phpdatefix extends Appbase
     public function index()
     {
         include_once "datefix.php";
-        $fixer = new Datefix("2019-01-24");
-        $r = $fixer->add(365,"months")->get_calculated();
+        $fixer = new Datefix("2019-03-31");
+        $r = $fixer->subtract(1,"months")->get_calculated();
 
         lgp($fixer,"fixer $r");
     }
