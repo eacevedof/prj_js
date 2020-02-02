@@ -142,4 +142,19 @@ final class Moment
     {
         return $this->operdate;
     }
+    
+    public function is_fullmonth($yyyymmdd)
+    {
+        $ardate = $this->_get_as_array($yyyymmdd);
+        //si tienen el mismo día y distinto mes es completo
+        return (($this->ardate[1] != $ardate[1]) && ($this->ardate[2] == $ardate[2]));
+    }
+    
+    public function get_ndays($yyymmdd)
+    {
+        $earlier = new \DateTime($this->cleaned);
+        $later = new \DateTime($yyymmdd);
+        $diff = $later->diff($earlier)->format("%a");
+        return $diff;
+    }
 }
