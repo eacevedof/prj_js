@@ -281,7 +281,7 @@ $.extend($.jgrid,{
 		if (m && m[2]) {
 			// m[2] is the attribute selector
 			// m[1] is an optional element selector
-			// examples: "[id]", "rows[page]"
+			// my-timer: "[id]", "rows[page]"
 			return m[1] ? $(m[1], obj).attr(m[2]) : $(obj).attr(m[2]);
 		}
 			ret = $(expr, obj);
