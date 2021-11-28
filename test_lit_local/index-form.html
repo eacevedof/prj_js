@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Lit.dev Local</title>
+</head>
+<body>
+
+<form-login></form-login>
+
+<script type="module">
+import {html, css, LitElement} from "./lit.dev/lit-bundle.js";
+
+export class FormLogin extends LitElement {
+  submitForm(e) {
+    e.preventDefault();
+    const form = this.shadowRoot.querySelector("form");
+    console.log(e.target, form); // successfully logs <form> element
+    window.setTimeout(() => {
+      console.log(form); // successfully logs <form> element
+      form.reset(); // resets form
+    }, 2000);
+  }
+
+  render() {
+    return html`<form @submit=${this.submitForm}>
+      <div class="form-controls">
+        <div>
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" />
+        </div>
+        
+        <div>
+          <label for="address">Address</label>
+          <input type="text" id="address" name="address" />
+        </div>
+        
+        <button type="submit">submit</button>
+      </div>
+    </form>`;
+  }
+}
+
+customElements.define("form-login", FormLogin);
+</script>
+</body>
+</html>
