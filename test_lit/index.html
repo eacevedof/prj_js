@@ -12,7 +12,7 @@
 <simple-greeting name="World"></simple-greeting>
 
 <script type="module">
-    import {html, css, LitElement} from 'https://cdn.skypack.dev/pin/lit@v2.0.0-rc.2-TSkkpP2AxiJKOJvPcy1M/mode=imports,min/optimized/lit.js';
+    import {html, css, LitElement} from "https://cdn.skypack.dev/pin/lit@v2.0.0-rc.2-TSkkpP2AxiJKOJvPcy1M/mode=imports,min/optimized/lit.js";
 
     export class SimpleGreeting extends LitElement {
         static get styles() {
@@ -27,7 +27,7 @@
 
         constructor() {
             super();
-            this.name = 'Somebody';
+            this.name = "Somebody";
         }
 
         render() {
@@ -35,7 +35,7 @@
         }
     }
 
-    customElements.define('simple-greeting', SimpleGreeting);
+    customElements.define("simple-greeting", SimpleGreeting);
 </script>
 </body>
 </html>
