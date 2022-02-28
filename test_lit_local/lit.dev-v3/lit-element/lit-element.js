@@ -1,20 +1,16 @@
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element.js";
-export * from "/-/lit-html@v2.2.0-xj8xEX3DTmR1yvHCL8eF/dist=es2019,mode=imports/optimized/lit-html.js";
-export {LitElement, UpdatingElement, _$LE} from "./lit-element/lit-element.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/base.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/custom-element.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/property.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/state.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/event-options.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query-all.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query-async.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query-assigned-elements.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query-assigned-nodes.js";
-/**
- * @license
- * Copyright 2017 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Skypack CDN - lit-element@3.2.0
+ *
+ * Learn more:
+ *   📙 Package Documentation: https://www.skypack.dev/view/lit-element
+ *   📘 Skypack Documentation: https://www.skypack.dev/docs
+ *
+ * Pinned URL: (Optimized for Production)
+ *   ▶️ Normal: https://cdn.skypack.dev/pin/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/mode=raw/-/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/dist=es2019,mode=imports/optimized/lit-element.js
+ *   ⏩ Minified: https://cdn.skypack.dev/pin/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/mode=raw,min/-/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/dist=es2019,mode=imports/optimized/lit-element.js
+ *
  */
-console.warn("The main 'lit-element' module entrypoint is deprecated. Please update your imports to use the 'lit' package: 'lit' and 'lit/decorators.ts' or import from 'lit-element/lit-element.ts'. See https://lit.dev/msg/deprecated-import-path for more information.");
-export default null;
+
+// Browser-Optimized Imports (Don't directly import the URLs below in your application!)
+export * from '/-/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/dist=es2019,mode=raw/-/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/dist=es2019,mode=imports/optimized/lit-element.js';
+export {default} from '/-/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/dist=es2019,mode=raw/-/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/dist=es2019,mode=imports/optimized/lit-element.js';

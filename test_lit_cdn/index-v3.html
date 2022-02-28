@@ -15,23 +15,21 @@
 import {html, css, LitElement} from "https://cdn.skypack.dev/lit-element";
 
 export class SimpleGreeting extends LitElement {
-  static get styles() {
-    return css`p { color: blue }`;
-  }
 
-  static get properties() {
-    return {
-      name: {type: String}
-    }
+  static properties = {
+    name: {},
   }
 
   constructor() {
     super();
-    this.name = "Somebody";
+    this.name = "xxx";
   }
 
   render() {
-    return html`<p>Hello, ${this.name}!</p>`;
+    return html`
+    <input type="text" .value="${this.name}"><br/>
+    <button type="button">Refresh</button>
+    `
   }
 }
 
