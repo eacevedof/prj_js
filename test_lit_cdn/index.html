@@ -5,14 +5,14 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Lit.dev Local</title>
+  <title>Document</title>
 </head>
 <body>
 
 <simple-greeting name="World"></simple-greeting>
 
 <script type="module">
-import {html, css, LitElement} from "./lit.dev-v2/lit-bundle.js";
+import {html, css, LitElement} from "https://cdn.skypack.dev/pin/lit@v2.0.0-rc.2-TSkkpP2AxiJKOJvPcy1M/mode=imports,min/optimized/lit.js";
 
 export class SimpleGreeting extends LitElement {
   static get styles() {
