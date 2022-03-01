@@ -1,5 +1,5 @@
-import {ReactiveElement} from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element.js";
+import {ReactiveElement} from "../../lit/reactive-element.js";
+export * from "../../lit/reactive-element.js";
 import {render, noChange} from "/-/lit-html@v2.2.0-xj8xEX3DTmR1yvHCL8eF/dist=es2019,mode=imports/optimized/lit-html.js";
 export * from "/-/lit-html@v2.2.0-xj8xEX3DTmR1yvHCL8eF/dist=es2019,mode=imports/optimized/lit-html.js";
 /**
