@@ -1,16 +1,16 @@
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element.js";
-export * from "/-/lit-html@v2.2.0-xj8xEX3DTmR1yvHCL8eF/dist=es2019,mode=imports/optimized/lit-html.js";
+export * from "../lit/reactive-element.js";
+export * from "../lit/lit-html/lit-html.js";
 export {LitElement, UpdatingElement, _$LE} from "./lit-element/lit-element.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/base.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/custom-element.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/property.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/state.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/event-options.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query-all.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query-async.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query-assigned-elements.js";
-export * from "/-/@lit/reactive-element@v1.3.0-Sllb21Doqc6R4DfVNeJ3/dist=es2019,mode=imports/optimized/@lit/reactive-element/decorators/query-assigned-nodes.js";
+export * from "../lit/reactive-element/decorators/base.js";
+export * from "../lit/reactive-element/decorators/custom-element.js";
+export * from "../lit/reactive-element/decorators/property.js";
+export * from "../lit/reactive-element/decorators/state.js";
+export * from "../lit/reactive-element/decorators/event-options.js";
+export * from "../lit/reactive-element/decorators/query.js";
+export * from "../lit/reactive-element/decorators/query-all.js";
+export * from "../lit/reactive-element/decorators/query-async.js";
+export * from "../lit/reactive-element/decorators/query-assigned-elements.js";
+export * from "../lit/reactive-element/decorators/query-assigned-nodes.js";
 /**
  * @license
  * Copyright 2017 Google LLC
