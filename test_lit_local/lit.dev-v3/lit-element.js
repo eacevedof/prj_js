@@ -12,5 +12,5 @@
  */
 
 // Browser-Optimized Imports (Don't directly import the URLs below in your application!)
-export * from '/-/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/dist=es2019,mode=imports/optimized/lit-element.js';
-export {default} from '/-/lit-element@v3.2.0-96wJpknRoH5J3wnwdD7v/dist=es2019,mode=imports/optimized/lit-element.js';
+export * from './lit-element/lit-element.js';
+export {default} from './lit-element/lit-element.js';
