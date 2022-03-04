@@ -15,6 +15,8 @@
 import {html, css, LitElement} from "./lit.dev-v2/lit-bundle.js";
 
 export class FormLogin extends LitElement {
+
+
   submitForm(e) {
     e.preventDefault();
     const form = this.shadowRoot.querySelector("form");
@@ -25,7 +27,9 @@ export class FormLogin extends LitElement {
     }, 2000);
   }
 
+  async loadData() {
 
+  }
 
   render() {
     return html`
