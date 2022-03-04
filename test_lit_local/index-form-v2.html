@@ -19,6 +19,7 @@ export class FormLogin extends LitElement {
   static properties = {
     _list: {type: Array, state:true},
   }
+
   submitForm(e) {
     e.preventDefault();
     const form = this.shadowRoot.querySelector("form");
