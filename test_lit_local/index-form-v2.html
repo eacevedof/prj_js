@@ -25,6 +25,8 @@ export class FormLogin extends LitElement {
     }, 2000);
   }
 
+
+
   render() {
     return html`
     <form @submit=${this.submitForm}>
@@ -42,6 +44,10 @@ export class FormLogin extends LitElement {
         <button type="submit">submit</button>
       </div>
     </form>
+    <div>
+      <button type="button">load data</button>
+      <table></table>
+    </div>
     `;
   }
 }
