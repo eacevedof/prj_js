@@ -29,6 +29,7 @@ export class FormLogin extends LitElement {
     this._list = []
     this._code = ""
     this._description = ""
+    this._id = 0
   }
 
   submitForm(e) {
@@ -48,14 +49,20 @@ export class FormLogin extends LitElement {
   }
 
   loadInfo(){
-    const product = this._list.filter( product => parseInt(product.id) === parseInt(this._id))[0] ?? null
+
     this._code = ""
     this._description = ""
+
+    const product = this._list.filter( product => parseInt(product.id) === parseInt(this._id))[0] ?? null
     if(product) {
       this._code = product.code_erp
       this._description = product.description
     }
-    console.log("loadInfo:", product, "this_code",this._code, "this_description" ,this._description)
+    console.log("loadInfo:", product, "this_code",this._code, "this_description" ,this._description, "this_id", this._id)
+  }
+
+  onIdChange(ev) {
+    this._id = ev.target.value
   }
 
   render() {
@@ -74,7 +81,7 @@ export class FormLogin extends LitElement {
 
         <button type="button" @click=${this.loadInfo}>
           load info
-          <input type="number" .value=${this._id}>
+          <input type="number" .value=${this._id} @change=${this.onIdChange}>
         </button>
       </div>
     </form>
