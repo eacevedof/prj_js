@@ -5,15 +5,15 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Lit.dev v2 form Local</title>
+  <title>Lit.dev v2 form and grid example</title>
 </head>
 <body>
-<form-login></form-login>
+<form-and-grid-example></form-and-grid-example>
 
 <script type="module">
 import {html, css, LitElement} from "./lit.dev-v2/lit-bundle.js"
 
-export class FormLogin extends LitElement {
+export class FormAndGridExample extends LitElement {
 
   static get styles() {
     return css`.form-example {
@@ -123,7 +123,7 @@ export class FormLogin extends LitElement {
   }
 }
 
-customElements.define("form-login", FormLogin);
+customElements.define("form-and-grid-example", FormAndGridExample);
 </script>
 </body>
 </html>

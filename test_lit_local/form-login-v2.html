@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Lit.dev v2 form Local</title>
+</head>
+<body>
+<form-login></form-login>
+
+<script type="module">
+import {html, LitElement} from "/lit.dev/lit-bundle.js"
+
+const URL_LOGIN = "/login/access"
+const URL_ON_ACCESS = "/admin/dashboard"
+
+export class FormLogin extends LitElement {
+
+  //propiedades reactivas
+  static properties = {
+    csrf: {type: String},
+    issending: {type: Boolean},
+    btnsend: {type: String},
+  }
+
+  constructor() {
+    super()
+    this.email = ""
+    this.password = ""
+    this.issending = false
+    this.btnsend = "Enviar"
+  }
+
+  //helper selector de shadow dom
+  $get = sel => this.shadowRoot.querySelector(sel)
+
+  submitForm(e) {
+    e.preventDefault();
+    this.issending = true
+    this.btnsend = "...enviando"
+
+    fetch(URL_LOGIN, {
+      method: "post",
+      headers: {
+        "Accept": "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        _csrf: this.csrf,
+        email: this.$get("#email").value,
+        password: this.$get("#password").value,
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+
+      if(response?.errors?.length){
+        console.error(response.errors)
+        return Swal.fire({
+          icon: "warning",
+          title: "Errores",
+          html: response.errors.join("<br/>"),
+        })
+      }
+
+      set_cookie("lang", response.data.lang)
+
+      Swal.fire({
+        icon: "success",
+        title: "Acceso concedido",
+        showConfirmButton: false,
+        html: "...redirigiendo al panel de control",
+      })
+
+      setTimeout(() => window.location = URL_ON_ACCESS, 1000)
+    })
+    .catch(error => {
+      Swal.fire({
+        icon: "error",
+        title: "Vaya! Algo ha ido mal",
+        html: `<b>${error}</b>`,
+      })
+    })
+    .finally(()=>{
+      this.issending = false
+      this.btnsend = "Enviar"
+    })
+  }//submit
+
+  render() {
+    return html`
+    <form @submit=${this.submitForm}>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" .value=${this.email} />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" .value=${this.password} />
+      </div>
+      <button type="submit" ?disabled=${this.issending}>
+        ${this.btnsend}
+        ${this.issending ? html`<img src="/images/loading.png" width="25" height="25"/>`: html``}
+      </button>
+    </form>
+    `
+  }// render()
+
+}//FormLogin
+customElements.define("form-login", FormLogin)
+</script>
+</body>
+</html>
