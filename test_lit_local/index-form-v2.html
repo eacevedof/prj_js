@@ -45,6 +45,14 @@ export class FormLogin extends LitElement {
     this._list = r
   }
 
+  loadInfo(){
+    const product = this._list[0] ?? null
+    if(product) {
+      this._code = product.code_erp
+      this._description = product.description
+    }
+  }
+
   render() {
     return html`
     <form @submit=${this.submitForm}>
@@ -59,12 +67,27 @@ export class FormLogin extends LitElement {
           <input type="text" id="description" name="description" .value=${this._description} />
         </div>
 
-        <button type="submit">submit</button>
+        <button type="button" @click=${this.loadInfo}>load info</button>
       </div>
     </form>
+    <hr/>
     <div>
-      <button type="button">load data</button>
-      <table></table>
+      <button type="button" @click=${this.loadData()} >load data</button>
+      <table>
+        <thead>
+          <tr>
+            <th>id</th><th>code</th><th>description</th><th>price</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${this._list.length > 0
+            ? this._list.map(
+                product => html`<tr><td>${product.id}</td><td>${product.code_erp}</td><td>${product.description}</td><td>${product.price_regular}</td></tr>`
+            )
+            : html `<b>no data loaded</b>`
+          }
+        </tbody
+      </table>
     </div>
     `;
   }
