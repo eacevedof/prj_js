@@ -6,12 +6,13 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Lit.dev v2 form Local</title>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <form-login></form-login>
 
 <script type="module">
-import {html, LitElement} from "/lit.dev/lit-bundle.js"
+import {html, LitElement} from "/lit.dev-v2/lit-bundle.js"
 
 const URL_LOGIN = "/login/access"
 const URL_ON_ACCESS = "/admin/dashboard"
@@ -55,7 +56,6 @@ export class FormLogin extends LitElement {
     })
     .then(response => response.json())
     .then(response => {
-
       if(response?.errors?.length){
         console.error(response.errors)
         return Swal.fire({
@@ -65,9 +65,7 @@ export class FormLogin extends LitElement {
         })
       }
 
-      set_cookie("lang", response.data.lang)
-
-      Swal.fire({
+      window.Swal.fire({
         icon: "success",
         title: "Acceso concedido",
         showConfirmButton: false,
@@ -77,7 +75,7 @@ export class FormLogin extends LitElement {
       setTimeout(() => window.location = URL_ON_ACCESS, 1000)
     })
     .catch(error => {
-      Swal.fire({
+      window.Swal.fire({
         icon: "error",
         title: "Vaya! Algo ha ido mal",
         html: `<b>${error}</b>`,
@@ -102,7 +100,7 @@ export class FormLogin extends LitElement {
       </div>
       <button type="submit" ?disabled=${this.issending}>
         ${this.btnsend}
-        ${this.issending ? html`<img src="/images/loading.png" width="25" height="25"/>`: html``}
+        ${this.issending ? html`<img src="https://resources.theframework.es/eduardoaf.com/20211123/231117-loading.png" width="25" height="25"/>`: html``}
       </button>
     </form>
     `
