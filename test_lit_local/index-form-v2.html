@@ -17,7 +17,7 @@ import {html, LitElement} from "./lit.dev-v2/lit-bundle.js"
 export class FormLogin extends LitElement {
 
   static properties = {
-    _list: {type: Array, state:true},
+    _products: {type: Array, state:true},
 
     _id: {type: Number, state: true},
     _code: {type: String, state: true},
@@ -26,7 +26,7 @@ export class FormLogin extends LitElement {
 
   constructor() {
     super();
-    this._list = []
+    this._products = []
     this._code = ""
     this._description = ""
     this._id = 0
@@ -44,8 +44,7 @@ export class FormLogin extends LitElement {
 
   async loadData() {
     const url = "https://json.theframework.es/index.php?getfile=app_product.json"
-    const r = await (await fetch(url)).json()
-    this._list = r
+    this._products = await (await fetch(url)).json()
   }
 
   loadInfo(){
@@ -53,7 +52,7 @@ export class FormLogin extends LitElement {
     this._code = ""
     this._description = ""
 
-    const product = this._list.filter( product => parseInt(product.id) === parseInt(this._id))[0] ?? null
+    const product = this._products.filter( product => parseInt(product.id) === parseInt(this._id))[0] ?? null
     if(product) {
       this._code = product.code_erp
       this._description = product.description
@@ -95,8 +94,8 @@ export class FormLogin extends LitElement {
           </tr>
         </thead>
         <tbody>
-          ${this._list.length > 0
-            ? this._list.map(
+          ${this._products.length > 0
+            ? this._products.map(
                 product => html`<tr><td>${product.id}</td><td>${product.code_erp}</td><td>${product.description}</td><td>${product.price_regular}</td></tr>`
             )
             : html `<b>no data loaded</b>`
