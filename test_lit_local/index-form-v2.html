@@ -12,12 +12,21 @@
 <form-login></form-login>
 
 <script type="module">
-import {html, css, LitElement} from "./lit.dev-v2/lit-bundle.js";
+import {html, LitElement} from "./lit.dev-v2/lit-bundle.js"
 
 export class FormLogin extends LitElement {
 
   static properties = {
     _list: {type: Array, state:true},
+    _code: {type: String, state: true},
+    _description: {type: String, state: true},
+  }
+
+  constructor() {
+    super();
+    this._list = []
+    this._code = ""
+    this._description = ""
   }
 
   submitForm(e) {
@@ -33,7 +42,7 @@ export class FormLogin extends LitElement {
   async loadData() {
     const url = "https://json.theframework.es/index.php?getfile=app_product.json"
     const r = await (await fetch(url)).json()
-    return r
+    this._list = r
   }
 
   render() {
@@ -41,13 +50,13 @@ export class FormLogin extends LitElement {
     <form @submit=${this.submitForm}>
       <div class="form-controls">
         <div>
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" />
+          <label for="code">code</label>
+          <input type="text" id="code" name="code" .value=${this._code} />
         </div>
         
         <div>
-          <label for="address">Address</label>
-          <input type="text" id="address" name="address" />
+          <label for="description">Address</label>
+          <input type="text" id="description" name="description" .value=${this._description} />
         </div>
 
         <button type="submit">submit</button>
