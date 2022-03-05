@@ -53,7 +53,7 @@ export class FormLogin extends LitElement {
       email: this.email,
       password: this.password,
     })
-    alert(strpayload)
+    alert("...sending: ".concat(strpayload))
     fetch(URL_LOGIN, {
       method: "post",
       headers: {
