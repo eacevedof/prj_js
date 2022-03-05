@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Lit.dev v2 form and grid example</title>
+</head>
+<body>
+<form-and-grid-example></form-and-grid-example>
+
+<script type="module">
+import {html, css, LitElement} from "./lit.dev-v3/lit-element.js"
+
+export class FormAndGridExample extends LitElement {
+
+  static get styles() {
+    return css`.form-example {
+      font-family: 'Roboto', sans-serif;
+      font-weight: normal;
+      font-size: 16px;
+    }
+    .json {
+      font-size: 13px;
+    }
+    `;
+  }
+
+  static properties = {
+    _products: {type: Array, state:true},
+
+    _id: {type: Number, state: true},
+    _code: {type: String, state: true},
+    _description: {type: String, state: true},
+    _product: {type: Object, state:true},
+  }
+
+  constructor() {
+    super();
+    this._products = []
+    this._code = ""
+    this._description = ""
+    this._id = 0
+    this._product = null
+  }
+
+  submitForm(e) {
+    e.preventDefault();
+    const form = this.shadowRoot.querySelector("form");
+    console.log(e.target, form); // successfully logs <form> element
+    window.setTimeout(() => {
+      console.log(form); // successfully logs <form> element
+      form.reset(); // resets form
+    }, 2000);
+  }
+
+  async loadData() {
+    const url = "https://json.theframework.es/index.php?getfile=app_product.json"
+    this._products = await (await fetch(url)).json()
+  }
+
+  loadInfo(){
+    this._code = ""
+    this._description = ""
+
+    this._product = this._products.filter( product => parseInt(product.id) === parseInt(this._id))[0] ?? null
+    if(this._product) {
+      const product = this._product
+      this._code = product.code_erp
+      this._description = product.description
+    }
+    console.log("loadInfo:", this._product, "this_code",this._code, "this_description" ,this._description, "this_id", this._id)
+  }
+
+  onIdChange(ev) {
+    this._id = ev.target.value
+  }
+
+  render() {
+    return html`
+    <div class="form-example">
+      <form @submit=${this.submitForm}>
+        <div class="form-controls">
+          <div>
+            <label for="code">code</label>
+            <input type="text" id="code" name="code" .value=${this._code} />
+          </div>
+
+          <div>
+            <label for="description">Address</label>
+            <input type="text" id="description" name="description" .value=${this._description} />
+          </div>
+
+          <div>
+            <button type="button" @click=${this.loadInfo}>load info</button>
+            <input type="number" .value=${this._id} @change=${this.onIdChange}>
+          </div>
+        </div>
+      </form>
+      <hr/>
+      ${this._product ? html `<pre class="json">${JSON.stringify(this._product, null, 2)}</pre>` : null}
+      <div>
+        <button type="button" @click=${this.loadData} >load data</button>
+        <table>
+          <thead>
+            <tr>
+              <th>id</th><th>code</th><th>description</th><th>price</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${this._products.length > 0
+              ? this._products.map(
+                  product => html`<tr><td>${product.id}</td><td>${product.code_erp}</td><td>${product.description}</td><td>${product.price_regular}</td></tr>`
+              )
+              : html `no data loaded`
+            }
+          </tbody
+        </table>
+      </div>
+    </div>
+    `;
+  }
+}
+
+customElements.define("form-and-grid-example", FormAndGridExample);
+</script>
+</body>
+</html>
