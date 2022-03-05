@@ -8,13 +8,24 @@
   <title>Lit.dev v2 form Local</title>
 </head>
 <body>
-
 <form-login></form-login>
 
 <script type="module">
-import {html, LitElement} from "./lit.dev-v2/lit-bundle.js"
+import {html, css, LitElement} from "./lit.dev-v2/lit-bundle.js"
 
 export class FormLogin extends LitElement {
+
+  static get styles() {
+    return css`.form-example {
+      font-family: 'Roboto', sans-serif;
+      font-weight: normal;
+      font-size: 16px;
+    }
+    .json {
+      font-size: 13px;
+    }
+    `;
+  }
 
   static properties = {
     _products: {type: Array, state:true},
@@ -50,7 +61,6 @@ export class FormLogin extends LitElement {
   }
 
   loadInfo(){
-
     this._code = ""
     this._description = ""
 
@@ -69,43 +79,45 @@ export class FormLogin extends LitElement {
 
   render() {
     return html`
-    <form @submit=${this.submitForm}>
-      <div class="form-controls">
-        <div>
-          <label for="code">code</label>
-          <input type="text" id="code" name="code" .value=${this._code} />
-        </div>
-        
-        <div>
-          <label for="description">Address</label>
-          <input type="text" id="description" name="description" .value=${this._description} />
-        </div>
+    <div class="form-example">
+      <form @submit=${this.submitForm}>
+        <div class="form-controls">
+          <div>
+            <label for="code">code</label>
+            <input type="text" id="code" name="code" .value=${this._code} />
+          </div>
 
-        <div>
-          <button type="button" @click=${this.loadInfo}>load info</button>
-          <input type="number" .value=${this._id} @change=${this.onIdChange}>
+          <div>
+            <label for="description">Address</label>
+            <input type="text" id="description" name="description" .value=${this._description} />
+          </div>
+
+          <div>
+            <button type="button" @click=${this.loadInfo}>load info</button>
+            <input type="number" .value=${this._id} @change=${this.onIdChange}>
+          </div>
         </div>
+      </form>
+      <hr/>
+      ${this._product ? html `<pre class="json">${JSON.stringify(this._product, null, 2)}</pre>` : null}
+      <div>
+        <button type="button" @click=${this.loadData} >load data</button>
+        <table>
+          <thead>
+            <tr>
+              <th>id</th><th>code</th><th>description</th><th>price</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${this._products.length > 0
+              ? this._products.map(
+                  product => html`<tr><td>${product.id}</td><td>${product.code_erp}</td><td>${product.description}</td><td>${product.price_regular}</td></tr>`
+              )
+              : html `no data loaded`
+            }
+          </tbody
+        </table>
       </div>
-    </form>
-    <hr/>
-    ${this._product ? html `<pre>${JSON.stringify(this._product, null, 2)}</pre>` : null}
-    <div>
-      <button type="button" @click=${this.loadData} >load data</button>
-      <table>
-        <thead>
-          <tr>
-            <th>id</th><th>code</th><th>description</th><th>price</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${this._products.length > 0
-            ? this._products.map(
-                product => html`<tr><td>${product.id}</td><td>${product.code_erp}</td><td>${product.description}</td><td>${product.price_regular}</td></tr>`
-            )
-            : html `<b>no data loaded</b>`
-          }
-        </tbody
-      </table>
     </div>
     `;
   }
