@@ -22,6 +22,7 @@ export class FormLogin extends LitElement {
     _id: {type: Number, state: true},
     _code: {type: String, state: true},
     _description: {type: String, state: true},
+    _product: {type: Object, state:true},
   }
 
   constructor() {
@@ -30,6 +31,7 @@ export class FormLogin extends LitElement {
     this._code = ""
     this._description = ""
     this._id = 0
+    this._product = null
   }
 
   submitForm(e) {
@@ -52,12 +54,13 @@ export class FormLogin extends LitElement {
     this._code = ""
     this._description = ""
 
-    const product = this._products.filter( product => parseInt(product.id) === parseInt(this._id))[0] ?? null
-    if(product) {
+    this._product = this._products.filter( product => parseInt(product.id) === parseInt(this._id))[0] ?? null
+    if(this._product) {
+      const product = this._product
       this._code = product.code_erp
       this._description = product.description
     }
-    console.log("loadInfo:", product, "this_code",this._code, "this_description" ,this._description, "this_id", this._id)
+    console.log("loadInfo:", this._product, "this_code",this._code, "this_description" ,this._description, "this_id", this._id)
   }
 
   onIdChange(ev) {
@@ -78,13 +81,14 @@ export class FormLogin extends LitElement {
           <input type="text" id="description" name="description" .value=${this._description} />
         </div>
 
-        <button type="button" @click=${this.loadInfo}>
-          load info
+        <div>
+          <button type="button" @click=${this.loadInfo}>load info</button>
           <input type="number" .value=${this._id} @change=${this.onIdChange}>
-        </button>
+        </div>
       </div>
     </form>
     <hr/>
+    ${this._product ? html `<pre>xxx</pre>` : null}
     <div>
       <button type="button" @click=${this.loadData} >load data</button>
       <table>
