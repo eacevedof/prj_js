@@ -9,7 +9,7 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-<form-login></form-login>
+<form-login csrf="somerndomtoken"></form-login>
 
 <script type="module">
 import {html, LitElement} from "/lit.dev-v2/lit-bundle.js"
@@ -21,7 +21,9 @@ export class FormLogin extends LitElement {
 
   //propiedades reactivas
   static properties = {
-    csrf: {type: String},
+    csrf: {type: String}, //atributo del elemento
+
+    //propiedades internas
     issending: {type: Boolean},
     btnsend: {type: String},
   }
@@ -51,7 +53,7 @@ export class FormLogin extends LitElement {
       email: this.email,
       password: this.password,
     })
-
+    alert(strpayload)
     fetch(URL_LOGIN, {
       method: "post",
       headers: {
