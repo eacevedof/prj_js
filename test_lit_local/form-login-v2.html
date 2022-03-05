@@ -34,8 +34,12 @@ export class FormLogin extends LitElement {
     this.btnsend = "Enviar"
   }
 
-  //helper selector de shadow dom
-  $get = sel => this.shadowRoot.querySelector(sel)
+  onInputChange(e) {
+    const input = e.target
+    if (!input) return
+    const id = input.id
+    this[id] = input.value
+  }
 
   submitForm(e) {
     e.preventDefault();
@@ -50,8 +54,8 @@ export class FormLogin extends LitElement {
       },
       body: JSON.stringify({
         _csrf: this.csrf,
-        email: this.$get("#email").value,
-        password: this.$get("#password").value,
+        email: this.email,
+        password: this.password,
       })
     })
     .then(response => response.json())
@@ -92,11 +96,11 @@ export class FormLogin extends LitElement {
     <form @submit=${this.submitForm}>
       <div>
         <label for="email">Email</label>
-        <input type="email" id="email" .value=${this.email} />
+        <input type="email" id="email" .value=${this.email} @change=${this.onInputChange} />
       </div>
       <div>
         <label for="password">Password</label>
-        <input type="password" id="password" .value=${this.password} />
+        <input type="password" id="password" .value=${this.password} @change=${this.onInputChange} />
       </div>
       <button type="submit" ?disabled=${this.issending}>
         ${this.btnsend}
