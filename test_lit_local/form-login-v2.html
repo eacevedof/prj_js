@@ -46,17 +46,19 @@ export class FormLogin extends LitElement {
     this.issending = true
     this.btnsend = "...enviando"
 
+    const strpayload = JSON.stringify({
+      _csrf: this.csrf,
+      email: this.email,
+      password: this.password,
+    })
+
     fetch(URL_LOGIN, {
       method: "post",
       headers: {
         "Accept": "application/json, text/plain, */*",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        _csrf: this.csrf,
-        email: this.email,
-        password: this.password,
-      })
+      body: strpayload
     })
     .then(response => response.json())
     .then(response => {
