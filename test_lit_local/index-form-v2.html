@@ -88,7 +88,7 @@ export class FormLogin extends LitElement {
       </div>
     </form>
     <hr/>
-    ${this._product ? html `<pre>xxx</pre>` : null}
+    ${this._product ? html `<pre>${JSON.stringify(this._product, null, 2)}</pre>` : null}
     <div>
       <button type="button" @click=${this.loadData} >load data</button>
       <table>
