@@ -1,7 +1,7 @@
 import {ReactiveElement} from "../../lit/reactive-element.js";
 export * from "../../lit/reactive-element.js";
-import {render, noChange} from "/-/lit-html@v2.2.0-xj8xEX3DTmR1yvHCL8eF/dist=es2019,mode=imports/optimized/lit-html.js";
-export * from "/-/lit-html@v2.2.0-xj8xEX3DTmR1yvHCL8eF/dist=es2019,mode=imports/optimized/lit-html.js";
+import {render, noChange} from "../../lit-html/lit-html.js";
+export * from "../../lit-html/lit-html.js";
 /**
  * @license
  * Copyright 2017 Google LLC

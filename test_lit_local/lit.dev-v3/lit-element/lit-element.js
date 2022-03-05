@@ -1,5 +1,5 @@
 export * from "../lit/reactive-element.js";
-export * from "../lit/lit-html/lit-html.js";
+export * from "../lit-html/lit-html.js";
 export {LitElement, UpdatingElement, _$LE} from "./lit-element/lit-element.js";
 export * from "../lit/reactive-element/decorators/base.js";
 export * from "../lit/reactive-element/decorators/custom-element.js";
