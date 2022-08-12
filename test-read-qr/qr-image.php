@@ -10,5 +10,5 @@ $filename = "$pathimages/generated-$now.png";
 QRcode::png("codigo-qr-1234", $filename, $errorCorrectionLevel, $matrixPointSize, 2);
 
 $img = basename($filename);
-$img = "./images/$img"
+$img = "./images/$img";
 echo "<img src=\"$img\" /><hr/>";
