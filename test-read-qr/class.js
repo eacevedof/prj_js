@@ -35,10 +35,11 @@ class QrReader {
   #load_btn_capture() {
     this.#btncapture.addEventListener("click", () => {
       this.#inputtext.value = ""
+      this.#camera.style.display = "block"
+
       if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia))
         return
 
-      this.#camera.style.display = "block"
       const options = {
         audio: false,
         //el video se cargara con el stream de la camara trasera
@@ -59,19 +60,18 @@ class QrReader {
         this.#barcode.detect(this.#camera).then(codes => {
           if (codes.length === 0) return
 
-          for (const objcode of codes) {
-            // Log the this.#barcode to the console
+          codes.forEach( objcode => {
             console.log("objcode", objcode)
             this.#inputtext.value = objcode.rawValue
             clearInterval(this.#intervalid)
-          }
+          })
+
         }).catch(err => {
           console.error(err);
         })
       }
 
       this.#intervalid = setInterval(detect, 200)
-
     })    
   }
 
