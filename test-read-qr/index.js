@@ -3,10 +3,11 @@ if (!("BarcodeDetector" in window)) {
   console.log("not compatible")
 }
 
-let $video = document.querySelector("#video")
-let codedetector = null
 
+let barcode = null
 let intervalid = 0
+
+const $camera = document.querySelector("#camera")
 const $btnclear = document.getElementById("btn-clear")
 const $btn = document.getElementById("btn-capture")
 const $qrvalue = document.getElementById("qr-value")
@@ -14,11 +15,12 @@ const $qrvalue = document.getElementById("qr-value")
 if ($btnclear)
   $btnclear.addEventListener("click", ()=>{
     $qrvalue.value = ""
-    let stream = $video.srcObject
+    let stream = $camera.srcObject
     let tracks = stream.getTracks()
     tracks.forEach(track => track.stop())
-    $video.srcObject = null
-    $video.style.display = "none"
+    $camera.srcObject = null
+    $camera.style.display = "none"
+    barcode = null
     clearInterval(intervalid)
   })
 
@@ -26,33 +28,29 @@ if ($btn)
 $btn.addEventListener("click", function (){
   $qrvalue.value = ""
 
-  // Check if device has camera
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    $video.style.display = "block"
-    // Use video without audio
+    $camera.style.display = "block"
     const options = {
       audio: false,
+      //el video se cargara con el stream de la camara trasera
       video: {
         facingMode: "environment"
       }
     }
 
-    // Start video stream
-    navigator.mediaDevices.getUserMedia(options).then(stream => $video.srcObject = stream);
+    //genera el stream de datos a partir de la camara
+    navigator.mediaDevices.getUserMedia(options).then(stream => $camera.srcObject = stream);
   }
-  codedetector = new BarcodeDetector({ formats: ["qr_code"] })
-
-
+  barcode = new BarcodeDetector({ formats: ["qr_code"] })
+  
   const detect = () => {
-    if (!codedetector) {
+    if (!barcode) {
       clearInterval(intervalid)
       return
     }
 
-
-    codedetector.detect(video).then(codes => {
-      // If no codes exit function
-      if (codes.length === 0) return;
+    barcode.detect($camera).then(codes => {
+      if (codes.length === 0) return
 
       for (const objcode of codes) {
         // Log the barcode to the console
@@ -61,7 +59,6 @@ $btn.addEventListener("click", function (){
         clearInterval(intervalid)
       }
     }).catch(err => {
-      // Log an error if one happens
       console.error(err);
     })
   }
