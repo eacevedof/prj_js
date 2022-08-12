@@ -1,5 +1,5 @@
 <?php
-include "qrlib.php";
+include "phpqrcode/qrlib.php";
 
 $matrixPointSize = 10;
 $errorCorrectionLevel = "L";
