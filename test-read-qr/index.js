@@ -3,9 +3,10 @@ if (!("BarcodeDetector" in window)) {
   console.log("not compatible")
 }
 
-let $video = null
+let $video = document.querySelector("#video")
 let codedetector = null
 
+let intervalid = 0
 const $btnclear = document.getElementById("btn-clear")
 const $btn = document.getElementById("btn-capture")
 const $qrvalue = document.getElementById("qr-value")
@@ -13,27 +14,38 @@ const $qrvalue = document.getElementById("qr-value")
 if ($btnclear)
   $btnclear.addEventListener("click", ()=>{
     $qrvalue.value = ""
-    //$btn.click()
+    let stream = $video.srcObject
+    let tracks = stream.getTracks()
+    tracks.forEach(track => track.stop())
+    $video.srcObject = null
+    clearInterval(intervalid)
   })
 
 if ($btn)
 $btn.addEventListener("click", function (){
   $qrvalue.value = ""
-  $video = document.querySelector("#video")
+
   // Check if device has camera
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     // Use video without audio
-    const constraints = {
+    const options = {
       video: true,
       audio: false
     }
 
     // Start video stream
-    navigator.mediaDevices.getUserMedia(constraints).then(stream => $video.srcObject = stream);
+    navigator.mediaDevices.getUserMedia(options).then(stream => $video.srcObject = stream);
   }
   codedetector = new BarcodeDetector({ formats: ["qr_code"] })
 
+
   const detect = () => {
+    if (!codedetector) {
+      clearInterval(intervalid)
+      return
+    }
+
+
     codedetector.detect(video).then(codes => {
       // If no codes exit function
       if (codes.length === 0) return;
@@ -50,7 +62,7 @@ $btn.addEventListener("click", function (){
     })
   }
 
-  const intervalid = setInterval(detect, 200)
+  intervalid = setInterval(detect, 200)
 
 })
 
