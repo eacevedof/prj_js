@@ -18,6 +18,7 @@ if ($btnclear)
     let tracks = stream.getTracks()
     tracks.forEach(track => track.stop())
     $video.srcObject = null
+    $video.style.display = "none"
     clearInterval(intervalid)
   })
 
@@ -27,6 +28,7 @@ $btn.addEventListener("click", function (){
 
   // Check if device has camera
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    $video.style.display = "block"
     // Use video without audio
     const options = {
       video: true,
