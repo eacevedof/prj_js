@@ -1,6 +1,6 @@
 if (!("BarcodeDetector" in window)) {
   /* Handle not compatible */
-  console.log("not compatible")
+  alert("browser not compatible with BarcodeDetector")
 }
 
 
@@ -42,6 +42,7 @@ $btn.addEventListener("click", function (){
     navigator.mediaDevices.getUserMedia(options).then(stream => $camera.srcObject = stream);
   }
   barcode = new BarcodeDetector({ formats: ["qr_code"] })
+  if (!barcode) return
   
   const detect = () => {
     if (!barcode) {
