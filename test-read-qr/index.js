@@ -18,6 +18,7 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 
 const barcodeDetector = new BarcodeDetector({ formats: ["qr_code"] });
 
+/*
 let formats;
 // Save all formats to formats var
 BarcodeDetector.getSupportedFormats().then(arr => formats = arr);
@@ -26,7 +27,7 @@ const barcodeDetector = new BarcodeDetector({ formats });
 
 // Create new barcode detector
 const barcodeDetector = new BarcodeDetector({ formats: ["qr_code"] });
-
+*/
 // Detect code function
 const detectCode = () => {
   // Start detecting codes on to the video element
