@@ -33,8 +33,8 @@ $btn.addEventListener("click", function (){
     const options = {
       audio: false,
       video: {
-        facingMode: "enviroment"
-      },
+        facingMode: "environment"
+      }
     }
 
     // Start video stream
