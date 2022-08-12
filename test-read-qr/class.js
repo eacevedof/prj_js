@@ -57,18 +57,17 @@ class QrReader {
           return
         }
 
-        this.#barcode.detect(this.#camera).then(codes => {
-          if (codes.length === 0) return
+        this.#barcode.detect(this.#camera)
+          .then(codes => {
+            if (codes.length === 0) return
 
-          codes.forEach( objcode => {
-            console.log("objcode", objcode)
-            this.#inputtext.value = objcode.rawValue
-            clearInterval(this.#intervalid)
+            codes.forEach( objcode => {
+              console.log("objcode", objcode)
+              this.#inputtext.value = objcode.rawValue
+              clearInterval(this.#intervalid)
+            })
           })
-
-        }).catch(err => {
-          console.error(err);
-        })
+          .catch(err => console.error(err))
       }
 
       this.#intervalid = setInterval(detect, 200)
