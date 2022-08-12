@@ -1,7 +1,4 @@
-if (!("BarcodeDetector" in window)) {
-  /* Handle not compatible */
-  alert("browser not compatible with BarcodeDetector")
-}
+
 
 class QrReader {
   #barcode = null
@@ -10,39 +7,48 @@ class QrReader {
   #btnclear = null
   #btncapture = null
   #inputtext = null
+  #barcode = null
 
   constructor(props) {
-
-
+    if (!("BarcodeDetector" in window)) {
+      const msg = "Your browser is not compatible with BarcodeDetector"
+      alert(msg)
+      throw msg
+    }
+    this.#camera = document.querySelector("#camera")
+    this.#btnclear = document.getElementById("btn-clear")
+    this.#btncapture = document.getElementById("btn-capture")
+    this.#inputtext = document.getElementById("qr-value")
+    this.#barcode = new BarcodeDetector({ formats: ["qr_code"] })
   }
-
+  
+  #load_btn_clear() {
+    this.#btnclear.addEventListener("click", ()=>{
+      $qrvalue.value = ""
+      const stream = this.#camera.srcObject
+      const tracks = stream.getTracks()
+      tracks.forEach(track => track.stop())
+      this.#camera.srcObject = null
+      this.#camera.style.display = "none"
+      this.#barcode = null
+      clearInterval(intervalid)
+    })    
+  }
 
 }
 
 
-const $camera = document.querySelector("#camera")
-const $btnclear = document.getElementById("btn-clear")
-const $btn = document.getElementById("btn-capture")
-const $qrvalue = document.getElementById("qr-value")
+
 
 if ($btnclear)
-$btnclear.addEventListener("click", ()=>{
-  $qrvalue.value = ""
-  const stream = $camera.srcObject
-  const tracks = stream.getTracks()
-  tracks.forEach(track => track.stop())
-  $camera.srcObject = null
-  $camera.style.display = "none"
-  barcode = null
-  clearInterval(intervalid)
-})
+
 
 if ($btn)
 $btn.addEventListener("click", function (){
   $qrvalue.value = ""
 
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    $camera.style.display = "block"
+    this.#camera.style.display = "block"
     const options = {
       audio: false,
       //el video se cargara con el stream de la camara trasera
@@ -52,7 +58,7 @@ $btn.addEventListener("click", function (){
     }
 
     //genera el stream de datos a partir de la camara
-    navigator.mediaDevices.getUserMedia(options).then(stream => $camera.srcObject = stream);
+    navigator.mediaDevices.getUserMedia(options).then(stream => this.#camera.srcObject = stream);
   }
   barcode = new BarcodeDetector({ formats: ["qr_code"] })
   if (!barcode) return
@@ -63,7 +69,7 @@ $btn.addEventListener("click", function (){
       return
     }
 
-    barcode.detect($camera).then(codes => {
+    barcode.detect(this.#camera).then(codes => {
       if (codes.length === 0) return
 
       for (const objcode of codes) {
