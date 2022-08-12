@@ -35,20 +35,20 @@ class QrReader {
   #load_btn_capture() {
     this.#btncapture.addEventListener("click", () => {
       this.#inputtext.value = ""
+      if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia))
+        return
 
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        this.#camera.style.display = "block"
-        const options = {
-          audio: false,
-          //el video se cargara con el stream de la camara trasera
-          video: {
-            facingMode: "environment"
-          }
+      this.#camera.style.display = "block"
+      const options = {
+        audio: false,
+        //el video se cargara con el stream de la camara trasera
+        video: {
+          facingMode: "environment"
         }
-
-        //genera el stream de datos a partir de la camara
-        navigator.mediaDevices.getUserMedia(options).then(stream => this.#camera.srcObject = stream);
       }
+
+      //genera el stream de datos a partir de la camara
+      navigator.mediaDevices.getUserMedia(options).then(stream => this.#camera.srcObject = stream);
 
       const detect = () => {
         if (!this.#barcode) {
