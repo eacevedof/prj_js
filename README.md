@@ -1,5 +1,6 @@
 # prj_js
 - Sandbox de js
+- php -S localhost:8080 -t .
 
 ## Indice
 - [electronjs](https://github.com/eacevedof/prj_js/tree/master/test_electronjs#prj_electronjs)
