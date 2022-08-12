@@ -31,8 +31,10 @@ $btn.addEventListener("click", function (){
     $video.style.display = "block"
     // Use video without audio
     const options = {
-      video: true,
-      audio: false
+      audio: false,
+      video: {
+        facingMode: "enviroment"
+      },
     }
 
     // Start video stream
