@@ -5,7 +5,6 @@ class QrReader {
   #btnclear = null
   #btncapture = null
   #inputtext = null
-  #barcode = null
 
   constructor() {
     if (!("BarcodeDetector" in window)) {
@@ -22,7 +21,7 @@ class QrReader {
   
   #load_btn_clear() {
     this.#btnclear.addEventListener("click", ()=>{
-      $qrvalue.value = ""
+      this.#inputtext.value = ""
       const stream = this.#camera.srcObject
       const tracks = stream.getTracks()
       tracks.forEach(track => track.stop())
@@ -34,8 +33,8 @@ class QrReader {
   }
   
   #load_btn_capture() {
-    this.#btncapture.addEventListener("click", function (){
-      $qrvalue.value = ""
+    this.#btncapture.addEventListener("click", () => {
+      this.#inputtext.value = ""
 
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         this.#camera.style.display = "block"
@@ -63,7 +62,7 @@ class QrReader {
           for (const objcode of codes) {
             // Log the this.#barcode to the console
             console.log("objcode", objcode)
-            $qrvalue.value = objcode.rawValue
+            this.#inputtext.value = objcode.rawValue
             clearInterval(this.#intervalid)
           }
         }).catch(err => {
