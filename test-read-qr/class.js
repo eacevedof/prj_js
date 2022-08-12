@@ -1,5 +1,3 @@
-
-
 class QrReader {
   #barcode = null
   #intervalid = 0
@@ -9,13 +7,13 @@ class QrReader {
   #inputtext = null
   #barcode = null
 
-  constructor(props) {
+  constructor() {
     if (!("BarcodeDetector" in window)) {
       const msg = "Your browser is not compatible with BarcodeDetector"
       alert(msg)
       throw msg
     }
-    this.#camera = document.querySelector("#camera")
+    this.#camera = document.getElementById("camera")
     this.#btnclear = document.getElementById("btn-clear")
     this.#btncapture = document.getElementById("btn-capture")
     this.#inputtext = document.getElementById("qr-value")
@@ -31,59 +29,59 @@ class QrReader {
       this.#camera.srcObject = null
       this.#camera.style.display = "none"
       this.#barcode = null
-      clearInterval(intervalid)
+      clearInterval(this.#intervalid)
     })    
+  }
+  
+  #load_btn_capture() {
+    this.#btncapture.addEventListener("click", function (){
+      $qrvalue.value = ""
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        this.#camera.style.display = "block"
+        const options = {
+          audio: false,
+          //el video se cargara con el stream de la camara trasera
+          video: {
+            facingMode: "environment"
+          }
+        }
+
+        //genera el stream de datos a partir de la camara
+        navigator.mediaDevices.getUserMedia(options).then(stream => this.#camera.srcObject = stream);
+      }
+
+      const detect = () => {
+        if (!this.#barcode) {
+          clearInterval(this.#intervalid)
+          return
+        }
+
+        this.#barcode.detect(this.#camera).then(codes => {
+          if (codes.length === 0) return
+
+          for (const objcode of codes) {
+            // Log the this.#barcode to the console
+            console.log("objcode", objcode)
+            $qrvalue.value = objcode.rawValue
+            clearInterval(this.#intervalid)
+          }
+        }).catch(err => {
+          console.error(err);
+        })
+      }
+
+      this.#intervalid = setInterval(detect, 200)
+
+    })    
+  }
+
+  run() {
+    this.#load_btn_clear()
+    this.#load_btn_capture()
   }
 
 }
 
-
-
-
-if ($btnclear)
-
-
-if ($btn)
-$btn.addEventListener("click", function (){
-  $qrvalue.value = ""
-
-  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    this.#camera.style.display = "block"
-    const options = {
-      audio: false,
-      //el video se cargara con el stream de la camara trasera
-      video: {
-        facingMode: "environment"
-      }
-    }
-
-    //genera el stream de datos a partir de la camara
-    navigator.mediaDevices.getUserMedia(options).then(stream => this.#camera.srcObject = stream);
-  }
-  barcode = new BarcodeDetector({ formats: ["qr_code"] })
-  if (!barcode) return
-  
-  const detect = () => {
-    if (!barcode) {
-      clearInterval(intervalid)
-      return
-    }
-
-    barcode.detect(this.#camera).then(codes => {
-      if (codes.length === 0) return
-
-      for (const objcode of codes) {
-        // Log the barcode to the console
-        console.log("objcode", objcode)
-        $qrvalue.value = objcode.rawValue
-        clearInterval(intervalid)
-      }
-    }).catch(err => {
-      console.error(err);
-    })
-  }
-
-  intervalid = setInterval(detect, 200)
-
-})
+export default QrReader
 
