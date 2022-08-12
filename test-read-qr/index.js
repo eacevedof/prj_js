@@ -13,16 +13,16 @@ const $btn = document.getElementById("btn-capture")
 const $qrvalue = document.getElementById("qr-value")
 
 if ($btnclear)
-  $btnclear.addEventListener("click", ()=>{
-    $qrvalue.value = ""
-    let stream = $camera.srcObject
-    let tracks = stream.getTracks()
-    tracks.forEach(track => track.stop())
-    $camera.srcObject = null
-    $camera.style.display = "none"
-    barcode = null
-    clearInterval(intervalid)
-  })
+$btnclear.addEventListener("click", ()=>{
+  $qrvalue.value = ""
+  const stream = $camera.srcObject
+  const tracks = stream.getTracks()
+  tracks.forEach(track => track.stop())
+  $camera.srcObject = null
+  $camera.style.display = "none"
+  barcode = null
+  clearInterval(intervalid)
+})
 
 if ($btn)
 $btn.addEventListener("click", function (){
