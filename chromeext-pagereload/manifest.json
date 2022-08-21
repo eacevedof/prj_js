@@ -6,5 +6,9 @@
   "background": {
     "service_worker": "background.js"
   },
+  "content_script": [{
+    "js": ["content.js"],
+    "matches": ["<all_urls>"]
+  }],
   "permissions": [""]
 }

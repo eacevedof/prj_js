@@ -1,3 +1,3 @@
 chrome.runtime.onInstalled.addListener(() => {
-  alert("hola")
+  //console.log("hola mundo")
 })
