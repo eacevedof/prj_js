@@ -1,3 +1,3 @@
 chrome.runtime.onInstalled.addListener(() => {
-  //console.log("hola mundo")
+  console.log("background.js")
 })
