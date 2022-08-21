@@ -1,1 +1,1 @@
-chrome.storage.sync.get()
+//chrome.storage.sync.get()
