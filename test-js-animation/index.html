@@ -42,7 +42,10 @@ const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[
 const animate = function ( ) {
     setTimeout(() => {
         const $li = get_li_by_position(currLi)
-        $li.classList.add("li-animation-out")
+        $li.classList.remove("li-animation-in")
+        //$li.classList.add("li-animation-out")
+        const $li2 = get_li_by_position(currLi+1)
+        $li2.classList.add("li-animation-in")
     },7000)
 }
 animate()
