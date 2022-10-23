@@ -58,6 +58,11 @@ const LAST_LI = NUM_LIS - 1
 if (NUM_LIS<2) autoAnimation = false
 
 const configNav = () => {
+    const $nav = document.querySelector("nav.slider-nav")
+    $nav.show = () => $nav.style.display = ""
+    $nav.hide = () => $nav.style.display = "none"
+
+
     const $prev = document.querySelector(".prev")
     $prev.addEventListener("click", () => {
         const old = currLi
