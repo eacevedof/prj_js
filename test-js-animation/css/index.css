@@ -42,6 +42,11 @@
     animation-delay: 2s;
 }
 
+.slider-nav {
+    display: flex;
+    justify-content: center;
+}
+
 a.prev, a.next {
     cursor: pointer;
 }
