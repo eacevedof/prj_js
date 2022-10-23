@@ -50,6 +50,7 @@
 <script type="module">
 let currLi = 0
 let autoAnimation = true
+
 const $lis = Array.from(document.querySelectorAll(".ul-slider li"))
 const NUM_LIS = $lis.length
 const LAST_LI = NUM_LIS - 1
@@ -62,7 +63,6 @@ const configNav = () => {
         const old = currLi
         currLi = currLi - 1
         if (currLi < 0) currLi = LAST_LI
-        console.log("prev", currLi)
         window.dispatchEvent(new CustomEvent("navClicked", {
             detail: {
                 ev: "prev",
@@ -76,7 +76,6 @@ const configNav = () => {
         const old = currLi
         currLi = currLi + 1
         if (currLi > LAST_LI) currLi = 0
-        console.log("next", currLi)
         window.dispatchEvent(new CustomEvent("navClicked", {
             detail: {
                 ev: "next",
