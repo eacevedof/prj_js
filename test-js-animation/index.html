@@ -32,17 +32,31 @@ const LAST_LI = NUM_LIS - 1
 const configNav = () => {
     const $prev = document.querySelector(".prev")
     $prev.addEventListener("click", () => {
+        const old = currLi
         currLi = currLi - 1
         if (currLi < 0) currLi = 0
         console.log("prev", currLi)
-        window.dispatchEvent(new CustomEvent("navClicked", {detail: "prev"}))
+        window.dispatchEvent(new CustomEvent("navClicked", {
+            detail: {
+                ev: "prev",
+                prevli: old,
+                currli: currLi
+            }
+        }))
     })
     const $next = document.querySelector(".next")
     $next.addEventListener("click", () => {
+        const old = currLi
         currLi = currLi + 1
         if (currLi > LAST_LI) currLi = 0
         console.log("next", currLi)
-        window.dispatchEvent(new CustomEvent("navClicked", {detail: "next"}))
+        window.dispatchEvent(new CustomEvent("navClicked", {
+            detail: {
+                ev: "next",
+                prevli: old,
+                currli: currLi
+            }
+        }))
     })
 }
 configNav()
