@@ -30,16 +30,12 @@
 
 .li-animation-in {
     -webkit-animation: kf-wk-slide-in 0.5s forwards;
-    -webkit-animation-delay: 2s;
     animation: kf-slide-in 0.5s forwards;
-    animation-delay: 2s;
 }
 
 .li-animation-out {
     -webkit-animation: kf-wk-slide-out 0.5s forwards;
-    -webkit-animation-delay: 2s;
     animation: kf-slide-out 0.5s forwards;
-    animation-delay: 2s;
 }
 
 .slider-nav {
