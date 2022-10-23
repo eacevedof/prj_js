@@ -42,7 +42,7 @@ const INPUT = [
 ]
 
 const defliTpl = `
-    <li title="%title%">
+    <li title="%title%" role="item">
         <iframe width="100%" height="600" border="0" src="%url%" role="eaf-slider"></iframe>
     </li>
 `
@@ -58,7 +58,7 @@ INPUT.forEach(obj => $ul.appendChild(get_li(obj.title, obj.url)))
 let currLi = 0
 let autoAnimation = true
 
-const $lis = Array.from(document.querySelectorAll(".eaf-slider .ul-slider li"))
+const $lis = Array.from(document.querySelectorAll(".eaf-slider .ul-slider li[role=item]"))
 const $navP = document.querySelector(".eaf-slider nav.slider-nav p")
 const $h2 = document.querySelector(".eaf-slider h2")
 
