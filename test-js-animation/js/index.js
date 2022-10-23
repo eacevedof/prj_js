@@ -23,6 +23,7 @@ export class EafSlider {
 
     constructor(input) {
         this.#input = input
+        this.#_order_input()
         this.#$ul = document.querySelector(".eaf-slider .ul-slider")
         this.#$liloading = document.querySelector(".eaf-slider .ul-slider li[role=loading]")
         this.#$navP = document.querySelector(".eaf-slider nav.slider-nav p")
@@ -31,6 +32,19 @@ export class EafSlider {
         this.#$prev = document.querySelector(".eaf-slider nav .prev")
         this.#$next = document.querySelector(".eaf-slider nav .next")
         console.log("lis const",this.#$lis)
+    }
+
+    #_order_input() {
+        const compare = (a, b) => {
+            if ( a.order < b.order ){
+                return -1
+            }
+            if ( a.order > b.order ){
+                return 1
+            }
+            return 0
+        }
+        this.#input = this.#input.sort(compare)
     }
 
     #_get_li(title, url) {
