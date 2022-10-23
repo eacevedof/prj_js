@@ -10,16 +10,18 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-<div class="slider-container">
-    <ul class="ul-slider">
-        <li class="li-animation-in">a</li>
-        <li>b</li>
-        <li>c</li>
-    </ul>
-    <nav>
-        <a class="prev">prev</a> | <a class="next">next</a>
-    </nav>
-</div>
+<main>
+    <div class="slider-container">
+        <ul class="ul-slider">
+            <li class="li-animation-in">a</li>
+            <li>b</li>
+            <li>c</li>
+        </ul>
+        <nav>
+            <a class="prev">prev</a> | <a class="next">next</a>
+        </nav>
+    </div>
+</main>
 <script type="module">
 let currLi = 0
 const $lis = Array.from(document.querySelectorAll(".ul-slider li"))
@@ -30,11 +32,13 @@ const $prev = document.querySelector(".prev")
 $prev.addEventListener("click", () => {
     currLi = currLi - 1
     if (currLi<0) currLi = 0
+    console.log("prev",currLi)
 })
 const $next = document.querySelector(".next")
 $next.addEventListener("click", () => {
     currLi = currLi + 1
     if (currLi>LAST_LI) currLi = LAST_LI
+    console.log("next",currLi)
 })
 
 const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[0] ?? null
