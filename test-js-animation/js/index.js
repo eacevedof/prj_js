@@ -8,10 +8,12 @@ export class EafSlider {
     #$ul = null
     #currLi = 0
     #autoAnimation = true
+    #$liloading = null
 
     constructor(input) {
         this.#input = input
         this.#$ul = document.querySelector(".eaf-slider .ul-slider")
+        this.#$liloading = document.querySelector(".eaf-slider .ul-slider li[role=loading]")
     }
 
     #_get_li(title, url) {
@@ -24,16 +26,17 @@ export class EafSlider {
         //const $ul = this.#$ul
         this.#input.forEach(obj => this.#$ul.appendChild(this.#_get_li(obj.title, obj.url)))
     }
+    #_load_loader() {
+        this.#$liloading.hide = () => {
+            this.#$liloading.style.left = "0px"
+            this.#$liloading.classList.add("loading-out")
+        }
+    }
     
     start() {
-        //const $ul = document.querySelector(".eaf-slider .ul-slider")
+        let xautoanimation = false
         this.#_load_lis()
-
-        const $liloading = document.querySelector(".eaf-slider .ul-slider li[role=loading]")
-        $liloading.hide = () => {
-            $liloading.style.left = "0px"
-            $liloading.classList.add("loading-out")
-        }
+        this.#_load_loader()
 
         const $lis = Array.from(document.querySelectorAll(".eaf-slider .ul-slider li[role=item]"))
         const $navP = document.querySelector(".eaf-slider nav.slider-nav p")
@@ -43,7 +46,7 @@ export class EafSlider {
         const NUM_LIS = $lis.length
         const LAST_LI = NUM_LIS - 1
 
-        if (NUM_LIS<2) this.#autoAnimation = false
+        if (NUM_LIS<2) xautoanimation = false
 
         const configNav = () => {
             const $nav = document.querySelector(".eaf-slider nav.slider-nav")
@@ -119,7 +122,7 @@ export class EafSlider {
         const detectIframeClick = () => {
             const MILI_SECONDS = 100
             const processId = setInterval(function(){
-                if (!this.#autoAnimation) {
+                if (!xautoanimation) {
                     clearInterval(processId)
                     return
                 }
@@ -129,7 +132,7 @@ export class EafSlider {
                 if ($activeElem.getAttribute("role") !== "eaf-slider") return
 
                 console.log("iframe clicked")
-                this.#autoAnimation = false
+                xautoanimation = false
                 clearInterval(processId)
             }, MILI_SECONDS);
         }
@@ -141,9 +144,9 @@ export class EafSlider {
             $liShow.show()
             $navP.navtext()
 
-            $liloading.hide()
+            this.#$liloading.hide()
             const pid = setInterval(() => {
-                if (!autoAnimation) {
+                if (!xautoanimation) {
                     clearInterval(pid)
                     return
                 }
@@ -173,7 +176,7 @@ export class EafSlider {
         })
 
         window.addEventListener("navClicked", function (ev) {
-            this.#autoAnimation = false
+            xautoanimation = false
             let $li = get_li_by_position(ev.detail.prevli)
             $li.hide()
 
