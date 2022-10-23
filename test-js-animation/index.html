@@ -50,11 +50,11 @@ const animate = function ( ) {
         if (currLi>LAST_LI) currLi = 0
 
         console.log("animate crulLi",currLi)
-        const $li = get_li_by_position(old)
-        $li.classList.remove("li-animation-in")
-        const $li2 = get_li_by_position(currLi)
-        $li2.classList.add("li-animation-in")
+        const $liHide = get_li_by_position(old)
+        $liHide.classList.remove("li-animation-in")
 
+        const $liShow = get_li_by_position(currLi)
+        $liShow.classList.add("li-animation-in")
     },7000)
 }
 animate()
