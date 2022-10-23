@@ -26,14 +26,15 @@
     position: absolute;
     left: -800px;
     background: blue;
-    -webkit-animation: kf-slide 0.5s forwards;
+
+    -webkit-animation: kf-wk-slide 0.5s forwards;
     -webkit-animation-delay: 2s;
     animation: kf-slide 0.5s forwards;
     animation-delay: 2s;
 }
 
 
-@-webkit-keyframes kf-slide {
+@-webkit-keyframes kf-wk-slide {
     100% { left: 0; }
 }
 
