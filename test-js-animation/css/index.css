@@ -10,6 +10,7 @@
     width: 800px;
     height: 600px;
     border: 1px solid greenyellow;
+    background: #ccc;
 }
 
 .ul-slider {
@@ -19,9 +20,9 @@
 }
 
 .ul-slider li {
-    width: 100%;
     position: absolute;
     left: -800px;
+    width: 100%;
     background: blue;
 }
 
