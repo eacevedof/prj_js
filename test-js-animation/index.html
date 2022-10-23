@@ -37,6 +37,8 @@ $next.addEventListener("click", () => {
     if (currLi>LAST_LI) currLi = LAST_LI
 })
 
+const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[0] ?? null
+
 const animate = function ( ) {
 
 }
