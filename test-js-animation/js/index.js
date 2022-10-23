@@ -1,5 +1,10 @@
 export class EafSlider {
     #input
+    #liTpl = `
+            <li title="%title%" role="item">
+                <iframe width="100%" height="600" border="0" src="%url%" role="eaf-slider"></iframe>
+            </li>
+        `
 
     constructor(input) {
         this.#input = input
