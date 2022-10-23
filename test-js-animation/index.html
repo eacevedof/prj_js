@@ -13,9 +13,9 @@
 <main>
     <div class="slider-container">
         <ul class="ul-slider">
-            <li class="li-animation-in">a</li>
-            <li>b</li>
-            <li>c</li>
+            <li style="background: #00FF00">a</li>
+            <li style="background: #1b91ff">b</li>
+            <li style="background: #6a1520">c</li>
         </ul>
         <nav>
             <a class="prev">prev</a> | <a class="next">next</a>
@@ -57,6 +57,7 @@ const animate = function ( ) {
         $liHide.classList.add("li-animation-out")
 
         const $liShow = get_li_by_position(currLi)
+        $liShow.classList.remove("li-animation-out")
         $liShow.classList.add("li-animation-in")
     },5000)
 }
