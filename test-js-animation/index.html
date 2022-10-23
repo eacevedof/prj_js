@@ -27,18 +27,21 @@ let currLi = 0
 const $lis = Array.from(document.querySelectorAll(".ul-slider li"))
 const NUM_LIS = $lis.length
 const LAST_LI = NUM_LIS - 1
+const navClick = new Event("navClicked")
     
 const $prev = document.querySelector(".prev")
 $prev.addEventListener("click", () => {
     currLi = currLi - 1
     if (currLi<0) currLi = 0
     console.log("prev",currLi)
+    window.dispatchEvent(navClick)
 })
 const $next = document.querySelector(".next")
 $next.addEventListener("click", () => {
     currLi = currLi + 1
     if (currLi>LAST_LI) currLi = 0
     console.log("next",currLi)
+    window.dispatchEvent(navClick)
 })
 
 const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[0] ?? null
@@ -49,7 +52,7 @@ const animate = function ( ) {
         currLi = currLi + 1
         if (currLi>LAST_LI) currLi = 0
 
-        console.log("animate crulLi",currLi)
+        console.log("animate","hide", old, "show", currLi)
         const $liHide = get_li_by_position(old)
         console.log("to-hide:", $liHide)
         $liHide.style.left= "0px"
@@ -63,6 +66,10 @@ const animate = function ( ) {
     },5000)
 }
 animate()
+
+window.addEventListener("navClicked", () => {
+    console.log("navClicked")
+})
 </script>
 </body>
 </html>
