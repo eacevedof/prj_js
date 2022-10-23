@@ -63,7 +63,7 @@ export class EafSlider {
         this.#$nav.hide = () => this.#$nav.style.display = "none"
 
         this.#$h2.settitle = (title="") => this.#$h2.innerText = title || ""
-        this.#$navP.navtext = () => this.#$navP.innerText = this.#NAV_TEXT.replace("%i%", this.#currLi+1).replace("%t%", this.#NUM_LIS)
+        this.#$navP.navtext = () => this.#$navP.innerText = this.#NAV_TEXT.replace("%i%", this.#NUM_LIS>0 ? (this.#currLi+1).toString() : "0").replace("%t%", this.#NUM_LIS)
 
         this.#$prev.addEventListener("click", () => {
             const old = this.#currLi
@@ -171,14 +171,14 @@ export class EafSlider {
         //carga y cuenta los lis
         this.#_load_lis()
         this.#_load_loader()
+        if (this.#NUM_LIS<2) this.#autoAnimation = false
+        this.#_load_nav()
         if (!this.#NUM_LIS) {
             this.#$liloading.hide()
             this.#$h2.settitle("No data")
             this.#$navP.navtext()
             return
         }
-        if (this.#NUM_LIS<2) this.#autoAnimation = false
-        this.#_load_nav()
         this.#_config_lis()
         this.#_detect_iframe_click()
         if (!this.#totalif) this.#_animate()
