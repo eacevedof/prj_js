@@ -44,6 +44,23 @@ $next.addEventListener("click", () => {
     window.dispatchEvent(navClick)
 })
 
+const configLis = () => {
+    $lis.forEach($li => {
+        $li.hide = () => {
+            $li.style.left= "0px"
+            $li.classList.remove("li-animation-in")
+            $li.classList.add("li-animation-out")
+        }
+
+        $li.show = () => {
+            $li.style.left= "-800px"
+            $li.classList.remove("li-animation-out")
+            $li.classList.add("li-animation-in")
+        }
+    })
+}
+configLis()
+
 const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[0] ?? null
 
 const animate = function ( ) {
@@ -54,15 +71,10 @@ const animate = function ( ) {
 
         console.log("animate","hide", old, "show", currLi)
         const $liHide = get_li_by_position(old)
-        console.log("to-hide:", $liHide)
-        $liHide.style.left= "0px"
-        $liHide.classList.remove("li-animation-in")
-        $liHide.classList.add("li-animation-out")
+        $liHide.hide()
 
         const $liShow = get_li_by_position(currLi)
-        $liShow.style.left= "-800px"
-        $liShow.classList.remove("li-animation-out")
-        $liShow.classList.add("li-animation-in")
+        $liShow.show()
     },7000)
 }
 animate()
