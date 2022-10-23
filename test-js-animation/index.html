@@ -27,20 +27,24 @@ let currLi = 0
 const $lis = Array.from(document.querySelectorAll(".ul-slider li"))
 const NUM_LIS = $lis.length
 const LAST_LI = NUM_LIS - 1
-const $prev = document.querySelector(".prev")
-$prev.addEventListener("click", () => {
-    currLi = currLi - 1
-    if (currLi<0) currLi = 0
-    console.log("prev",currLi)
-    window.dispatchEvent(new CustomEvent("navClicked", {detail:"prev"}))
-})
-const $next = document.querySelector(".next")
-$next.addEventListener("click", () => {
-    currLi = currLi + 1
-    if (currLi>LAST_LI) currLi = 0
-    console.log("next",currLi)
-    window.dispatchEvent(new CustomEvent("navClicked", {detail:"next"}))
-})
+
+const configNav = () => {
+    const $prev = document.querySelector(".prev")
+    $prev.addEventListener("click", () => {
+        currLi = currLi - 1
+        if (currLi < 0) currLi = 0
+        console.log("prev", currLi)
+        window.dispatchEvent(new CustomEvent("navClicked", {detail: "prev"}))
+    })
+    const $next = document.querySelector(".next")
+    $next.addEventListener("click", () => {
+        currLi = currLi + 1
+        if (currLi > LAST_LI) currLi = 0
+        console.log("next", currLi)
+        window.dispatchEvent(new CustomEvent("navClicked", {detail: "next"}))
+    })
+}
+configNav()
 
 const configLis = () => {
     $lis.forEach($li => {
