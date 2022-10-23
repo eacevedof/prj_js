@@ -14,28 +14,22 @@
         <h2></h2>
         <ul class="ul-slider">
             <li style="background: #00FF00">
-                0 a
-                <iframe width="100%" width="100%" height="600" border="0" src="http://test.elchalanaruba.com" role="eaf-slider"></iframe>
+                <iframe title="0a" width="100%" height="600" border="0" src="http://test.elchalanaruba.com" role="eaf-slider"></iframe>
             </li>
             <li style="background: #1b91ff">
-                1 b
-                <iframe width="100%" height="600" border="0" src="https://test.eduardoaf.com" role="eaf-slider"></iframe>
+                <iframe title="1b" width="100%" height="600" border="0" src="https://test.eduardoaf.com" role="eaf-slider"></iframe>
             </li>
             <li style="background: #e6b1ef">
-                2 c
-                <iframe width="100%" height="600" border="0" src="https://test.mypromos.es" role="eaf-slider"></iframe>
+                <iframe title="2c" width="100%" height="600" border="0" src="https://test.mypromos.es" role="eaf-slider"></iframe>
             </li>
             <li style="background: #ff8c00">
-                3 d
-                <iframe width="100%" height="600" border="0" src="https://theframework.es" role="eaf-slider"></iframe>
+                <iframe title="3c" width="100%" height="600" border="0" src="https://theframework.es" role="eaf-slider"></iframe>
             </li>
             <li style="background: #a92ecb">
-                4 e
-                <iframe width="100%" height="600" border="0" src="https://helpers.theframework.es/" role="eaf-slider"></iframe>
+                <iframe title="4d" width="100%" height="600" border="0" src="https://helpers.theframework.es/" role="eaf-slider"></iframe>
             </li>
             <li style="background: #1eb5c9">
-                5 f
-                <iframe width="100%" height="600" border="0" src="https://ipblocker.theframework.es" role="eaf-slider"></iframe>
+                <iframe title="5f" width="100%" height="600" border="0" src="https://ipblocker.theframework.es" role="eaf-slider"></iframe>
             </li>
         </ul>
         <nav class="slider-nav">
@@ -73,7 +67,8 @@ const configNav = () => {
 
 
     $navP.navtext = () => $navP.innerText = NAV_TEXT.replace("%i%", currLi+1).replace("%t%", NUM_LIS)
-
+    
+    
     const $prev = document.querySelector(".eaf-slider nav .prev")
     $prev.addEventListener("click", () => {
         const old = currLi
