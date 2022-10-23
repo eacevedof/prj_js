@@ -42,6 +42,10 @@
     animation-delay: 2s;
 }
 
+a.prev, a.next {
+    cursor: pointer;
+}
+
 @-webkit-keyframes kf-wk-slide-in {
     100% { left: 0; }
 }

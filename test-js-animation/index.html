@@ -52,11 +52,12 @@ const animate = function ( ) {
         console.log("animate crulLi",currLi)
         const $liHide = get_li_by_position(old)
         console.log("to-hide:", $liHide)
-        //$liHide.style.left= "0px"
+        $liHide.style.left= "0px"
         $liHide.classList.remove("li-animation-in")
         $liHide.classList.add("li-animation-out")
 
         const $liShow = get_li_by_position(currLi)
+        $liShow.style.left= "-800px"
         $liShow.classList.remove("li-animation-out")
         $liShow.classList.add("li-animation-in")
     },5000)
