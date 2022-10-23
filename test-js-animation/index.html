@@ -15,7 +15,7 @@
         <ul class="ul-slider">
             <li style="background: #00FF00">a</li>
             <li style="background: #1b91ff">b</li>
-            <li style="background: #6a1520">c</li>
+            <li style="background: #e6b1ef">c</li>
             <li style="background: #ff8c00">d</li>
             <li style="background: #a92ecb">e</li>
             <li style="background: #1eb5c9">f</li>
@@ -104,7 +104,11 @@ const animate = function ( ) {
 animate()
 
 window.addEventListener("navClicked", function(ev) {
-    console.log("navClicked", ev.detail)
+    autoAnimation = false
+    let $li = get_li_by_position(ev.detail.prevli)
+    $li.hide()
+    $li = get_li_by_position(ev.detail.currli)
+    $li.show()
 })
 </script>
 </body>
