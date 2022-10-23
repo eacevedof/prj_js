@@ -19,6 +19,7 @@ export class EafSlider {
     #$nav = null
     #$prev = null
     #$next = null
+    #ifloaded = 0
 
     constructor(input) {
         this.#input = input
@@ -149,8 +150,9 @@ export class EafSlider {
     
     #_detect_iframe_click() {
         const MILI_SECONDS = 100
+        const that = this
         const processId = setInterval(function(){
-            if (!this.#autoAnimation) {
+            if (!that.#autoAnimation) {
                 clearInterval(processId)
                 return
             }
@@ -160,13 +162,12 @@ export class EafSlider {
             if ($activeElem.getAttribute("role") !== "eaf-slider") return
 
             console.log("iframe clicked")
-            this.#autoAnimation = false
+            that.#autoAnimation = false
             clearInterval(processId)
         }, MILI_SECONDS);        
     }
 
     start() {
-        let this.#autoAnimation = false
         this.#_load_lis()
         this.#_load_loader()
         if (this.#NUM_LIS<2) this.#autoAnimation = false
@@ -175,25 +176,25 @@ export class EafSlider {
         this.#_detect_iframe_click()
         if (!this.#totalif) this.#_animate()
 
-        let ifloaded = 0
+        const that = this
         window.addEventListener("iframeLoaded", function (ev) {
             console.log("if-loaded", ev)
-            ifloaded++
-            if (ifloaded === ev.detail.total) {
-                this.#_animate()
+            that.#ifloaded++
+            if (that.#ifloaded === ev.detail.total) {
+                that.#_animate()
             }
         })
 
         window.addEventListener("navClicked", function (ev) {
-            this.#autoAnimation = false
-            let $li = this.#_get_li_by_position(ev.detail.prevli)
+            that.#autoAnimation = false
+            let $li = that.#_get_li_by_position(ev.detail.prevli)
             $li.hide()
 
-            $li = this.#_get_li_by_position(ev.detail.currli)
+            $li = that.#_get_li_by_position(ev.detail.currli)
             $li.show()
 
-            this.#$h2.settitle($li.getAttribute("title") ?? "")
-            this.#$navP.navtext()
+            that.#$h2.settitle($li.getAttribute("title") ?? "")
+            that.#$navP.navtext()
         })
     }
 }
