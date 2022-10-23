@@ -117,7 +117,9 @@ const configNav = () => {
 configNav()
 
 const configLis = () => {
-    $lis.forEach($li => {
+    const totalif = $lis.filter($li => $li.querySelector("iframe")).length
+
+    $lis.forEach(($li, i) => {
         $li.hide = () => {
             $li.style.left= "0px"
             $li.classList.remove("li-animation-in")
@@ -129,6 +131,17 @@ const configLis = () => {
             $li.classList.remove("li-animation-out")
             $li.classList.add("li-animation-in")
         }
+
+        const $iframe = $li.querySelector("iframe")
+        if (!$iframe) return
+        const $content = $iframe.contentDocument || $iframe.contentWindow.document
+        console.log(`iframe ${i} state`, $content.readyState)
+        if ($content.readyState === "complete")
+            $iframe.addEventListener(
+                "load",
+                () => window.dispatchEvent(new CustomEvent("iframeLoaded", {detail: {id: i, total:totalif}})),
+                {once:true}
+            )
     })
 }
 configLis()
@@ -179,9 +192,18 @@ const animate = () => {
         $navP.navtext()
     },5000)
 }
-animate()
 
-window.addEventListener("navClicked", function(ev) {
+
+let ifloaded = 0
+window.addEventListener("iframeLoaded", function (ev) {
+    console.log("if-loaded", ev)
+    ifloaded++
+    if (ifloaded === ev.detail.total) {
+        animate()
+    }
+})
+
+window.addEventListener("navClicked", function (ev) {
     autoAnimation = false
     let $li = get_li_by_position(ev.detail.prevli)
     $li.hide()
