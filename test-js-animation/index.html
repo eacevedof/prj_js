@@ -27,21 +27,19 @@ let currLi = 0
 const $lis = Array.from(document.querySelectorAll(".ul-slider li"))
 const NUM_LIS = $lis.length
 const LAST_LI = NUM_LIS - 1
-const navClick = new Event("navClicked")
-    
 const $prev = document.querySelector(".prev")
 $prev.addEventListener("click", () => {
     currLi = currLi - 1
     if (currLi<0) currLi = 0
     console.log("prev",currLi)
-    window.dispatchEvent(navClick)
+    window.dispatchEvent(new CustomEvent("navClicked", {detail:"prev"}))
 })
 const $next = document.querySelector(".next")
 $next.addEventListener("click", () => {
     currLi = currLi + 1
     if (currLi>LAST_LI) currLi = 0
     console.log("next",currLi)
-    window.dispatchEvent(navClick)
+    window.dispatchEvent(new CustomEvent("navClicked", {detail:"next"}))
 })
 
 const configLis = () => {
@@ -79,8 +77,8 @@ const animate = function ( ) {
 }
 animate()
 
-window.addEventListener("navClicked", () => {
-    console.log("navClicked")
+window.addEventListener("navClicked", function(ev) {
+    console.log("navClicked", ev.detail)
 })
 </script>
 </body>
