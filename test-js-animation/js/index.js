@@ -13,11 +13,22 @@ export class EafSlider {
     #NUM_LIS = 0
     #LAST_LI = 0
     #NAV_TEXT = "Item %i% of %t% result"
+    #totalif = 0
+    #$navP = null
+    #$h2 = null
+    #$nav = null
+    #$prev = null
+    #$next = null
 
     constructor(input) {
         this.#input = input
         this.#$ul = document.querySelector(".eaf-slider .ul-slider")
         this.#$liloading = document.querySelector(".eaf-slider .ul-slider li[role=loading]")
+        this.#$navP = document.querySelector(".eaf-slider nav.slider-nav p")
+        this.#$h2 = document.querySelector(".eaf-slider h2")
+        this.#$nav = document.querySelector(".eaf-slider nav.slider-nav")
+        this.#$prev = document.querySelector(".eaf-slider nav .prev")
+        this.#$next = document.querySelector(".eaf-slider nav .next")
         console.log("lis const",this.#$lis)
     }
 
@@ -45,88 +56,104 @@ export class EafSlider {
     #_get_li_by_position(position) {
         return this.#$lis.filter(($li, pos) => position===pos)[0] ?? null
     }
-    
+
+    #_load_nav() {
+        this.#$nav.show = () => this.#$nav.style.display = ""
+        this.#$nav.hide = () => this.#$nav.style.display = "none"
+
+        this.#$h2.settitle = (title="") => this.#$h2.innerText = title || ""
+        this.#$navP.navtext = () => this.#$navP.innerText = this.#NAV_TEXT.replace("%i%", this.#currLi+1).replace("%t%", this.#NUM_LIS)
+
+        this.#$prev.addEventListener("click", () => {
+            const old = this.#currLi
+            this.#currLi = this.#currLi - 1
+            if (this.#currLi < 0) this.#currLi = this.#LAST_LI
+            window.dispatchEvent(new CustomEvent("navClicked", {
+                detail: {
+                    ev: "prev",
+                    prevli: old,
+                    currli: this.#currLi
+                }
+            }))
+        })
+
+        this.#$next.addEventListener("click", () => {
+            const old = this.#currLi
+            this.#currLi = this.#currLi + 1
+            if (this.#currLi > this.#LAST_LI) this.#currLi = 0
+            window.dispatchEvent(new CustomEvent("navClicked", {
+                detail: {
+                    ev: "next",
+                    prevli: old,
+                    currli: this.#currLi
+                }
+            }))
+        })
+    }
+
+    #_config_lis() {
+        this.#totalif = this.#$lis.filter($li => $li.querySelector("iframe")).length
+
+        this.#$lis.forEach(($li, i) => {
+            $li.hide = () => {
+                $li.style.left= "0px"
+                $li.classList.remove("li-animation-in")
+                $li.classList.add("li-animation-out")
+            }
+
+            $li.show = () => {
+                $li.style.left= "-800px"
+                $li.classList.remove("li-animation-out")
+                $li.classList.add("li-animation-in")
+            }
+
+            const $iframe = $li.querySelector("iframe")
+            if (!$iframe) return
+            const $content = $iframe.contentDocument || $iframe.contentWindow.document
+            console.log(`iframe ${i} state`, $content.readyState)
+            if ($content.readyState === "complete")
+                $iframe.addEventListener(
+                    "load",
+                    () => window.dispatchEvent(new CustomEvent("iframeLoaded", {detail: {id: i, total:this.#totalif}})),
+                    {once:true}
+                )
+        })
+    }
+
+    #_animate() {
+        const $liShow = this.#_get_li_by_position(this.#currLi)
+        console.log("lishow", $liShow, this.#currLi)
+        this.#$h2.settitle($liShow.getAttribute("title") ?? "")
+        $liShow.show()
+        this.#$navP.navtext()
+
+        this.#$liloading.hide()
+        const pid = setInterval(() => {
+            if (!xautoanimation) {
+                clearInterval(pid)
+                return
+            }
+            const old = this.#currLi
+            this.#currLi = this.#currLi + 1
+            if (this.#currLi>this.#LAST_LI) this.#currLi = 0
+
+            const $liHide = this.#_get_li_by_position(old)
+            const $liShow = this.#_get_li_by_position(this.#currLi)
+            $liHide.hide()
+
+            this.#$h2.settitle($liShow.getAttribute("title") ?? "")
+            $liShow.show()
+            this.#$navP.navtext()
+        },5000)
+    }
+
     start() {
         let xautoanimation = false
         this.#_load_lis()
         this.#_load_loader()
-
-        const $navP = document.querySelector(".eaf-slider nav.slider-nav p")
-        const $h2 = document.querySelector(".eaf-slider h2")
-
-
-
         if (this.#NUM_LIS<2) xautoanimation = false
-
-        const configNav = () => {
-            const $nav = document.querySelector(".eaf-slider nav.slider-nav")
-            $nav.show = () => $nav.style.display = ""
-            $nav.hide = () => $nav.style.display = "none"
-
-            $h2.settitle = (title="") => $h2.innerText = title || ""
-            $navP.navtext = () => $navP.innerText = this.#NAV_TEXT.replace("%i%", this.#currLi+1).replace("%t%", this.#NUM_LIS)
-
-
-            const $prev = document.querySelector(".eaf-slider nav .prev")
-            $prev.addEventListener("click", () => {
-                const old = this.#currLi
-                this.#currLi = this.#currLi - 1
-                if (this.#currLi < 0) this.#currLi = this.#LAST_LI
-                window.dispatchEvent(new CustomEvent("navClicked", {
-                    detail: {
-                        ev: "prev",
-                        prevli: old,
-                        currli: this.#currLi
-                    }
-                }))
-            })
-            const $next = document.querySelector(".eaf-slider nav .next")
-            $next.addEventListener("click", () => {
-                const old = this.#currLi
-                this.#currLi = this.#currLi + 1
-                if (this.#currLi > this.#LAST_LI) this.#currLi = 0
-                window.dispatchEvent(new CustomEvent("navClicked", {
-                    detail: {
-                        ev: "next",
-                        prevli: old,
-                        currli: this.#currLi
-                    }
-                }))
-            })
-        }
-        configNav()
-
-        let totalif = 0
-        const configLis = () => {
-            totalif = this.#$lis.filter($li => $li.querySelector("iframe")).length
-
-            this.#$lis.forEach(($li, i) => {
-                $li.hide = () => {
-                    $li.style.left= "0px"
-                    $li.classList.remove("li-animation-in")
-                    $li.classList.add("li-animation-out")
-                }
-
-                $li.show = () => {
-                    $li.style.left= "-800px"
-                    $li.classList.remove("li-animation-out")
-                    $li.classList.add("li-animation-in")
-                }
-
-                const $iframe = $li.querySelector("iframe")
-                if (!$iframe) return
-                const $content = $iframe.contentDocument || $iframe.contentWindow.document
-                console.log(`iframe ${i} state`, $content.readyState)
-                if ($content.readyState === "complete")
-                    $iframe.addEventListener(
-                        "load",
-                        () => window.dispatchEvent(new CustomEvent("iframeLoaded", {detail: {id: i, total:totalif}})),
-                        {once:true}
-                    )
-            })
-        }
-        configLis()
-
+        this.#_load_nav()
+        this.#_config_lis()
 
 
         const detectIframeClick = () => {
@@ -148,34 +175,8 @@ export class EafSlider {
         }
         detectIframeClick()
 
-        const animate = () => {
-            const $liShow = this.#_get_li_by_position(this.#currLi)
-            console.log("lishow", $liShow, this.#currLi)
-            $h2.settitle($liShow.getAttribute("title") ?? "")
-            $liShow.show()
-            $navP.navtext()
 
-            this.#$liloading.hide()
-            const pid = setInterval(() => {
-                if (!xautoanimation) {
-                    clearInterval(pid)
-                    return
-                }
-                const old = this.#currLi
-                this.#currLi = this.#currLi + 1
-                if (this.#currLi>this.#LAST_LI) this.#currLi = 0
-
-                const $liHide = this.#_get_li_by_position(old)
-                const $liShow = this.#_get_li_by_position(this.#currLi)
-                $liHide.hide()
-
-                $h2.settitle($liShow.getAttribute("title") ?? "")
-                $liShow.show()
-                $navP.navtext()
-            },5000)
-        }
-
-        if (!totalif) animate()
+        if (!this.#totalif) this.#_animate()
 
         let ifloaded = 0
         window.addEventListener("iframeLoaded", function (ev) {
