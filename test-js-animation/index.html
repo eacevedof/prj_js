@@ -11,7 +11,7 @@
 <body>
 <main>
     <div class="eaf-slider">
-        <h2></h2>
+        <h2>xxx</h2>
         <ul class="ul-slider">
             <li title="0a" style="background: #00FF00">
                 <iframe width="100%" height="600" border="0" src="http://test.elchalanaruba.com" role="eaf-slider"></iframe>
@@ -65,7 +65,7 @@ const configNav = () => {
     $nav.show = () => $nav.style.display = ""
     $nav.hide = () => $nav.style.display = "none"
 
-    $h2.title = (title="") => $h2.innerText = title || H2_TEXT
+    $h2.settitle = (title="") => $h2.innerText = title || H2_TEXT
     $navP.navtext = () => $navP.innerText = NAV_TEXT.replace("%i%", currLi+1).replace("%t%", NUM_LIS)
     
     
@@ -138,6 +138,7 @@ detectIframeClick()
 
 const animate = () => {
     const $liShow = get_li_by_position(currLi)
+    $h2.settitle($liShow.getAttribute("title") ?? "")
     $liShow.show()
     $navP.navtext()
     const pid = setInterval(() => {
@@ -152,6 +153,8 @@ const animate = () => {
         const $liHide = get_li_by_position(old)
         const $liShow = get_li_by_position(currLi)
         $liHide.hide()
+
+        $h2.settitle($liShow.getAttribute("title") ?? "")
         $liShow.show()
         $navP.navtext()
     },5000)
@@ -165,6 +168,8 @@ window.addEventListener("navClicked", function(ev) {
 
     $li = get_li_by_position(ev.detail.currli)
     $li.show()
+
+    $h2.settitle($li.getAttribute("title") ?? "")
     $navP.navtext()
 })
 </script>
