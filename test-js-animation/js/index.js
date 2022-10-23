@@ -9,11 +9,13 @@ export class EafSlider {
     #currLi = 0
     #autoAnimation = true
     #$liloading = null
+    #$lis = []
 
     constructor(input) {
         this.#input = input
         this.#$ul = document.querySelector(".eaf-slider .ul-slider")
         this.#$liloading = document.querySelector(".eaf-slider .ul-slider li[role=loading]")
+        console.log("lis const",this.#$lis)
     }
 
     #_get_li(title, url) {
@@ -25,12 +27,19 @@ export class EafSlider {
     #_load_lis() {
         //const $ul = this.#$ul
         this.#input.forEach(obj => this.#$ul.appendChild(this.#_get_li(obj.title, obj.url)))
+        this.#$lis = Array.from(document.querySelectorAll(".eaf-slider .ul-slider li[role=item]"))
     }
+
     #_load_loader() {
         this.#$liloading.hide = () => {
             this.#$liloading.style.left = "0px"
             this.#$liloading.classList.add("loading-out")
         }
+    }
+
+    #_get_li_by_position(position) {
+        console.log(this.#$lis,"lis")
+        return this.#$lis.filter(($li, pos) => position===pos)[0] ?? null
     }
     
     start() {
@@ -38,12 +47,11 @@ export class EafSlider {
         this.#_load_lis()
         this.#_load_loader()
 
-        const $lis = Array.from(document.querySelectorAll(".eaf-slider .ul-slider li[role=item]"))
         const $navP = document.querySelector(".eaf-slider nav.slider-nav p")
         const $h2 = document.querySelector(".eaf-slider h2")
 
         const NAV_TEXT = "Item %i% of %t% result"
-        const NUM_LIS = $lis.length
+        const NUM_LIS = this.#$lis.length
         const LAST_LI = NUM_LIS - 1
 
         if (NUM_LIS<2) xautoanimation = false
@@ -88,9 +96,9 @@ export class EafSlider {
 
         let totalif = 0
         const configLis = () => {
-            totalif = $lis.filter($li => $li.querySelector("iframe")).length
+            totalif = this.#$lis.filter($li => $li.querySelector("iframe")).length
 
-            $lis.forEach(($li, i) => {
+            this.#$lis.forEach(($li, i) => {
                 $li.hide = () => {
                     $li.style.left= "0px"
                     $li.classList.remove("li-animation-in")
@@ -117,7 +125,7 @@ export class EafSlider {
         }
         configLis()
 
-        const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[0] ?? null
+
 
         const detectIframeClick = () => {
             const MILI_SECONDS = 100
@@ -139,7 +147,8 @@ export class EafSlider {
         detectIframeClick()
 
         const animate = () => {
-            const $liShow = get_li_by_position(this.#currLi)
+            const $liShow = this.#_get_li_by_position(this.#currLi)
+            console.log("lishow", $liShow, this.#currLi)
             $h2.settitle($liShow.getAttribute("title") ?? "")
             $liShow.show()
             $navP.navtext()
@@ -154,8 +163,8 @@ export class EafSlider {
                 this.#currLi = this.#currLi + 1
                 if (this.#currLi>LAST_LI) this.#currLi = 0
 
-                const $liHide = get_li_by_position(old)
-                const $liShow = get_li_by_position(this.#currLi)
+                const $liHide = this.#_get_li_by_position(old)
+                const $liShow = this.#_get_li_by_position(this.#currLi)
                 $liHide.hide()
 
                 $h2.settitle($liShow.getAttribute("title") ?? "")
