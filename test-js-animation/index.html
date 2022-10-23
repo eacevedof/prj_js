@@ -119,6 +119,25 @@ configLis()
 
 const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[0] ?? null
 
+const detectIframeClick = () => {
+    const MILI_SECONDS = 100
+    const processId = setInterval(function(){
+        if (!autoAnimation) {
+            clearInterval(processId)
+            return
+        }
+        const $activeElem = document.activeElement;
+        if (!$activeElem) return
+        if ($activeElem.tagName !== "IFRAME") return
+        if ($activeElem.getAttribute("role") !== "eaf-slider") return
+
+        console.log("iframe clicked")
+        autoAnimation = false
+        clearInterval(processId)
+    }, MILI_SECONDS);
+}
+detectIframeClick()
+
 const animate = () => {
     const $liShow = get_li_by_position(currLi)
     $liShow.show()
@@ -140,24 +159,6 @@ const animate = () => {
     },5000)
 }
 animate()
-
-const detectIframeClick = () => {
-    const MILI_SECONDS = 100
-    const processId = setInterval(function(){
-        if (!autoAnimation) {
-            clearInterval(processId)
-            return
-        }
-        const $activeElem = document.activeElement;
-        if (!$activeElem) return
-        if ($activeElem.tagName !== "IFRAME") return
-        if ($activeElem.getAttribute("role") !== "eaf-slider") return
-
-        autoAnimation = false
-        clearInterval(processId)
-    }, MILI_SECONDS);
-}
-
 
 window.addEventListener("navClicked", function(ev) {
     autoAnimation = false
