@@ -10,6 +10,9 @@ export class EafSlider {
     #autoAnimation = true
     #$liloading = null
     #$lis = []
+    #NUM_LIS = 0
+    #LAST_LI = 0
+    #NAV_TEXT = "Item %i% of %t% result"
 
     constructor(input) {
         this.#input = input
@@ -28,6 +31,8 @@ export class EafSlider {
         //const $ul = this.#$ul
         this.#input.forEach(obj => this.#$ul.appendChild(this.#_get_li(obj.title, obj.url)))
         this.#$lis = Array.from(document.querySelectorAll(".eaf-slider .ul-slider li[role=item]"))
+        this.#NUM_LIS = this.#$lis.length
+        this.#LAST_LI = this.#NUM_LIS - 1
     }
 
     #_load_loader() {
@@ -38,7 +43,6 @@ export class EafSlider {
     }
 
     #_get_li_by_position(position) {
-        console.log(this.#$lis,"lis")
         return this.#$lis.filter(($li, pos) => position===pos)[0] ?? null
     }
     
@@ -50,11 +54,9 @@ export class EafSlider {
         const $navP = document.querySelector(".eaf-slider nav.slider-nav p")
         const $h2 = document.querySelector(".eaf-slider h2")
 
-        const NAV_TEXT = "Item %i% of %t% result"
-        const NUM_LIS = this.#$lis.length
-        const LAST_LI = NUM_LIS - 1
 
-        if (NUM_LIS<2) xautoanimation = false
+
+        if (this.#NUM_LIS<2) xautoanimation = false
 
         const configNav = () => {
             const $nav = document.querySelector(".eaf-slider nav.slider-nav")
@@ -62,14 +64,14 @@ export class EafSlider {
             $nav.hide = () => $nav.style.display = "none"
 
             $h2.settitle = (title="") => $h2.innerText = title || ""
-            $navP.navtext = () => $navP.innerText = NAV_TEXT.replace("%i%", this.#currLi+1).replace("%t%", NUM_LIS)
+            $navP.navtext = () => $navP.innerText = this.#NAV_TEXT.replace("%i%", this.#currLi+1).replace("%t%", this.#NUM_LIS)
 
 
             const $prev = document.querySelector(".eaf-slider nav .prev")
             $prev.addEventListener("click", () => {
                 const old = this.#currLi
                 this.#currLi = this.#currLi - 1
-                if (this.#currLi < 0) this.#currLi = LAST_LI
+                if (this.#currLi < 0) this.#currLi = this.#LAST_LI
                 window.dispatchEvent(new CustomEvent("navClicked", {
                     detail: {
                         ev: "prev",
@@ -82,7 +84,7 @@ export class EafSlider {
             $next.addEventListener("click", () => {
                 const old = this.#currLi
                 this.#currLi = this.#currLi + 1
-                if (this.#currLi > LAST_LI) this.#currLi = 0
+                if (this.#currLi > this.#LAST_LI) this.#currLi = 0
                 window.dispatchEvent(new CustomEvent("navClicked", {
                     detail: {
                         ev: "next",
@@ -161,7 +163,7 @@ export class EafSlider {
                 }
                 const old = this.#currLi
                 this.#currLi = this.#currLi + 1
-                if (this.#currLi>LAST_LI) this.#currLi = 0
+                if (this.#currLi>this.#LAST_LI) this.#currLi = 0
 
                 const $liHide = this.#_get_li_by_position(old)
                 const $liShow = this.#_get_li_by_position(this.#currLi)
@@ -186,10 +188,10 @@ export class EafSlider {
 
         window.addEventListener("navClicked", function (ev) {
             xautoanimation = false
-            let $li = get_li_by_position(ev.detail.prevli)
+            let $li = this.#_get_li_by_position(ev.detail.prevli)
             $li.hide()
 
-            $li = get_li_by_position(ev.detail.currli)
+            $li = this.#_get_li_by_position(ev.detail.currli)
             $li.show()
 
             $h2.settitle($li.getAttribute("title") ?? "")
