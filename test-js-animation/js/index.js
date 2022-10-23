@@ -11,14 +11,8 @@ export class EafSlider {
     }
 
     start() {
-
-        const defliTpl = `
-            <li title="%title%" role="item">
-                <iframe width="100%" height="600" border="0" src="%url%" role="eaf-slider"></iframe>
-            </li>
-        `
         const get_li = (title, url) => {
-            const tpl = defliTpl.replace("%title%", title).replace("%url%", url)
+            const tpl = this.#liTpl.replace("%title%", title).replace("%url%", url)
             let $el = new DOMParser().parseFromString(tpl, "text/html")
             return $el.body.firstChild
         }
