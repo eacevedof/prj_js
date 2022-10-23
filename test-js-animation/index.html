@@ -89,7 +89,7 @@ configLis()
 
 const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[0] ?? null
 
-const animate = function () {
+const animate = () => {
     const $liShow = get_li_by_position(currLi)
     $liShow.show()
     const pid = setInterval(() => {
