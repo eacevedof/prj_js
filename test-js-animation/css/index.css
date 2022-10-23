@@ -9,6 +9,8 @@
     height: 600px;
     border: 1px solid greenyellow;
     background: #ccc;
+    display: flex;
+    flex-direction: column;
 }
 
 .ul-slider {
