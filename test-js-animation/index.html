@@ -37,7 +37,7 @@ $prev.addEventListener("click", () => {
 const $next = document.querySelector(".next")
 $next.addEventListener("click", () => {
     currLi = currLi + 1
-    if (currLi>LAST_LI) currLi = LAST_LI
+    if (currLi>LAST_LI) currLi = 0
     console.log("next",currLi)
 })
 
@@ -55,7 +55,7 @@ const animate = function ( ) {
 
         const $liShow = get_li_by_position(currLi)
         $liShow.classList.add("li-animation-in")
-    },7000)
+    },5000)
 }
 animate()
 </script>
