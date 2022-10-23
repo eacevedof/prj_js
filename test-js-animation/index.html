@@ -61,7 +61,7 @@ const configNav = () => {
     $prev.addEventListener("click", () => {
         const old = currLi
         currLi = currLi - 1
-        if (currLi < 0) currLi = 0
+        if (currLi < 0) currLi = LAST_LI
         console.log("prev", currLi)
         window.dispatchEvent(new CustomEvent("navClicked", {
             detail: {
