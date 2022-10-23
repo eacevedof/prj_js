@@ -10,15 +10,15 @@ export class EafSlider {
         this.#input = input
     }
 
-    start() {
-        const get_li = (title, url) => {
-            const tpl = this.#liTpl.replace("%title%", title).replace("%url%", url)
-            let $el = new DOMParser().parseFromString(tpl, "text/html")
-            return $el.body.firstChild
-        }
-        const $ul = document.querySelector(".eaf-slider .ul-slider")
-        this.#input.forEach(obj => $ul.appendChild(get_li(obj.title, obj.url)))
+    #get_li(title, url) {
+        const tpl = this.#liTpl.replace("%title%", title).replace("%url%", url)
+        let $el = new DOMParser().parseFromString(tpl, "text/html")
+        return $el.body.firstChild
+    }
 
+    start() {
+        const $ul = document.querySelector(".eaf-slider .ul-slider")
+        this.#input.forEach(obj => $ul.appendChild(this.#get_li(obj.title, obj.url)))
 
         let currLi = 0
         let autoAnimation = true
