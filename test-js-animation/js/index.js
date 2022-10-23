@@ -1,3 +1,4 @@
-class Slider {
+export class EafSlider {
 
 }
+

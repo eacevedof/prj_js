@@ -47,6 +47,10 @@
     </div>
 </main>
 <script type="module">
+const INPUT = {
+
+}
+
 let currLi = 0
 let autoAnimation = true
 
@@ -136,6 +140,24 @@ const animate = () => {
     },5000)
 }
 animate()
+
+const detectIframeClick = () => {
+    const MILI_SECONDS = 100
+    const processId = setInterval(function(){
+        if (!autoAnimation) {
+            clearInterval(processId)
+            return
+        }
+        const $activeElem = document.activeElement;
+        if (!$activeElem) return
+        if ($activeElem.tagName !== "IFRAME") return
+        if ($activeElem.getAttribute("role") !== "carousel") return
+
+        autoAnimation = false
+        clearInterval(processId)
+    }, MILI_SECONDS);
+}
+
 
 window.addEventListener("navClicked", function(ev) {
     autoAnimation = false
