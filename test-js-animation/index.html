@@ -14,27 +14,27 @@
         <ul class="ul-slider">
             <li style="background: #00FF00">
                 0 a
-                <iframe width="100%" width="100%" height="600" border="0" src="http://test.elchalanaruba.com"></iframe>
+                <iframe width="100%" width="100%" height="600" border="0" src="http://test.elchalanaruba.com" role="eaf-slider"></iframe>
             </li>
             <li style="background: #1b91ff">
                 1 b
-                <iframe width="100%" height="600" border="0" src="https://test.eduardoaf.com"></iframe>
+                <iframe width="100%" height="600" border="0" src="https://test.eduardoaf.com" role="eaf-slider"></iframe>
             </li>
             <li style="background: #e6b1ef">
                 2 c
-                <iframe width="100%" height="600" border="0" src="https://test.mypromos.es"></iframe>
+                <iframe width="100%" height="600" border="0" src="https://test.mypromos.es" role="eaf-slider"></iframe>
             </li>
             <li style="background: #ff8c00">
                 3 d
-                <iframe width="100%" height="600" border="0" src="https://theframework.es"></iframe>
+                <iframe width="100%" height="600" border="0" src="https://theframework.es" role="eaf-slider"></iframe>
             </li>
             <li style="background: #a92ecb">
                 4 e
-                <iframe width="100%" height="600" border="0" src="https://helpers.theframework.es/"></iframe>
+                <iframe width="100%" height="600" border="0" src="https://helpers.theframework.es/" role="eaf-slider"></iframe>
             </li>
             <li style="background: #1eb5c9">
                 5 f
-                <iframe width="100%" height="600" border="0" src="https://ipblocker.theframework.es"></iframe>
+                <iframe width="100%" height="600" border="0" src="https://ipblocker.theframework.es" role="eaf-slider"></iframe>
             </li>
         </ul>
         <nav class="slider-nav">
@@ -54,8 +54,8 @@ const INPUT = {
 let currLi = 0
 let autoAnimation = true
 
-const $lis = Array.from(document.querySelectorAll(".ul-slider li"))
-const $navP = document.querySelector("nav.slider-nav p")
+const $lis = Array.from(document.querySelectorAll(".eaf-slider .ul-slider li"))
+const $navP = document.querySelector(".eaf-slider nav.slider-nav p")
 
 const NAV_TEXT = "Item %i% of %t% result"
 const NUM_LIS = $lis.length
@@ -64,14 +64,14 @@ const LAST_LI = NUM_LIS - 1
 if (NUM_LIS<2) autoAnimation = false
 
 const configNav = () => {
-    const $nav = document.querySelector("nav.slider-nav")
+    const $nav = document.querySelector(".eaf-slider nav.slider-nav")
     $nav.show = () => $nav.style.display = ""
     $nav.hide = () => $nav.style.display = "none"
 
 
     $navP.navtext = () => $navP.innerText = NAV_TEXT.replace("%i%", currLi+1).replace("%t%", NUM_LIS)
 
-    const $prev = document.querySelector(".prev")
+    const $prev = document.querySelector(".eaf-slider nav .prev")
     $prev.addEventListener("click", () => {
         const old = currLi
         currLi = currLi - 1
@@ -84,7 +84,7 @@ const configNav = () => {
             }
         }))
     })
-    const $next = document.querySelector(".next")
+    const $next = document.querySelector(".eaf-slider nav .next")
     $next.addEventListener("click", () => {
         const old = currLi
         currLi = currLi + 1
@@ -151,7 +151,7 @@ const detectIframeClick = () => {
         const $activeElem = document.activeElement;
         if (!$activeElem) return
         if ($activeElem.tagName !== "IFRAME") return
-        if ($activeElem.getAttribute("role") !== "carousel") return
+        if ($activeElem.getAttribute("role") !== "eaf-slider") return
 
         autoAnimation = false
         clearInterval(processId)
