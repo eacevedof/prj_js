@@ -6,6 +6,7 @@ export class EafSlider {
             </li>
         `
     #$ul = null
+    #currLi = 0
 
     constructor(input) {
         this.#input = input
@@ -27,7 +28,6 @@ export class EafSlider {
         //const $ul = document.querySelector(".eaf-slider .ul-slider")
         this.#_load_lis()
 
-        let currLi = 0
         let autoAnimation = true
 
         const $liloading = document.querySelector(".eaf-slider .ul-slider li[role=loading]")
@@ -52,32 +52,32 @@ export class EafSlider {
             $nav.hide = () => $nav.style.display = "none"
 
             $h2.settitle = (title="") => $h2.innerText = title || ""
-            $navP.navtext = () => $navP.innerText = NAV_TEXT.replace("%i%", currLi+1).replace("%t%", NUM_LIS)
+            $navP.navtext = () => $navP.innerText = NAV_TEXT.replace("%i%", this.#currLi+1).replace("%t%", NUM_LIS)
 
 
             const $prev = document.querySelector(".eaf-slider nav .prev")
             $prev.addEventListener("click", () => {
-                const old = currLi
-                currLi = currLi - 1
-                if (currLi < 0) currLi = LAST_LI
+                const old = this.#currLi
+                this.#currLi = this.#currLi - 1
+                if (this.#currLi < 0) this.#currLi = LAST_LI
                 window.dispatchEvent(new CustomEvent("navClicked", {
                     detail: {
                         ev: "prev",
                         prevli: old,
-                        currli: currLi
+                        currli: this.#currLi
                     }
                 }))
             })
             const $next = document.querySelector(".eaf-slider nav .next")
             $next.addEventListener("click", () => {
-                const old = currLi
-                currLi = currLi + 1
-                if (currLi > LAST_LI) currLi = 0
+                const old = this.#currLi
+                this.#currLi = this.#currLi + 1
+                if (this.#currLi > LAST_LI) this.#currLi = 0
                 window.dispatchEvent(new CustomEvent("navClicked", {
                     detail: {
                         ev: "next",
                         prevli: old,
-                        currli: currLi
+                        currli: this.#currLi
                     }
                 }))
             })
@@ -137,7 +137,7 @@ export class EafSlider {
         detectIframeClick()
 
         const animate = () => {
-            const $liShow = get_li_by_position(currLi)
+            const $liShow = get_li_by_position(this.#currLi)
             $h2.settitle($liShow.getAttribute("title") ?? "")
             $liShow.show()
             $navP.navtext()
@@ -148,12 +148,12 @@ export class EafSlider {
                     clearInterval(pid)
                     return
                 }
-                const old = currLi
-                currLi = currLi + 1
-                if (currLi>LAST_LI) currLi = 0
+                const old = this.#currLi
+                this.#currLi = this.#currLi + 1
+                if (this.#currLi>LAST_LI) this.#currLi = 0
 
                 const $liHide = get_li_by_position(old)
-                const $liShow = get_li_by_position(currLi)
+                const $liShow = get_li_by_position(this.#currLi)
                 $liHide.hide()
 
                 $h2.settitle($liShow.getAttribute("title") ?? "")
