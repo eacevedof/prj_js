@@ -129,7 +129,7 @@ export class EafSlider {
 
         this.#$liloading.hide()
         const pid = setInterval(() => {
-            if (!xautoanimation) {
+            if (!this.#autoAnimation) {
                 clearInterval(pid)
                 return
             }
@@ -146,36 +146,33 @@ export class EafSlider {
             this.#$navP.navtext()
         },5000)
     }
+    
+    #_detect_iframe_click() {
+        const MILI_SECONDS = 100
+        const processId = setInterval(function(){
+            if (!this.#autoAnimation) {
+                clearInterval(processId)
+                return
+            }
+            const $activeElem = document.activeElement;
+            if (!$activeElem) return
+            if ($activeElem.tagName !== "IFRAME") return
+            if ($activeElem.getAttribute("role") !== "eaf-slider") return
+
+            console.log("iframe clicked")
+            this.#autoAnimation = false
+            clearInterval(processId)
+        }, MILI_SECONDS);        
+    }
 
     start() {
-        let xautoanimation = false
+        let this.#autoAnimation = false
         this.#_load_lis()
         this.#_load_loader()
-        if (this.#NUM_LIS<2) xautoanimation = false
+        if (this.#NUM_LIS<2) this.#autoAnimation = false
         this.#_load_nav()
         this.#_config_lis()
-
-
-        const detectIframeClick = () => {
-            const MILI_SECONDS = 100
-            const processId = setInterval(function(){
-                if (!xautoanimation) {
-                    clearInterval(processId)
-                    return
-                }
-                const $activeElem = document.activeElement;
-                if (!$activeElem) return
-                if ($activeElem.tagName !== "IFRAME") return
-                if ($activeElem.getAttribute("role") !== "eaf-slider") return
-
-                console.log("iframe clicked")
-                xautoanimation = false
-                clearInterval(processId)
-            }, MILI_SECONDS);
-        }
-        detectIframeClick()
-
-
+        this.#_detect_iframe_click()
         if (!this.#totalif) this.#_animate()
 
         let ifloaded = 0
@@ -183,20 +180,20 @@ export class EafSlider {
             console.log("if-loaded", ev)
             ifloaded++
             if (ifloaded === ev.detail.total) {
-                animate()
+                this.#_animate()
             }
         })
 
         window.addEventListener("navClicked", function (ev) {
-            xautoanimation = false
+            this.#autoAnimation = false
             let $li = this.#_get_li_by_position(ev.detail.prevli)
             $li.hide()
 
             $li = this.#_get_li_by_position(ev.detail.currli)
             $li.show()
 
-            $h2.settitle($li.getAttribute("title") ?? "")
-            $navP.navtext()
+            this.#$h2.settitle($li.getAttribute("title") ?? "")
+            this.#$navP.navtext()
         })
     }
 }
