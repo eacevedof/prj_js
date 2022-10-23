@@ -168,8 +168,15 @@ export class EafSlider {
     }
 
     start() {
+        //carga y cuenta los lis
         this.#_load_lis()
         this.#_load_loader()
+        if (!this.#NUM_LIS) {
+            this.#$liloading.hide()
+            this.#$h2.settitle("No data")
+            this.#$navP.navtext()
+            return
+        }
         if (this.#NUM_LIS<2) this.#autoAnimation = false
         this.#_load_nav()
         this.#_config_lis()
