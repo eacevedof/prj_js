@@ -116,8 +116,9 @@ const configNav = () => {
 }
 configNav()
 
+let totalif = 0
 const configLis = () => {
-    const totalif = $lis.filter($li => $li.querySelector("iframe")).length
+    totalif = $lis.filter($li => $li.querySelector("iframe")).length
 
     $lis.forEach(($li, i) => {
         $li.hide = () => {
@@ -193,6 +194,7 @@ const animate = () => {
     },5000)
 }
 
+if (!totalif) animate()
 
 let ifloaded = 0
 window.addEventListener("iframeLoaded", function (ev) {
