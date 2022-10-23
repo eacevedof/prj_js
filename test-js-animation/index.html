@@ -51,6 +51,7 @@ let currLi = 0
 let autoAnimation = true
 
 const $lis = Array.from(document.querySelectorAll(".ul-slider li"))
+const NAV_TEXT = "Item %i% of %t% result"
 const NUM_LIS = $lis.length
 const LAST_LI = NUM_LIS - 1
 
@@ -118,9 +119,8 @@ const animate = () => {
         if (currLi>LAST_LI) currLi = 0
 
         const $liHide = get_li_by_position(old)
-        $liHide.hide()
-
         const $liShow = get_li_by_position(currLi)
+        $liHide.hide()
         $liShow.show()
     },5000)
 }
