@@ -45,6 +45,7 @@ const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[
 
 const animate = function ( ) {
     const pid = setInterval(() => {
+        console.log("animate crulLi",currLi)
         const $li = get_li_by_position(currLi)
         $li.classList.remove("li-animation-in")
         //$li.classList.add("li-animation-out")
