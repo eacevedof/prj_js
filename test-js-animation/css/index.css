@@ -7,20 +7,22 @@
 .slider-container {
     position: relative;
     overflow: hidden;
-    width: 100px;
-    height: 100px;
-    border: 1px solid black;
+    width: 800px;
+    height: 600px;
+    border: 1px solid purple;
 }
 
 .ul-slider {
-
+    /*no tiene altura*/
+    border: 1px solid red;
 }
 
 .ul-slider li {
-    position: absolute;
-    left: -100px;
     width: 100px;
     height: 100px;
+    position: absolute;
+    left: -800px;
+    border: 1px solid green;
     background: blue;
     -webkit-animation: kf-slide 0.5s forwards;
     -webkit-animation-delay: 2s;
