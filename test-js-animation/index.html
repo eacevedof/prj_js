@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello</title>
+    <title>Horizontal Animation</title>
     <link rel="stylesheet" href="/css/index.css" type="text/css" media="all" />
     <script type="module" src="/js/index.js">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -40,8 +40,12 @@ $next.addEventListener("click", () => {
 const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[0] ?? null
 
 const animate = function ( ) {
-
+    setTimeout(() => {
+        const $li = get_li_by_position(currLi)
+        $li.classList.add("li-animation-out")
+    },7000)
 }
+animate()
 </script>
 </body>
 </html>
