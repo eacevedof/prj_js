@@ -11,6 +11,7 @@
 <body>
 <main>
     <div class="eaf-slider">
+        <h2></h2>
         <ul class="ul-slider">
             <li style="background: #00FF00">
                 0 a
@@ -56,7 +57,9 @@ let autoAnimation = true
 
 const $lis = Array.from(document.querySelectorAll(".eaf-slider .ul-slider li"))
 const $navP = document.querySelector(".eaf-slider nav.slider-nav p")
+const $h2 = document.querySelector(".eaf-slider h2")
 
+const H2_TEXT = "Default title"
 const NAV_TEXT = "Item %i% of %t% result"
 const NUM_LIS = $lis.length
 const LAST_LI = NUM_LIS - 1
