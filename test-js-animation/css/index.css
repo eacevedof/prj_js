@@ -27,16 +27,31 @@
 }
 
 .li-animation-in {
-    -webkit-animation: kf-wk-slide 0.5s forwards;
+    -webkit-animation: kf-wk-slide-in 0.5s forwards;
     -webkit-animation-delay: 2s;
-    animation: kf-slide 0.5s forwards;
+    animation: kf-slide-in 0.5s forwards;
     animation-delay: 2s;
 }
 
-@-webkit-keyframes kf-wk-slide {
+.li-animation-out {
+    -webkit-animation: kf-wk-slide-in 0.5s forwards;
+    -webkit-animation-delay: 2s;
+    animation: kf-slide-in 0.5s forwards;
+    animation-delay: 2s;
+}
+
+@-webkit-keyframes kf-wk-slide-in {
     100% { left: 0; }
 }
 
-@keyframes kf-slide {
+@keyframes kf-slide-in {
     100% { left: 0; }
+}
+
+@-webkit-keyframes kf-wk-slide-out {
+    100% { left: -800px; }
+}
+
+@keyframes kf-slide-out {
+    100% { left: -800px; }
 }
