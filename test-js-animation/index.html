@@ -13,7 +13,7 @@
     <div class="eaf-slider">
         <h2>xxx</h2>
         <ul class="ul-slider">
-            <li style="left: 0" role="loading">
+            <li role="loading">
                 <img src="/images/loading.gif">
             </li>
         </ul>
@@ -61,6 +61,12 @@ INPUT.forEach(obj => $ul.appendChild(get_li(obj.title, obj.url)))
 
 let currLi = 0
 let autoAnimation = true
+
+const $liloading = document.querySelector(".eaf-slider .ul-slider li[role=loading]")
+$liloading.hide = () => {
+    $liloading.style.left = "0px"
+    $liloading.classList.add("loading-out")
+}
 
 const $lis = Array.from(document.querySelectorAll(".eaf-slider .ul-slider li[role=item]"))
 const $navP = document.querySelector(".eaf-slider nav.slider-nav p")
@@ -153,6 +159,8 @@ const animate = () => {
     $h2.settitle($liShow.getAttribute("title") ?? "")
     $liShow.show()
     $navP.navtext()
+
+    $liloading.hide()
     const pid = setInterval(() => {
         if (!autoAnimation) {
             clearInterval(pid)

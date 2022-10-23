@@ -24,6 +24,13 @@
     left: -800px;
     width: 100%;
 }
+.eaf-slider .ul-slider li[role=loading] {
+    left: 0px
+}
+
+.eaf-slider .ul-slider li[role=loading] img {
+    border: 1px solid red;
+}
 
 .eaf-slider .ul-slider li iframe {
     border: 0;
@@ -66,4 +73,9 @@
 
 @keyframes kf-slide-out {
     100% { left: -800px; }
+}
+
+.eaf-slider .loading-out {
+    -webkit-animation: kf-wk-slide-out 0.5s forwards;
+    animation: kf-slide-out 0.5s forwards;
 }
