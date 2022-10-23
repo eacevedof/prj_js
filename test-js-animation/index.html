@@ -21,7 +21,25 @@
     </nav>
 </div>
 <script type="module">
-const $lis
+let currLi = 0
+const $lis = Array.from(document.querySelectorAll(".ul-slider li"))
+const NUM_LIS = $lis.length
+const LAST_LI = NUM_LIS - 1
+    
+const $prev = document.querySelector(".prev")
+$prev.addEventListener("click", () => {
+    currLi = currLi - 1
+    if (currLi<0) currLi = 0
+})
+const $next = document.querySelector(".next")
+$next.addEventListener("click", () => {
+    currLi = currLi + 1
+    if (currLi>LAST_LI) currLi = LAST_LI
+})
+
+const animate = function ( ) {
+
+}
 </script>
 </body>
 </html>
