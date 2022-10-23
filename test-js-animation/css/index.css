@@ -4,14 +4,6 @@
     box-sizing: border-box;
 }
 
-iframe {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 600px;
-}
-
 .slider-container {
     width: 800px;
     height: 600px;
@@ -25,7 +17,6 @@ iframe {
     /*no tiene altura*/
     position: relative;
     overflow: hidden;
-    border: 1px dashed purple;
     width: 100%;
     height: 600px;
 }
@@ -34,6 +25,14 @@ iframe {
     position: absolute;
     left: -800px;
     width: 100%;
+}
+
+.ul-slider li iframe {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 600px;
 }
 
 .li-animation-in {
