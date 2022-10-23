@@ -24,6 +24,7 @@
 </main>
 <script type="module">
 let currLi = 0
+let autoAnimation = true
 const $lis = Array.from(document.querySelectorAll(".ul-slider li"))
 const NUM_LIS = $lis.length
 const LAST_LI = NUM_LIS - 1
@@ -67,6 +68,10 @@ const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[
 
 const animate = function ( ) {
     const pid = setInterval(() => {
+        if (!autoAnimation) {
+            clearInterval(pid)
+            return
+        }
         const old = currLi
         currLi = currLi + 1
         if (currLi>LAST_LI) currLi = 0
