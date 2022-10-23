@@ -40,13 +40,15 @@ $next.addEventListener("click", () => {
 const get_li_by_position = position => $lis.filter(($li, pos)=> position===pos)[0] ?? null
 
 const animate = function ( ) {
-    setTimeout(() => {
+    const pid = setInterval(() => {
         const $li = get_li_by_position(currLi)
         $li.classList.remove("li-animation-in")
         //$li.classList.add("li-animation-out")
         const $li2 = get_li_by_position(currLi+1)
         console.log("li2",$li2)
         $li2.classList.add("li-animation-in")
+        currLi = currLi + 1
+        if (currLi>LAST_LI) currLi = 0
     },7000)
 }
 animate()
