@@ -7,6 +7,7 @@ export class EafSlider {
         `
     #$ul = null
     #currLi = 0
+    #autoAnimation = true
 
     constructor(input) {
         this.#input = input
@@ -28,8 +29,6 @@ export class EafSlider {
         //const $ul = document.querySelector(".eaf-slider .ul-slider")
         this.#_load_lis()
 
-        let autoAnimation = true
-
         const $liloading = document.querySelector(".eaf-slider .ul-slider li[role=loading]")
         $liloading.hide = () => {
             $liloading.style.left = "0px"
@@ -44,7 +43,7 @@ export class EafSlider {
         const NUM_LIS = $lis.length
         const LAST_LI = NUM_LIS - 1
 
-        if (NUM_LIS<2) autoAnimation = false
+        if (NUM_LIS<2) this.#autoAnimation = false
 
         const configNav = () => {
             const $nav = document.querySelector(".eaf-slider nav.slider-nav")
@@ -120,7 +119,7 @@ export class EafSlider {
         const detectIframeClick = () => {
             const MILI_SECONDS = 100
             const processId = setInterval(function(){
-                if (!autoAnimation) {
+                if (!this.#autoAnimation) {
                     clearInterval(processId)
                     return
                 }
@@ -130,7 +129,7 @@ export class EafSlider {
                 if ($activeElem.getAttribute("role") !== "eaf-slider") return
 
                 console.log("iframe clicked")
-                autoAnimation = false
+                this.#autoAnimation = false
                 clearInterval(processId)
             }, MILI_SECONDS);
         }
@@ -174,7 +173,7 @@ export class EafSlider {
         })
 
         window.addEventListener("navClicked", function (ev) {
-            autoAnimation = false
+            this.#autoAnimation = false
             let $li = get_li_by_position(ev.detail.prevli)
             $li.hide()
 
