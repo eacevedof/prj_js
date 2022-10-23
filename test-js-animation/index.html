@@ -118,7 +118,6 @@ const animate = () => {
         currLi = currLi + 1
         if (currLi>LAST_LI) currLi = 0
 
-        console.log("animate","hide", old, "show", currLi)
         const $liHide = get_li_by_position(old)
         $liHide.hide()
 
