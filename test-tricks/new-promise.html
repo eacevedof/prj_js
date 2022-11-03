@@ -1,0 +1,21 @@
+<script>
+//https://youtube.com/shorts/GhSdZtoQDHc?feature=share 
+
+function getData() {
+  return new Promise((fnok, fnerr)=> {
+    fnok("hola")
+  })
+}
+
+function initializeData() {
+  return function() {
+    return getData().then(data => "datos inicializados")
+  }
+}
+
+async function init() {
+  console.log( await initializeData())
+}
+
+init()
+</script>
