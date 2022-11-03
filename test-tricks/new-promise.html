@@ -1,21 +1,31 @@
 <script>
 //https://youtube.com/shorts/GhSdZtoQDHc?feature=share 
-
 function getData() {
-  return new Promise((fnok, fnerr)=> {
-    fnok("hola")
+  //una promesa es un objeto que se construye en base a una función que recibe
+  //dos funciones como parametros. Esta función "constructora" cuando se resuelva, 
+  //se le pasará la funcion configurada en then(fn_ok), en caso de error se configura en catch(fn_err)
+  return new Promise((fn_ok, fn_err) => {
+    console.log("promise", fn_ok, fn_err)
+    //throw new Error("uuuu")
+    fn_ok("Hola!")
   })
 }
 
 function initializeData() {
   return function() {
-    return getData().then(data => "datos inicializados")
+    //el callback en then. es la función f
+    const r = getData().
+        then(data => `${data} datos inicializados`).
+        catch( e => console.log("on-error", e))
+    return r
   }
 }
 
 async function init() {
-  console.log( await initializeData())
+  //nitilizedata -> una funcion q a su vez llama a getData() 
+  //getData devuelve una promesa que se esperaria a ser ejecutada 
+  console.log("init con await", await initializeData()())
+  console.log("ini sin await", initializeData()())
 }
-
 init()
 </script>
