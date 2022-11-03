@@ -12,9 +12,13 @@ function showInfo(likes, friends) {
   return `${this.name} tiene ${likes} y ${friends}`
 }
 
+const funcbind = showInfo.bind(user)
+
 console.log(
-  "call",
+  "call: ",
   showInfo.call(user, 4, 3),
-  "apply",
-  showInfo.apply(user, [6,9])
+  "| apply: ",
+  showInfo.apply(user, [7,12]),
+  "| bind: ",
+  funcbind(9,22)
 )
