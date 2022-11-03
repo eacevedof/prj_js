@@ -12,4 +12,9 @@ function showInfo(likes, friends) {
   return `${this.name} tiene ${likes} y ${friends}`
 }
 
-console.log(showInfo.call(user, 4, 3))
+console.log(
+  "call",
+  showInfo.call(user, 4, 3),
+  "apply",
+  showInfo.apply(user, [6,9])
+)
