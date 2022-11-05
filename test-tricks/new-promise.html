@@ -15,8 +15,9 @@ function initializeData() {
   return function() {
     //el callback en then. es la función f
     const r = getData().
-        then(data => `${data} datos inicializados`, err => console.log("get-data err",err)).
-        catch( e => console.log("on-error", e))
+        //dos formas de configurar on_error
+        then(data => `${data} datos inicializados 1`, err => console.log("get-data err 1",err))
+        //then(data => `${data} datos inicializados 2`).catch( err => console.log("get-data-err 2", err))
     return r
   }
 }
