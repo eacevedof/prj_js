@@ -136,7 +136,7 @@ export class EafSlider {
     }
 
     #_animate() {
-        const MILLISECONS = 10000
+        const MILLISECONS = 20000
         const $liShow = this.#_get_li_by_position(this.#currLi)
         console.log("lishow", $liShow, this.#currLi)
         this.#$h2.settitle($liShow.getAttribute("title") ?? "")
