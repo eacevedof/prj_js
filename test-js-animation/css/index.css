@@ -58,7 +58,7 @@
 }
 
 @keyframes kf-slide-in {
-    100% { left: 0; }
+    100% { left: 0px; }
 }
 
 @keyframes kf-slide-out {

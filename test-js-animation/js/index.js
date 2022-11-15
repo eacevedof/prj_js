@@ -111,14 +111,18 @@ export class EafSlider {
 
         this.#$lis.forEach(($li, i) => {
             $li.hide = () => {
+                //desde 0
                 $li.style.left= "0px"
                 $li.classList.remove("li-animation-in")
+                // hasta -800
                 $li.classList.add("li-animation-out")
             }
 
             $li.show = () => {
+                //desde -800px
                 $li.style.left= "-800px"
                 $li.classList.remove("li-animation-out")
+                //hasta 0px
                 $li.classList.add("li-animation-in")
             }
 
@@ -136,7 +140,7 @@ export class EafSlider {
     }
 
     #_animate() {
-        const MILLISECONS = 20000
+        const MILLISECONS = 60000
         const $liShow = this.#_get_li_by_position(this.#currLi)
         console.log("lishow", $liShow, this.#currLi)
         this.#$h2.settitle($liShow.getAttribute("title") ?? "")
