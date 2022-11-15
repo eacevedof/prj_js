@@ -136,6 +136,7 @@ export class EafSlider {
     }
 
     #_animate() {
+        const MILLISECONS = 10000
         const $liShow = this.#_get_li_by_position(this.#currLi)
         console.log("lishow", $liShow, this.#currLi)
         this.#$h2.settitle($liShow.getAttribute("title") ?? "")
@@ -159,7 +160,7 @@ export class EafSlider {
             this.#$h2.settitle($liShow.getAttribute("title") ?? "")
             $liShow.show()
             this.#$navP.navtext()
-        },5000)
+        },MILLISECONS)
     }
     
     #_detect_iframe_click() {
