@@ -57,16 +57,8 @@
     cursor: pointer;
 }
 
-@-webkit-keyframes kf-wk-slide-in {
-    100% { left: 0; }
-}
-
 @keyframes kf-slide-in {
     100% { left: 0; }
-}
-
-@-webkit-keyframes kf-wk-slide-out {
-    100% { left: -800px; }
 }
 
 @keyframes kf-slide-out {
