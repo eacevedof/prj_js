@@ -41,12 +41,10 @@
 }
 
 .eaf-slider .li-animation-in {
-    -webkit-animation: kf-wk-slide-in 0.5s forwards;
     animation: kf-slide-in 0.5s forwards;
 }
 
 .eaf-slider .li-animation-out {
-    -webkit-animation: kf-wk-slide-out 0.5s forwards;
     animation: kf-slide-out 0.5s forwards;
 }
 
@@ -76,6 +74,5 @@
 }
 
 .eaf-slider .loading-out {
-    -webkit-animation: kf-wk-slide-out 0.5s forwards;
     animation: kf-slide-out 0.5s forwards;
 }
