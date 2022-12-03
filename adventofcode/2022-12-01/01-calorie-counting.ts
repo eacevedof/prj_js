@@ -2254,27 +2254,49 @@ const end_positions: Array<IPosition> = allregs.map((val:string, i:number) => {
 .filter((position:IPosition) => position.name != "none")
 .map((position:IPosition, i:number) => { 
   position.id = i
-  position.name  = position.name.concat(i.toString())
+  position.name = position.name.concat(i.toString())
   return position
 })
-
 
 interface IElf {
   id: number,
   name: string,
+  endline: number,
   collected: Array<number>,
   total_calories: number,
 } 
 
-const elfs: Array<IElf> = end_positions.map((position:IPosition) => {
+
+let elfs: Array<IElf> = end_positions.map((position:IPosition) => {
   const elf:IElf = {
     id: position.id,
     name: position.name,
+    endline: position.position,
     collected: [],
     total_calories: 0
   }
-
   return elf
 })
 
+const get_regs_by_elf = (elf:IElf): Array<number> => {
+  const to: number = elf.endline
+  let from: number = 0
+  if (elf.id>0) {
+    let previd:number = elf.id - 1
+    from = elfs.filter(elf => elf.id === previd)[0].endline + 1
+  }
+  return allregs.filter((reg:string, i:number) => i>=from && i<to).map((reg:string) => parseInt(reg))
+}
+
+elfs = elfs.map((elf:IElf) => {
+  const collected: Array<number> = get_regs_by_elf(elf)
+  const total_calories: number = collected.reduce((prev:number, cur:number) => prev + cur, 0)
+  return ({
+    ...elf,
+    collected,
+    total_calories,
+  })
+})
+
+elfs.sort((elfA:IElf, elfB:IElf) => elfB.total_calories-elfA.total_calories)
 console.log(elfs)
