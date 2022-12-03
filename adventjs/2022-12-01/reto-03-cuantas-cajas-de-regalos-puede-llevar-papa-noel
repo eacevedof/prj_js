@@ -1,2 +1,19 @@
 //https://adventjs.dev/es/challenges/2022/3
 //reto-03-cuantas-cajas-de-regalos-puede-llevar-papa-noel.ts
+function distributeGifts(packOfGifts, reindeers) {
+  return 0
+}
+
+//peso regalo = num-letras-nombre-regalo
+//max por reno = 2 x num-letras-nombre-reno
+
+
+const packOfGifts:Array<string> = ["book", "doll", "ball"]
+const reindeers:Array<string> = ["dasher", "dancer"]
+
+// el pack de regalos pesa 4 + 4 + 4 = 12
+// los renos pueden llevar (2 * 6) + (2 * 6) = 24
+// por lo tanto, Santa Claus puede entregar 2 cajas de regalos
+
+const maxToDeliver = distributeGifts(packOfGifts, reindeers) // 2
+console.log(maxToDeliver)
