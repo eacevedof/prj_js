@@ -1,15 +1,4 @@
-// https://adventofcode.com/2022/day/1
-/*
-reindeer (reindir): reno
-fruit (frut)
-grove (groof): arboleda
-energy (enershi)
-although (aldou)
-Elves (elfs)
-available (aveilibel)
-separates (separeits)
-represents (represents)
-*/
+// https://adventofcode.com/2022/day/1#part2
 
 const INPUT: string = `
 2027
@@ -2236,7 +2225,6 @@ const INPUT: string = `
 1689
 5509
 `
-//Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
 const allregs: Array<string> = INPUT.trim().concat("\n").split("\n").map((val:string) => val.trim())
 
 interface IPosition {
@@ -2298,4 +2286,6 @@ elfs = elfs.map((elf:IElf) => {
 })
 
 elfs.sort((elfA:IElf, elfB:IElf) => elfB.total_calories-elfA.total_calories)
-console.log(elfs)
+
+const total_top3 = elfs.filter((elf:IElf, i:number) => i<3).map((elf:IElf) => elf.total_calories).reduce((prev:number, curr:number)=> prev + curr, 0)
+console.log("top3", total_top3)
