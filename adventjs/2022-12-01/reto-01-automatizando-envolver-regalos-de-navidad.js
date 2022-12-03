@@ -1,4 +1,0 @@
-
-function wrapping(gifts) {
-  return []
-}

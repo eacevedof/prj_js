@@ -1,1 +1,2 @@
-[https://adventjs.dev](https://adventjs.dev/es#retos)
+- [https://adventjs.dev](https://adventjs.dev/es#retos)
+- [TS en minutos](https://learnxinyminutes.com/docs/es-es/typescript-es/)
