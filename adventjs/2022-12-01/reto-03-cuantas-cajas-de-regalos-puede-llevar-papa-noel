@@ -10,8 +10,8 @@ interface IWeight {
 }
 
 const weight: IWeight = {
-  getTotalByPack: (packOfGifts: Array<string>): number => packOfGifts.map((gift:string) => gift.length).reduce((prev:number, curr:number)=> prev+curr,0),
-  getTotalByReinders: (reindeers: Array<string>): number => reindeers.map((reinder:string) => reinder.length * 2).reduce((prev:number, curr:number)=> prev+curr,0),
+  getTotalByPack: (packOfGifts: Array<string>): number => packOfGifts.join("").length,
+  getTotalByReinders: (reindeers: Array<string>): number => reindeers.join("").length * 2,
 }
 
 function distributeGifts(packOfGifts: Array<string>, reindeers: Array<string>): number {
