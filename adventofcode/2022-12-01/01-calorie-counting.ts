@@ -2237,10 +2237,44 @@ const INPUT: string = `
 5509
 `
 //Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
-const allregs: Array<string> = INPUT.trim().split("\n").map((val:string) => val.trim())
+const allregs: Array<string> = INPUT.trim().concat("\n").split("\n").map((val:string) => val.trim())
+
+interface IPosition {
+  id: number,
+  name: string,
+  position: number
+}
+
+const end_positions: Array<IPosition> = allregs.map((val:string, i:number) => {
+  const position: IPosition = {id:-1, name: "none", position: i}
+  if (val!=="") return position
+  position.name = "elf-"
+  return position
+})
+.filter((position:IPosition) => position.name != "none")
+.map((position:IPosition, i:number) => { 
+  position.id = i
+  position.name  = position.name.concat(i.toString())
+  return position
+})
+
 
 interface IElf {
   id: number,
+  name: string,
   collected: Array<number>,
   total_calories: number,
 } 
+
+const elfs: Array<IElf> = end_positions.map((position:IPosition) => {
+  const elf:IElf = {
+    id: position.id,
+    name: position.name,
+    collected: [],
+    total_calories: 0
+  }
+
+  return elf
+})
+
+console.log(elfs)
