@@ -1,24 +1,25 @@
 //https://adventjs.dev/es/challenges/2022/3
 //reto-03-cuantas-cajas-de-regalos-puede-llevar-papa-noel.ts
 
-const getTotalPackWeight = (packOfGifts: Array<string>): number => packOfGifts.map((gift:string) => gift.length).reduce((prev:number, curr:number)=> prev+curr,0)
-const getTotalReinders = (reindeers: Array<string>): number => reindeers.map((reinder:string) => reinder.length * 2).reduce((prev:number, curr:number)=> prev+curr,0)
+const PACK_OF_GIFTS:Array<string> = ["book", "doll", "ball"]
+const REINDERS:Array<string> = ["dasher", "dancer","dancer","dancer"]
+
+interface IWeight {
+  getTotalByPack: (packOfGifts: Array<string>) => number,
+  getTotalByReinders: (reindeers: Array<string>) => number,
+}
+
+const weight: IWeight = {
+  getTotalByPack: (packOfGifts: Array<string>): number => packOfGifts.map((gift:string) => gift.length).reduce((prev:number, curr:number)=> prev+curr,0),
+  getTotalByReinders: (reindeers: Array<string>): number => reindeers.map((reinder:string) => reinder.length * 2).reduce((prev:number, curr:number)=> prev+curr,0),
+}
 
 function distributeGifts(packOfGifts: Array<string>, reindeers: Array<string>): number {
-  const totalPack: number = getTotalPackWeight(packOfGifts)
-  const totalReinders: number = getTotalReinders(reindeers)
-  console.log("totalPack", totalPack, "totalReinders", totalReinders)
+  const totalPack: number = weight.getTotalByPack(packOfGifts)
+  const totalReinders: number = weight.getTotalByReinders(reindeers)
   if (totalPack > totalReinders) return 0
   return Math.floor(totalReinders / totalPack)
 }
 
-//peso regalo = num-letras-nombre-regalo
-//max por reno = 2 x num-letras-nombre-reno
-const PACK_OF_GIFTS:Array<string> = ["book", "doll", "ball"]
-const REINDERS:Array<string> = ["dasher", "dancer","dancer","dancer"]
-
-// el pack de regalos pesa 4 + 4 + 4 = 12
-// los renos pueden llevar (2 * 6) + (2 * 6) = 24
-// por lo tanto, Santa Claus puede entregar 2 cajas de regalos
-const maxToDeliver = distributeGifts(PACK_OF_GIFTS, REINDERS) // 2
+const maxToDeliver = distributeGifts(PACK_OF_GIFTS, REINDERS)
 console.log("max to deliver:", maxToDeliver)
