@@ -15,6 +15,7 @@ const weight: IWeight = {
 }
 
 function distributeGifts(packOfGifts: Array<string>, reindeers: Array<string>): number {
+  //si paso la logica del calculo aqui, para no usar la interfaz, no le mola puntua a 90
   const totalPack: number = weight.getTotalByPack(packOfGifts)
   const totalReinders: number = weight.getTotalByReinders(reindeers)
   if (totalPack > totalReinders) return 0
