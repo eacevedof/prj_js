@@ -1,0 +1,21 @@
+//https://adventjs.dev/es/challenges/2022/4
+//reto-03-cuantas-cajas-de-regalos-puede-llevar-papa-noel.ts
+
+interface IBox {
+  l: number,
+  w: number,
+  h: number,
+}
+
+const BOXES:Array<IBox> = [
+  { l: 1, w: 1, h: 1 },
+  { l: 3, w: 3, h: 3 },
+  { l: 2, w: 2, h: 2 }
+]
+
+function fitsInOneBox(boxes: Array<IBox>):boolean {
+  return false
+}
+
+const fits:boolean = fitsInOneBox(BOXES)
+console.log("fits:",fits)
