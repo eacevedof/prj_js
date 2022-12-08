@@ -13,8 +13,18 @@ const BOXES:Array<IBox> = [
   { l: 2, w: 2, h: 2 }
 ]
 
+const sort_asc = (box1:IBox,box2:IBox):number => {
+  /**  if (a is less than b by some ordering criterion) {
+    return -1;
+  }
+  if (a is greater than b by the ordering criterion) {
+    return 1;
+  } */
+  return box1.l - box2.l
+}
+
 function fitsInOneBox(boxes: Array<IBox>):boolean {
-  return false
+  boxes.sort(sort_asc)
 }
 
 const fits:boolean = fitsInOneBox(BOXES)
