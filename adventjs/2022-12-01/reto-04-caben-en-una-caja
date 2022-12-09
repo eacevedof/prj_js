@@ -20,7 +20,7 @@ const sort_asc = (box1:IBox,box2:IBox):number => {
   if (a is greater than b by the ordering criterion) {
     return 1;
   } */
-  return box1.l - box2.l
+  return (box1.l + box1.h + box1.w) - (box2.l + box2.h + box2.w)
 }
 
 function fitsInOneBox(boxes: Array<IBox>):boolean {
