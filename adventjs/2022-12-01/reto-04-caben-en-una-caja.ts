@@ -22,9 +22,9 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
   }
 
   boxes.sort(sortDescBySize)
-  console.log("sorted",boxes)
+  //console.log("sorted",boxes)
   
-  const fitBoxInOther = (boxBig:IBox, boxSmall:IBox):boolean =>  {
+  const smallDoesNotFit = (boxBig:IBox, boxSmall:IBox):boolean =>  {
     return (
       boxBig.h <= boxSmall.h || 
       boxBig.w <= boxSmall.w || 
@@ -32,8 +32,10 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
     )
   }
 
-  const isBiggerThanRest = (boxCheck:IBox, boxes:Array<IBox>):boolean => {
-    const someDoesNotFit:boolean = boxes.some((boxI:IBox) => !fitBoxInOther(boxCheck, boxI))
+  const isBiggerThanRest = (boxCheck:IBox, restOfBoxes:Array<IBox>):boolean => {
+    const someDoesNotFit:boolean = restOfBoxes.some(
+      (boxI:IBox) => smallDoesNotFit(boxCheck, boxI)
+    )
     return !someDoesNotFit
   }
 
@@ -42,7 +44,7 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
     const restOfBoxes: Array<IBox> = boxes.slice(i+1)
     if (!restOfBoxes) return
     if (!isBiggerThanRest(boxI, restOfBoxes)) {
-      console.log("restOfBoxes",restOfBoxes)
+      console.log("restOfBoxes",restOfBoxes,"boxi",boxI)
       unfit.push(boxI)
     }
   })

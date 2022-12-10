@@ -16,13 +16,13 @@ function fitsInOneBox(boxes) {
     };
     boxes.sort(sortDescBySize);
     console.log("sorted", boxes);
-    var fitBoxInOther = function (boxBig, boxSmall) {
+    var smallDoesNotFit = function (boxBig, boxSmall) {
         return (boxBig.h <= boxSmall.h ||
             boxBig.w <= boxSmall.w ||
             boxBig.l <= boxSmall.l);
     };
-    var isBiggerThanRest = function (boxCheck, boxes) {
-        var someDoesNotFit = boxes.some(function (boxI) { return !fitBoxInOther(boxCheck, boxI); });
+    var isBiggerThanRest = function (boxCheck, restOfBoxes) {
+        var someDoesNotFit = restOfBoxes.some(function (boxI) { return smallDoesNotFit(boxCheck, boxI); });
         return !someDoesNotFit;
     };
     var unfit = [];
@@ -31,7 +31,7 @@ function fitsInOneBox(boxes) {
         if (!restOfBoxes)
             return;
         if (!isBiggerThanRest(boxI, restOfBoxes)) {
-            console.log("restOfBoxes", restOfBoxes);
+            console.log("restOfBoxes", restOfBoxes, "boxi", boxI);
             unfit.push(boxI);
         }
     });
