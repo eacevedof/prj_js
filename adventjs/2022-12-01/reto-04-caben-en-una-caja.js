@@ -34,5 +34,5 @@ function fitsInOneBox(boxes) {
     });
     return !some;
 }
-var fits = fitsInOneBox(BOXES);
-console.log("fits:", fits);
+var fitall = fitsInOneBox(BOXES);
+console.log("fit all?: ", fitall);

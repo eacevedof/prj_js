@@ -45,5 +45,5 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
   return !some
 }
 
-const fits:boolean = fitsInOneBox(BOXES)
-console.log("fits:",fits)
+const fitall:boolean = fitsInOneBox(BOXES)
+console.log("fit all?: ",fitall)
