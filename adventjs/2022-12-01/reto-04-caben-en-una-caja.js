@@ -15,7 +15,7 @@ function fitsInOneBox(boxes) {
         return (box2.l + box2.h + box2.w) - (box1.l + box1.h + box1.w);
     };
     boxes.sort(sortDescBySize);
-    //console.log(boxes)
+    console.log("sorted", boxes);
     var fitBoxInOther = function (boxBig, boxSmall) {
         return (boxBig.h <= boxSmall.h ||
             boxBig.w <= boxSmall.w ||
@@ -26,23 +26,21 @@ function fitsInOneBox(boxes) {
         return !someDoesNotFit;
     };
     var unfit = [];
-    boxes.forEach(function (box, i) {
-        if (i === 0)
+    boxes.forEach(function (boxI, i) {
+        var restOfBoxes = boxes.slice(i + 1);
+        if (!restOfBoxes)
             return;
-        var smallerByPosition = boxes.slice(i);
-        if (!isBiggerThanRest(box, smallerByPosition))
-            unfit.push(box);
+        if (!isBiggerThanRest(boxI, restOfBoxes)) {
+            console.log("restOfBoxes", restOfBoxes);
+            unfit.push(boxI);
+        }
     });
     console.log({ boxes: boxes, unfit: unfit });
     return (unfit.length === 0);
 }
 var BOXES = [
     { l: 1, w: 1, h: 1 },
-    { l: 3, w: 3, h: 3 },
-    { l: 2, w: 2, h: 2 },
-    { l: 8, w: 2, h: 1 },
-    { l: 1, w: 2, h: 8 },
-    { l: 10, w: 4, h: 9 },
+    { l: 2, w: 2, h: 2 }
 ];
 var fitall = fitsInOneBox(BOXES);
 console.log("fit all?: ", fitall);
