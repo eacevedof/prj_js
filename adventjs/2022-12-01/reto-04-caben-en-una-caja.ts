@@ -18,7 +18,9 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
     if (a is greater than b by the ordering criterion) {
       return 1;
     } */
-    return (box2.l + box2.h + box2.w) - (box1.l + box1.h + box1.w)
+    const totalBox2 = (box2.l + box2.h + box2.w)
+    const totalBox1 = (box1.l + box1.h + box1.w)
+    return totalBox2 - totalBox1
   }
 
   boxes.sort(sortDescBySize)
@@ -44,12 +46,12 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
     const restOfBoxes: Array<IBox> = boxes.slice(i+1)
     if (!restOfBoxes) return
     if (!isBiggerThanRest(boxI, restOfBoxes)) {
-      console.log("restOfBoxes",restOfBoxes,"boxi",boxI)
+      //console.log("restOfBoxes",restOfBoxes,"boxi",boxI)
       unfit.push(boxI)
     }
   })
 
-  console.log({boxes, unfit})
+  //console.log({boxes, unfit})
   return (unfit.length===0)
 }
 

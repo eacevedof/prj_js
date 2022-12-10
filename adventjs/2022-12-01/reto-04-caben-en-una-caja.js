@@ -12,10 +12,12 @@ function fitsInOneBox(boxes) {
         if (a is greater than b by the ordering criterion) {
           return 1;
         } */
-        return (box2.l + box2.h + box2.w) - (box1.l + box1.h + box1.w);
+        var totalBox2 = (box2.l + box2.h + box2.w);
+        var totalBox1 = (box1.l + box1.h + box1.w);
+        return totalBox2 - totalBox1;
     };
     boxes.sort(sortDescBySize);
-    console.log("sorted", boxes);
+    //console.log("sorted",boxes)
     var smallDoesNotFit = function (boxBig, boxSmall) {
         return (boxBig.h <= boxSmall.h ||
             boxBig.w <= boxSmall.w ||
@@ -31,11 +33,11 @@ function fitsInOneBox(boxes) {
         if (!restOfBoxes)
             return;
         if (!isBiggerThanRest(boxI, restOfBoxes)) {
-            console.log("restOfBoxes", restOfBoxes, "boxi", boxI);
+            //console.log("restOfBoxes",restOfBoxes,"boxi",boxI)
             unfit.push(boxI);
         }
     });
-    console.log({ boxes: boxes, unfit: unfit });
+    //console.log({boxes, unfit})
     return (unfit.length === 0);
 }
 var BOXES = [
