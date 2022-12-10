@@ -7,17 +7,6 @@ interface IBox {
   h: number,
 }
 
-const BOXES:Array<IBox> = [
-  { l: 1, w: 1, h: 1 },
-  { l: 3, w: 3, h: 3 },
-  { l: 2, w: 2, h: 2 },
-  { l: 8, w: 2, h: 1 },
-  { l: 1, w: 2, h: 8 },
-  { l: 10, w: 4, h: 9 },
-  //{ l: 4, w: 10, h: 9 },
-
-]
-
 function fitsInOneBox(boxes: Array<IBox>):boolean {
   if (!boxes) return false
   if (boxes.length === 1) return true
@@ -49,5 +38,15 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
   return !some
 }
 
+
+const BOXES:Array<IBox> = [
+  { l: 1, w: 1, h: 1 },
+  { l: 3, w: 3, h: 3 },
+  { l: 2, w: 2, h: 2 },
+  { l: 8, w: 2, h: 1 },
+  { l: 1, w: 2, h: 8 },
+  { l: 10, w: 4, h: 9 },
+  //{ l: 4, w: 10, h: 9 },
+]
 const fitall:boolean = fitsInOneBox(BOXES)
 console.log("fit all?: ",fitall)
