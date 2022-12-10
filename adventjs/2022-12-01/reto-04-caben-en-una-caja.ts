@@ -1,5 +1,5 @@
 //https://adventjs.dev/es/challenges/2022/4
-//reto-03-cuantas-cajas-de-regalos-puede-llevar-papa-noel.ts
+//reto-04-caben-en-una-caja.ts
 
 interface IBox {
   l: number,
