@@ -14,7 +14,7 @@ const BOXES:Array<IBox> = [
   { l: 8, w: 2, h: 1 },
   { l: 1, w: 2, h: 8 },
   { l: 10, w: 4, h: 9 },
-  { l: 4, w: 10, h: 9 },
+  //{ l: 4, w: 10, h: 9 },
 
 ]
 
@@ -31,17 +31,21 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
     } */
     return (box2.l + box2.h + box2.w) - (box1.l + box1.h + box1.w)
   }
-
   boxes.sort(sort_desc)
-  const bigone = boxes[0]
-  console.log("bigone", bigone)
-  boxes.shift()
+  console.log(boxes)
   
-  const some = boxes.some( (box:IBox) => {
-    if (bigone.h <= box.h || bigone.w <= box.w || bigone.l <= box.l)
-      console.log("wrong-box", box)
-    return (bigone.h <= box.h || bigone.w <= box.w || bigone.l <= box.l)
+  const some = boxes.some( (boxBig:IBox, i:number) => {
+    return boxes.some( (boxSmall:IBox, j:number) => {
+        if (i>=j) return false
+        
+        const nofit:boolean = (boxBig.h <= boxSmall.h || boxBig.w <= boxSmall.w || boxBig.l <= boxSmall.l)
+        if (nofit) {
+          console.log("no-fit big i:",boxBig, "small j:", boxSmall, i, j)
+        }
+        return nofit
+    })
   })  
+
   return !some
 }
 
