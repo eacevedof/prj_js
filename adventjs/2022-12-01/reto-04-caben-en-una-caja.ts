@@ -25,12 +25,15 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
   
   const some = boxes.some( (boxBig:IBox, i:number) => {
     return boxes.some( (boxSmall:IBox, j:number) => {
+        //si big pos esta despues de small pos
         if (i>=j) return false
         
         const nofit:boolean = (boxBig.h <= boxSmall.h || boxBig.w <= boxSmall.w || boxBig.l <= boxSmall.l)
+        /*
         if (nofit) {
           console.log("no-fit big i:",boxBig, "small j:", boxSmall, i, j)
         }
+        */
         return nofit
     })
   })  
