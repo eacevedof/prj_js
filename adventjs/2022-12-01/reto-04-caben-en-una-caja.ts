@@ -11,7 +11,7 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
   if (!boxes) return false
   if (boxes.length === 1) return true
   
-  const sort_desc = (box1:IBox,box2:IBox):number => {
+  const sortDescBySize = (box1:IBox,box2:IBox):number => {
     /**  if (a is less than b by some ordering criterion) {
       return -1;
     }
@@ -20,27 +20,35 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
     } */
     return (box2.l + box2.h + box2.w) - (box1.l + box1.h + box1.w)
   }
-  boxes.sort(sort_desc)
-  console.log(boxes)
+
+  boxes.sort(sortDescBySize)
+  //console.log(boxes)
   
-  const some = boxes.some( (boxBig:IBox, i:number) => {
-    return boxes.some( (boxSmall:IBox, j:number) => {
-        //si big pos esta despues de small pos
-        if (i>=j) return false
-        
-        const nofit:boolean = (boxBig.h <= boxSmall.h || boxBig.w <= boxSmall.w || boxBig.l <= boxSmall.l)
-        /*
-        if (nofit) {
-          console.log("no-fit big i:",boxBig, "small j:", boxSmall, i, j)
-        }
-        */
-        return nofit
-    })
-  })  
+  const fitBoxInOther = (boxBig:IBox, boxSmall:IBox):boolean =>  {
+    return (
+      boxBig.h <= boxSmall.h || 
+      boxBig.w <= boxSmall.w || 
+      boxBig.l <= boxSmall.l
+    )
+  }
 
-  return !some
+  const isBiggerThanRest = (boxCheck:IBox, boxes:Array<IBox>):boolean => {
+    const someDoesNotFit:boolean = boxes.some((boxI:IBox) => !fitBoxInOther(boxCheck, boxI))
+    return !someDoesNotFit
+  }
+
+  const unfit: Array<IBox> = []
+  boxes.forEach((box:IBox, i:number):void => {
+    if (i===0) return
+    const smallerByPosition: Array<IBox> = boxes.slice(i)
+    if (!isBiggerThanRest(box, smallerByPosition)) {
+      unfit.push(box)
+    }
+  })
+
+  console.log({boxes, unfit})
+  return (unfit.length===0)
 }
-
 
 const BOXES:Array<IBox> = [
   { l: 1, w: 1, h: 1 },
@@ -51,5 +59,6 @@ const BOXES:Array<IBox> = [
   { l: 10, w: 4, h: 9 },
   //{ l: 4, w: 10, h: 9 },
 ]
+
 const fitall:boolean = fitsInOneBox(BOXES)
 console.log("fit all?: ",fitall)
