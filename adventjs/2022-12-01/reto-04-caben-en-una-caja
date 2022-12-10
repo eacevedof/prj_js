@@ -15,6 +15,7 @@ const BOXES:Array<IBox> = [
   { l: 1, w: 2, h: 8 },
   { l: 10, w: 4, h: 9 },
   { l: 4, w: 10, h: 9 },
+
 ]
 
 function fitsInOneBox(boxes: Array<IBox>):boolean {
@@ -30,7 +31,7 @@ function fitsInOneBox(boxes: Array<IBox>):boolean {
     } */
     return (box2.l + box2.h + box2.w) - (box1.l + box1.h + box1.w)
   }
-    
+
   boxes.sort(sort_desc)
   const bigone = boxes[0]
   console.log("bigone", bigone)
