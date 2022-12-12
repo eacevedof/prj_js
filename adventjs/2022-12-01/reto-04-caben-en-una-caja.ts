@@ -7,52 +7,37 @@ interface IBox {
   h: number,
 }
 
-function fitsInOneBox(boxes: Array<IBox>):boolean {
-  if (!boxes) return false
-  if (boxes.length === 1) return true
-  
-  const sortDescBySize = (box1:IBox,box2:IBox):number => {
-    /**  if (a is less than b by some ordering criterion) {
-      return -1;
-    }
-    if (a is greater than b by the ordering criterion) {
-      return 1;
-    } */
-    const totalBox2 = (box2.l + box2.h + box2.w)
-    const totalBox1 = (box1.l + box1.h + box1.w)
-    return totalBox2 - totalBox1
+function fitsInOneBox(boxes: Array<IBox>): boolean {
+  if (!boxes || boxes.length === 0) return false;
+
+  const sortDescBySize = (box1: IBox, box2: IBox): number => {
+    return (box2.l + box2.h + box2.w) - (box1.l + box1.h + box1.w);
   }
 
-  boxes.sort(sortDescBySize)
-  //console.log("sorted",boxes)
-  
-  const smallDoesNotFit = (boxBig:IBox, boxSmall:IBox):boolean =>  {
+  boxes.sort(sortDescBySize);
+
+  const smallDoesNotFit = (boxBig: IBox, boxSmall: IBox): boolean => {
     return (
-      boxBig.h <= boxSmall.h || 
-      boxBig.w <= boxSmall.w || 
+      boxBig.h <= boxSmall.h ||
+      boxBig.w <= boxSmall.w ||
       boxBig.l <= boxSmall.l
-    )
+    );
   }
 
-  const isBiggerThanRest = (boxCheck:IBox, restOfBoxes:Array<IBox>):boolean => {
-    const someDoesNotFit:boolean = restOfBoxes.some(
-      (boxI:IBox) => smallDoesNotFit(boxCheck, boxI)
-    )
-    return !someDoesNotFit
+  const isBiggerThanRest = (boxCheck: IBox, restOfBoxes: Array<IBox>): boolean => {
+    return !restOfBoxes.some(boxI => smallDoesNotFit(boxCheck, boxI));
   }
 
-  const unfit: Array<IBox> = []
-  boxes.forEach((boxI:IBox, i:number):void => {
-    const restOfBoxes: Array<IBox> = boxes.slice(i+1)
-    if (!restOfBoxes) return
+  const unfit: Array<IBox> = [];
+  boxes.forEach((boxI: IBox, i: number): void => {
+    const restOfBoxes: Array<IBox> = boxes.slice(i + 1);
+    if (!restOfBoxes) return;
     if (!isBiggerThanRest(boxI, restOfBoxes)) {
-      //console.log("restOfBoxes",restOfBoxes,"boxi",boxI)
-      unfit.push(boxI)
+      unfit.push(boxI);
     }
-  })
+  });
 
-  //console.log({boxes, unfit})
-  return (unfit.length===0)
+  return unfit.length === 0;
 }
 
 const BOXES:Array<IBox> = [
