@@ -8,52 +8,58 @@
 </head>
 <body>
 <script>
-const internalIp = async () => {
-    if (!RTCPeerConnection) {
-        throw new Error("Not supported.")
-    }
+const findLocalIp = (logInfo = true) => new Promise( (resolve, reject) => {
+    window.RTCPeerConnection = window.RTCPeerConnection
+        || window.mozRTCPeerConnection
+        || window.webkitRTCPeerConnection;
 
-    const peerConnection = new RTCPeerConnection({ iceServers: [] })
+    if ( typeof window.RTCPeerConnection == 'undefined' )
+        return reject('WebRTC not supported by browser');
 
-    peerConnection.createDataChannel('')
-    peerConnection.createOffer(peerConnection.setLocalDescription.bind(peerConnection), () => { })
+    let pc = new RTCPeerConnection();
+    let ips = [];
 
-    peerConnection.addEventListener("icecandidateerror", (event) => {
-        throw new Error(event.errorText)
-    })
+    pc.createDataChannel("");
+    pc.createOffer()
+        .then(offer => pc.setLocalDescription(offer))
+        .catch(err => reject(err));
+    pc.onicecandidate = event => {
+        if ( !event || !event.candidate ) {
+            // All ICE candidates have been sent.
+            if ( ips.length == 0 )
+                return reject('WebRTC disabled or restricted by browser');
 
-    return new Promise(async resolve => {
-        peerConnection.addEventListener("icecandidate", async ({candidate}) => {
-            peerConnection.close()
+            return resolve(ips);
+        }
 
-            if (candidate && candidate.candidate) {
-                const result = candidate.candidate.split(" ")[4]
-                if (result.endsWith(".local")) {
-                    const inputDevices = await navigator.mediaDevices?.enumerateDevices() || []
-                    const inputDeviceTypes = inputDevices.map(({ kind }) => kind)
+        let parts = event.candidate.candidate.split(' ');
+        let [base,componentId,protocol,priority,ip,port,,type,...attr] = parts;
+        let component = ['rtp', 'rtpc'];
 
-                    const constraints = {}
+        if ( ! ips.some(e => e == ip) )
+            ips.push(ip);
 
-                    if (inputDeviceTypes.includes("audioinput")) {
-                        constraints.audio = true
-                    } else if (inputDeviceTypes.includes("videoinput")) {
-                        constraints.video = true
-                    } else {
-                        throw new Error("An audio or video input device is required!")
-                    }
+        if ( ! logInfo )
+            return;
 
-                    const mediaStream = await navigator.mediaDevices.getUserMedia(constraints)
-                    mediaStream.getTracks().forEach(track => track.stop())
-                    resolve(internalIp())
-                }
-                resolve(result)
-            }
-        })
-    })
-}
+        console.log(" candidate: " + base.split(':')[1]);
+        console.log(" component: " + component[componentId - 1]);
+        console.log("  protocol: " + protocol);
+        console.log("  priority: " + priority);
+        console.log("        ip: " + ip);
+        console.log("      port: " + port);
+        console.log("      type: " + type);
 
-const r = internalIp()
-r.then(r => console.log(r))
+        if ( attr.length ) {
+            console.log("attributes: ");
+            for(let i = 0; i < attr.length; i += 2)
+                console.log("> " + attr[i] + ": " + attr[i+1]);
+        }
+
+        console.log();
+    };
+} );
+findLocalIp()
 </script>
 </body>
 </html>
