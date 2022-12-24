@@ -1,6 +1,6 @@
 <?php
 echo "<pre>";
-echo "_SERVER";
+echo "\n\n_SERVER:\n";
 $server = $_SERVER;
 unset(
     $server["REDIRECT_DOCUMENT_ROOT"],
@@ -13,10 +13,10 @@ unset(
 );
 print_r($server);
 
-echo "_REQUEST";
+echo "\n\n_REQUEST:\n";
 $request = $_REQUEST;
 print_r($request);
 
-echo "_SESSION";
+echo "\n\n_SESSION:\n";
 $session = $_SESSION;
 print_r($session);
