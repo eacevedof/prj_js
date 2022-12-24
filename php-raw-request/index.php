@@ -1,5 +1,6 @@
 <?php
 echo "<pre>";
+echo "_SERVER";
 $server = $_SERVER;
 unset(
     $server["REDIRECT_DOCUMENT_ROOT"],
@@ -11,5 +12,11 @@ unset(
     $server["ORIG_PATH_TRANSLATED"],
 );
 print_r($server);
+
+echo "_REQUEST";
 $request = $_REQUEST;
 print_r($request);
+
+echo "_SESSION";
+$session = $_SESSION;
+print_r($session);
