@@ -11,12 +11,12 @@
 <hr/>
 <img src="./peer-connection-ice-event.png">
 <script>
-const findLocalIp = () => new Promise( (resolve, reject) => {
+const findLocalIp = () => new Promise((resolve, reject) => {
     window.RTCPeerConnection = window.RTCPeerConnection
         || window.mozRTCPeerConnection
         || window.webkitRTCPeerConnection;
 
-    if ( typeof window.RTCPeerConnection == "undefined" )
+    if (typeof window.RTCPeerConnection === "undefined")
         return reject("WebRTC not supported by browser");
 
     const rtcPeerConx = new RTCPeerConnection();
@@ -43,7 +43,7 @@ const findLocalIp = () => new Promise( (resolve, reject) => {
 
         //event.candidate.candidate es lo mismo que event.candidate pero todo en un string
         const candidateParts = event.candidate.candidate.split(" ");
-        const [base, componentId, protocol, priority, ip, port, ,type, ...attr] = candidateParts;
+        const [base, componentId, protocol, priority, ip, port, , type, ...attr] = candidateParts;
 
         if (!ips.some(e => e === ip))
             ips.push(ip);
@@ -68,12 +68,12 @@ const findLocalIp = () => new Promise( (resolve, reject) => {
         }
 
         if (attr.length) {
-            for(let i = 0; i < attr.length; i += 2)
-                traceObj.attributes[attr[i]] = attr[i+1]
+            for (let i = 0; i < attr.length; i += 2)
+                traceObj.attributes[attr[i]] = attr[i + 1]
         }
         document.getElementById("data").innerText = JSON.stringify(traceObj, null, 4)
-    };
-} );
+    }//onicecandidate
+});
 findLocalIp()
 </script>
 </body>
