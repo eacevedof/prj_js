@@ -11,3 +11,5 @@ unset(
     $server["ORIG_PATH_TRANSLATED"],
 );
 print_r($server);
+$request = $_REQUEST;
+print_r($request);
