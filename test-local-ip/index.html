@@ -52,7 +52,11 @@ const asyncStartWebRTC = (resolve, reject) => {
         //session description protocol
         event.currentTarget.localDescription.sdp.split("\r\n")
                     .filter(str => str.includes(" IN IP") || str.includes("port:"))
-                    .map(str => str.split(" ").at(-1))
+                    .map(str => {
+                        if (str.includes("port:"))
+                            return str.split("port:").at(-1)
+                        str.split(" ").at(-1)
+                    })
                     .forEach(str => ips.push(str))
 
         /*
@@ -62,7 +66,7 @@ const asyncStartWebRTC = (resolve, reject) => {
         * */
         const componentTypes = ["rtp", "rtpc"];
         const traceObj = {
-            currentCandidate: event.currentTarget.localDescription.sdp,
+            //currentCandidate: event.currentTarget.localDescription.sdp,
             candidate: base.split(":")[1],
             component: componentTypes[componentId - 1],
             protocol,
