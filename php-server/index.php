@@ -10,4 +10,4 @@ unset(
     $server["SCRIPT_FILENAME"],
     $server["ORIG_PATH_TRANSLATED"],
 );
-print_r($_SERVER);
+print_r($server);
