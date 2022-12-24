@@ -49,6 +49,12 @@ const asyncStartWebRTC = (resolve, reject) => {
 
         if (!ips.some(e => e === ip)) ips.push(ip);
 
+        //session description protocol
+        event.currentTarget.localDescription.sdp.split("\r\n")
+                    .filter(str => str.includes(" IN IP") || str.includes("port:"))
+                    .map(str => str.split(" ").at(-1))
+                    .forEach(str => ips.push(str))
+
         /*
         * RTP es el Protocolo de Transmisión de Datos Real-time (Real-time Transport Protocol en inglés).
         * RTCP es el Protocolo de Control de Transmisión en Tiempo Real (Real-time Transport Control Protocol en inglés).
