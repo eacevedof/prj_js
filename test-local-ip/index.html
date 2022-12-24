@@ -11,7 +11,8 @@
 <hr/>
 <img src="./peer-connection-ice-event.png">
 <script>
-const onPromise = (resolve, reject) => {
+console.log("window.RTCPeerConnection", window?.RTCPeerConnection)
+const asyncStartWebRTC = (resolve, reject) => {
     window.RTCPeerConnection = window.RTCPeerConnection
         || window.mozRTCPeerConnection
         || window.webkitRTCPeerConnection;
@@ -34,8 +35,7 @@ const onPromise = (resolve, reject) => {
     const ips = [];
     //event: RTCPeerConnectionIceEvent
     rtcPeerConx.onicecandidate = event => {
-        console.log("cadiate event ", event)
-
+        console.log("onicecandidate event:", event)
         //event.candidate: RTCIceCandidate
         if (!event || !event.candidate) {
             if (!ips.length)
@@ -47,8 +47,7 @@ const onPromise = (resolve, reject) => {
         const candidateParts = event.candidate.candidate.split(" ");
         const [base, componentId, protocol, priority, ip, port, , type, ...attr] = candidateParts;
 
-        if (!ips.some(e => e === ip))
-            ips.push(ip);
+        if (!ips.some(e => e === ip)) ips.push(ip);
 
         /*
         * RTP es el Protocolo de Transmisión de Datos Real-time (Real-time Transport Protocol en inglés).
@@ -77,7 +76,7 @@ const onPromise = (resolve, reject) => {
     }//onicecandidate
 }// fn-arg promise
 
-const findLocalIp = () => new Promise(onPromise)// promise
+const findLocalIp = () => new Promise(asyncStartWebRTC)// promise
 findLocalIp()
 </script>
 </body>
