@@ -11,71 +11,73 @@
 <hr/>
 <img src="./peer-connection-ice-event.png">
 <script>
-const findLocalIp = () => new Promise(
-    (resolve, reject) => {
-        window.RTCPeerConnection = window.RTCPeerConnection
-            || window.mozRTCPeerConnection
-            || window.webkitRTCPeerConnection;
+const onPromise = (resolve, reject) => {
+    window.RTCPeerConnection = window.RTCPeerConnection
+        || window.mozRTCPeerConnection
+        || window.webkitRTCPeerConnection;
 
-        if (typeof window.RTCPeerConnection === "undefined")
-            return reject("WebRTC not supported by browser");
+    if (typeof window.RTCPeerConnection === "undefined") {
+        alert("No RTCPeerConnection check WebRTC in browser")
+        return reject("WebRTC not supported by browser")
+    }
 
-        const rtcPeerConx = new RTCPeerConnection();
-        rtcPeerConx.createDataChannel("");
-        rtcPeerConx.createOffer()
-            .then(offer => rtcPeerConx.setLocalDescription(offer))
-            .catch(err => reject(err));
+    const rtcPeerConx = new RTCPeerConnection();
+    rtcPeerConx.createDataChannel("");
+    rtcPeerConx.createOffer()
+        .then(offer => rtcPeerConx.setLocalDescription(offer))
+        .catch(err => reject(err));
+    /*
+    * ICE = Interactive Connectivity Establishment.
+    * Los candidatos ICE son direcciones utilizadas para establecer una conexión P2P entre dos dispositivos.
+    * Cuando se activa el evento onicecandidate, se proporciona un objeto event que contiene la información del candidato ICE.
+    * */
+    const ips = [];
+    //event: RTCPeerConnectionIceEvent
+    rtcPeerConx.onicecandidate = event => {
+        console.log("cadiate event ", event)
+
+        //event.candidate: RTCIceCandidate
+        if (!event || !event.candidate) {
+            if (!ips.length)
+                return reject("WebRTC disabled or restricted by browser");
+            return resolve(ips);
+        }
+
+        //event.candidate.candidate es lo mismo que event.candidate pero todo en un string
+        const candidateParts = event.candidate.candidate.split(" ");
+        const [base, componentId, protocol, priority, ip, port, , type, ...attr] = candidateParts;
+
+        if (!ips.some(e => e === ip))
+            ips.push(ip);
+
         /*
-        * ICE = Interactive Connectivity Establishment.
-        * Los candidatos ICE son direcciones utilizadas para establecer una conexión P2P entre dos dispositivos.
-        * Cuando se activa el evento onicecandidate, se proporciona un objeto event que contiene la información del candidato ICE.
+        * RTP es el Protocolo de Transmisión de Datos Real-time (Real-time Transport Protocol en inglés).
+        * RTCP es el Protocolo de Control de Transmisión en Tiempo Real (Real-time Transport Control Protocol en inglés).
+        * garantiza la calidad de la comunicación
         * */
-        const ips = [];
-        //event: RTCPeerConnectionIceEvent
-        rtcPeerConx.onicecandidate = event => {
-            console.log("cadiate event ", event)
+        const componentTypes = ["rtp", "rtpc"];
+        const traceObj = {
+            candidate: base.split(":")[1],
+            component: componentTypes[componentId - 1],
+            protocol,
+            priority,
+            ip,
+            port,
+            type,
+            attributes: {},
+            full_parts: candidateParts,
+            ips,
+        }
 
-            //event.candidate: RTCIceCandidate
-            if (!event || !event.candidate) {
-                if (!ips.length)
-                    return reject("WebRTC disabled or restricted by browser");
-                return resolve(ips);
-            }
+        if (attr.length) {
+            for (let i = 0; i < attr.length; i += 2)
+                traceObj.attributes[attr[i]] = attr[i + 1]
+        }
+        document.getElementById("data").innerText = JSON.stringify(traceObj, null, 4)
+    }//onicecandidate
+}// fn-arg promise
 
-            //event.candidate.candidate es lo mismo que event.candidate pero todo en un string
-            const candidateParts = event.candidate.candidate.split(" ");
-            const [base, componentId, protocol, priority, ip, port, , type, ...attr] = candidateParts;
-
-            if (!ips.some(e => e === ip))
-                ips.push(ip);
-
-            /*
-            * RTP es el Protocolo de Transmisión de Datos Real-time (Real-time Transport Protocol en inglés).
-            * RTCP es el Protocolo de Control de Transmisión en Tiempo Real (Real-time Transport Control Protocol en inglés).
-            * garantiza la calidad de la comunicación
-            * */
-            const componentTypes = ["rtp", "rtpc"];
-            const traceObj = {
-                candidate: base.split(":")[1],
-                component: componentTypes[componentId - 1],
-                protocol,
-                priority,
-                ip,
-                port,
-                type,
-                attributes: {},
-                full_parts: candidateParts,
-                ips,
-            }
-
-            if (attr.length) {
-                for (let i = 0; i < attr.length; i += 2)
-                    traceObj.attributes[attr[i]] = attr[i + 1]
-            }
-            document.getElementById("data").innerText = JSON.stringify(traceObj, null, 4)
-        }//onicecandidate
-    }// fn-arg promise
-)// promise
+const findLocalIp = () => new Promise(onPromise)// promise
 findLocalIp()
 </script>
 </body>
