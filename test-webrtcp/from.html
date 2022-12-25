@@ -10,6 +10,20 @@
 <pre id="data"></pre>
 <hr/>
 <script>
+const rtcPeerConnection = new RTCPeerConnection();
+rtcPeerConnection.onicecandidate = (event) => {
+    if (event.candidate) {
+        // Envía el candidato a la otra pestaña
+    }
+};
+
+const rtcDataChannel = rtcPeerConnection.createDataChannel("chat");
+rtcDataChannel.onopen = () => {
+    rtcDataChannel.send("hola amigo");
+};
+
+const offer = await rtcPeerConnection.createOffer();
+rtcPeerConnection.setLocalDescription(offer);
 </script>
 </body>
 </html>
