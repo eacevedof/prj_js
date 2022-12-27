@@ -1,5 +1,8 @@
 <?php
 echo "<pre>";
+echo "\n\n_HEADERS:\n";
+print_r(getallheaders());
+
 echo "\n\n_SERVER:\n";
 $server = $_SERVER;
 unset(
