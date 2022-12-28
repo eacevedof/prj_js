@@ -23,3 +23,7 @@ print_r($request);
 echo "\n\n_SESSION:\n";
 $session = $_SESSION;
 print_r($session);
+
+echo "\n\n_ENV:\n";
+$session = $_ENV;
+print_r($session);
