@@ -8,10 +8,33 @@
 </head>
 <body>
     <div id="result"></div>
+    <ul class="list"></ul>
     <a href="https://youtu.be/zhfsqqZMLUY" target="_blank">como func los workers</a>
+    <input type="number" class="number">
 <script>
-if (window.Worker) {
-    alert("worker :)")
+if (!window?.Worker) {
+    alert("worker :(")
+    return
+}
+const list = document.querySelector(".list")
+const input = document.querySelector(".number")
+
+const oworker = new window.Worker("worker.js")
+oworker.addEventListener("message", onMessage)
+
+function onMessage(evt) {
+    const {index, number} = evt.data
+    list.innerHTML = `<li>${index} => ${number}</li>`
+}
+
+function onStart(){
+    //el eventloop envia un mensaje al worker
+    oworker.postMessage({index: input.value})
+}
+
+function fib(n) {
+    if (n<2) return n
+    return fib(n-1) + fib(n-2)
 }
 </script>
 </body>
