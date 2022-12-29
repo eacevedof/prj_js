@@ -31,11 +31,6 @@ function onStart(){
     //el eventloop envia un mensaje al worker
     oworker.postMessage({index: input.value})
 }
-
-function fib(n) {
-    if (n<2) return n
-    return fib(n-1) + fib(n-2)
-}
 </script>
 </body>
 </html>
