@@ -29,8 +29,8 @@ const oworker = new window.Worker("worker.js")
 oworker.addEventListener("message", onMessage)
 
 function onMessage(evt) {
-    //evt es lo que envia worker
-    
+    //evt es lo que envia worker.js
+
     const {index, number} = evt.data
     list.innerHTML = `<li>${index} => ${number}</li>`
 }

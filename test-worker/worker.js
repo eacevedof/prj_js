@@ -10,4 +10,5 @@ function onMessage(evt){
   self.postMessage({index, number})
 }
 
+//escucha el postMessage()
 self.addEventListener("message", onMessage)
