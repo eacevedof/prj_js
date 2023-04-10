@@ -27,3 +27,11 @@ print_r($session);
 echo "\n\n_ENV:\n";
 $session = $_ENV;
 print_r($session);
+
+/*
+ curl --location 'https://js.eduardoaf.com/prj_js/php-raw-request/' \
+    --header 'Authorization;' \
+    --form 'email="email_test1@lacia.com"' \
+    --form 'password="7d63f5d11b5c54ba16b4ec07ab0596101e0e08b98191d2e98fce0303b326e493"' \
+    --form 'transactionId="1234"'
+ * */
