@@ -35,3 +35,4 @@ $cmd = "curl --location 'https://dev-oqotech.laciadata.com/api/v01/assets/bulk-c
 
 print_r($cmd);
 $r = exec($cmd);
+print_r($r);
