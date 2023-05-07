@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video test</title>
+</head>
+<body>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+video{
+  position: relative;
+  top: 0;
+  width: 33.1%;
+
+  height: 370px;
+  //height: 300px;
+  margin: 0;
+  padding: 0;
+  clip-path: inset(1px 1px);
+}
+</style>
+<video
+    src="./to-upload-1234.mp4"
+    controls
+    loop
+    controlslist="nofullscreen"
+>
+</video>
+<script type="module">
+document.addEventListener("DOMContentLoaded", function () {
+    const vids = document.getElementsByTagName("video")
+    const arvids = Array.from(vids)
+    arvids.forEach((vid, i) => {
+        const currTime = (i*10).toString().concat(".0")
+        console.log("i",i*10, "currtime", currTime)
+        vid.playbackRate = 0.5
+
+        vid.addEventListener(
+            "play",
+            function() {
+                vid.play();
+                //vid.currentTime = currTime
+            },
+            false
+        );
+
+        vid.onclick = function() {
+            if (vid.paused) {
+                vid.play();
+                vid.controls=null;
+            } else {
+                vid.pause();
+                vid.controls="controls";
+            }
+        }
+    })
+})
+</script>
+</body>
+</html>
