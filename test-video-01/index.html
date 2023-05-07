@@ -14,33 +14,35 @@
     box-sizing: border-box;
 }
 video{
-  position: relative;
-  top: 0;
   width: 33.1%;
 
-  height: 370px;
-  //height: 300px;
+  //height: 370px;
+  height: 300px;
   margin: 0;
   padding: 0;
-  clip-path: inset(1px 1px);
 }
 </style>
-<video
-    src="./to-upload-1234.mp4"
-    controls
-    loop
-    controlslist="nofullscreen"
->
-</video>
+
+<video src="./bin-exe.mp4" controls loop controlslist="nofullscreen"></video>
+<video src="./bin-exe.mp4" controls loop controlslist="nofullscreen"></video>
+<video src="./bin-exe.mp4" controls loop controlslist="nofullscreen"></video>
+<video src="./bin-exe.mp4" controls loop controlslist="nofullscreen"></video>
+<video src="./bin-exe.mp4" controls loop controlslist="nofullscreen"></video>
+<video src="./bin-exe.mp4" controls loop controlslist="nofullscreen"></video>
+<video src="./bin-exe.mp4" controls loop controlslist="nofullscreen"></video>
+<video src="./bin-exe.mp4" controls loop controlslist="nofullscreen"></video>
+<video src="./bin-exe.mp4" controls loop controlslist="nofullscreen"></video>
+
 <script type="module">
 document.addEventListener("DOMContentLoaded", function () {
     const vids = document.getElementsByTagName("video")
     const arvids = Array.from(vids)
+
     arvids.forEach((vid, i) => {
         const currTime = (i*10).toString().concat(".0")
         console.log("i",i*10, "currtime", currTime)
-        vid.playbackRate = 0.5
-
+        vid.playbackRate = 0.25
+return;
         vid.addEventListener(
             "play",
             function() {
