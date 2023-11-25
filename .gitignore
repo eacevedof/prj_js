@@ -1,3 +1,7 @@
 .idea
 .vscode
 test-read-qr/images
+./node_modules
+*/node_modules
+*/*/node_modules
+*/*/*/node_modules
